@@ -340,10 +340,15 @@ h1, h2, h3, h4, h5, h6 {
     transition: all 0.2s;
 }
 
-.submenu li a:hover {
+.submenu li a:hover,
+.submenu li a.active {
     color: var(--yellow-primary);
     background: rgba(245, 197, 24, 0.08);
     padding-left: 18px;
+}
+
+.submenu li a.active {
+    font-weight: 600;
 }
 
 .submenu li a i {

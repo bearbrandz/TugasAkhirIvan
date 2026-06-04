@@ -124,28 +124,28 @@
                             <span class="menu-label">Dashboard</span>
                         </a>
                     </li>
-                    <li class="menu-item has-submenu {{ Request::is('notajuals*') || Request::is('notabelis*') || Request::is('retur*') || Request::is('produks/daftarTerima*') || Request::is('produks/daftarKadaluarsa*') || Request::is('racikans/notaRacikan*') || Request::is('racikans/daftarNarkotika*') ? 'active open' : '' }}">
+                    <li class="menu-item has-submenu {{ Request::is('notajuals*') || Request::is('notabelis*') || Request::is('retur*') || Request::is('produk/daftarTerima*') || Request::is('produk/daftarKadaluarsa*') || Request::is('racikan/notaracikan*') || Request::is('racikan/daftarNarkotika*') || Request::is('racikan/report*') ? 'active open' : '' }}">
                         <a href="#" class="menu-link menu-toggle">
                             <span class="menu-icon"><i class="fas fa-book-open"></i></span>
                             <span class="menu-label">Transaksi</span>
                             <span class="menu-arrow"><i class="fas fa-chevron-right"></i></span>
                         </a>
                         <ul class="submenu">
-                            <li><a href="{{ url('notajuals/create') }}"><i class="fas fa-basket-shopping"></i> Jual Produk</a></li>
-                            <li><a href="{{ url('notabelis/create') }}"><i class="fas fa-cart-plus"></i> Beli Produk</a></li>
-                            <li><a href="{{ url('notajuals') }}"><i class="fas fa-file-lines"></i> Nota Penjualan</a></li>
+                            <li><a href="{{ url('notajuals/create') }}" class="{{ Request::is('notajuals/create') ? 'active' : '' }}"><i class="fas fa-basket-shopping"></i> Jual Produk</a></li>
+                            <li><a href="{{ url('notabelis/create') }}" class="{{ Request::is('notabelis/create') ? 'active' : '' }}"><i class="fas fa-cart-plus"></i> Beli Produk</a></li>
+                            <li><a href="{{ url('notajuals') }}" class="{{ Request::is('notajuals') ? 'active' : '' }}"><i class="fas fa-file-lines"></i> Nota Penjualan</a></li>
                              @if(auth()->user()->tipe_user === 'admin' || auth()->user()->tipe_user === 'apoteker')
-                                <li><a href="{{ url('notabelis') }}"><i class="fas fa-file-lines"></i> Nota Pembelian</a></li>
-                                <li><a href="{{ route('produks.daftarTerima') }}"><i class="fas fa-file-lines"></i> Nota Penerimaan</a></li>
-                                <li><a href="{{ route('retur.index') }}"><i class="fas fa-file-lines"></i> Daftar Retur</a></li>
-                                <li><a href="{{ route('racikans.notaRacikan') }}"><i class="fas fa-file-lines"></i> Daftar Peracikan</a></li>
-                                <li><a href="{{ route('produks.daftarKadaluarsa') }}"><i class="fas fa-file-lines"></i> Daftar Kadaluarsa</a></li>
-                                <li><a href="{{ route('racikans.daftarNarkotika') }}"><i class="fas fa-file-lines"></i> Daftar Narkotika</a></li>
-                                <li><a href="{{ route('racikans.reportNarkotika') }}"><i class="fas fa-file-export"></i> Laporan Narkotika</a></li>
+                                <li><a href="{{ url('notabelis') }}" class="{{ Request::is('notabelis') ? 'active' : '' }}"><i class="fas fa-file-lines"></i> Nota Pembelian</a></li>
+                                <li><a href="{{ route('produks.daftarTerima') }}" class="{{ Request::is('produk/daftarTerima*') ? 'active' : '' }}"><i class="fas fa-file-lines"></i> Nota Penerimaan</a></li>
+                                <li><a href="{{ route('retur.index') }}" class="{{ Request::is('retur*') ? 'active' : '' }}"><i class="fas fa-file-lines"></i> Daftar Retur</a></li>
+                                <li><a href="{{ route('racikans.notaRacikan') }}" class="{{ Request::is('racikan/notaracikan*') ? 'active' : '' }}"><i class="fas fa-file-lines"></i> Daftar Peracikan</a></li>
+                                <li><a href="{{ route('produks.daftarKadaluarsa') }}" class="{{ Request::is('produk/daftarKadaluarsa*') ? 'active' : '' }}"><i class="fas fa-file-lines"></i> Daftar Kadaluarsa</a></li>
+                                <li><a href="{{ route('racikans.daftarNarkotika') }}" class="{{ Request::is('racikan/daftarNarkotika*') ? 'active' : '' }}"><i class="fas fa-file-lines"></i> Daftar Narkotika</a></li>
+                                <li><a href="{{ route('racikans.reportNarkotika') }}" class="{{ Request::is('racikan/report*') ? 'active' : '' }}"><i class="fas fa-file-export"></i> Laporan Narkotika</a></li>
                             @endif
                         </ul>
                     </li>
-                    <li class="menu-item {{ Request::is('produk*') ? 'active' : '' }}">
+                    <li class="menu-item {{ Request::is('produk*') && !Request::is('produk/daftarTerima*') && !Request::is('produk/daftarKadaluarsa*') ? 'active' : '' }}">
                         <a href="{{ route('produk') }}" class="menu-link">
                             <span class="menu-icon"><i class="fas fa-pills"></i></span>
                             <span class="menu-label">Produk</span>
@@ -157,7 +157,7 @@
                             <span class="menu-label">Stok Opname</span>
                         </a>
                     </li>
-                    <li class="menu-item {{ Request::is('racikan*') ? 'active' : '' }}">
+                    <li class="menu-item {{ Request::is('racikan') || Request::is('racikans*') || Request::is('racikan/komposisi*') || Request::is('racikan/checkout*') || Request::is('racikan/bayar*') || Request::is('racikan/jualracikan*') ? 'active' : '' }}">
                         <a href="{{ route('racikan') }}" class="menu-link">
                             <span class="menu-icon"><i class="fas fa-flask"></i></span>
                             <span class="menu-label">Racikan</span>
@@ -171,8 +171,8 @@
                                 <span class="menu-arrow"><i class="fas fa-chevron-right"></i></span>
                             </a>
                             <ul class="submenu">
-                                <li><a href="{{ route('registerUser') }}"><i class="fas fa-user-plus"></i> Daftar User Baru</a></li>
-                                <li><a href="{{ route('user') }}"><i class="fas fa-users"></i> Daftar Karyawan</a></li>
+                                <li><a href="{{ route('registerUser') }}" class="{{ Request::is('register') ? 'active' : '' }}"><i class="fas fa-user-plus"></i> Daftar User Baru</a></li>
+                                <li><a href="{{ route('user') }}" class="{{ Request::is('user*') ? 'active' : '' }}"><i class="fas fa-users"></i> Daftar Karyawan</a></li>
                             </ul>
                         </li>
                         <li class="menu-item {{ Request::is('laporan/labarugi*') ? 'active' : '' }}">
@@ -200,7 +200,7 @@
                             <span class="menu-label">Gudang</span>
                         </a>
                     </li>
-                    <li class="menu-item {{ Request::is('satuan*') ? 'active' : '' }}">
+                    <li class="menu-item {{ Request::is('satuan') || Request::is('satuans*') ? 'active' : '' }}">
                         <a href="{{ route('satuan') }}" class="menu-link">
                             <span class="menu-icon"><i class="fas fa-layer-group"></i></span>
                             <span class="menu-label">Satuan Produk</span>
@@ -223,8 +223,8 @@
                             <span class="menu-arrow"><i class="fas fa-chevron-right"></i></span>
                         </a>
                         <ul class="submenu">
-                            <li><a href="{{ url('notajuals/create') }}"><i class="fas fa-basket-shopping"></i> Jual Produk</a></li>
-                            <li><a href="{{ url('notajuals') }}"><i class="fas fa-file-lines"></i> Nota Penjualan</a></li>
+                            <li><a href="{{ url('notajuals/create') }}" class="{{ Request::is('notajuals/create') ? 'active' : '' }}"><i class="fas fa-basket-shopping"></i> Jual Produk</a></li>
+                            <li><a href="{{ url('notajuals') }}" class="{{ Request::is('notajuals') ? 'active' : '' }}"><i class="fas fa-file-lines"></i> Nota Penjualan</a></li>
                         </ul>
                     </li>
                 @endif
