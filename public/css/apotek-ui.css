@@ -1,0 +1,847 @@
+/* APOTEK MEDICO - GLOBAL DARK UI OVERRIDE */
+
+html,
+body {
+    background: #0f172a !important;
+    color: #e5e7eb !important;
+}
+
+.page-content,
+.main-wrapper {
+    background: #0f172a !important;
+    color: #e5e7eb !important;
+}
+
+/* Text */
+h1, h2, h3, h4, h5, h6,
+label,
+.form-label,
+.card-title,
+.card-text,
+p,
+span,
+td,
+th {
+    color: #e5e7eb !important;
+}
+
+.text-muted,
+small,
+.form-text {
+    color: #9ca3af !important;
+}
+
+/* Cards / Panels */
+.card,
+.am-card,
+.am-table-wrap,
+.am-form-card,
+.panel,
+.mode-card {
+    background: #162033 !important;
+    color: #e5e7eb !important;
+    border: 1px solid #2a3448 !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.28) !important;
+}
+
+.card-header,
+.card-footer,
+.panel-heading,
+.panel-footer {
+    background: #1c2940 !important;
+    color: #ffffff !important;
+    border-color: #2a3448 !important;
+}
+
+/* Forms */
+.form-control,
+.form-select,
+input,
+select,
+textarea {
+    background-color: #111827 !important;
+    color: #f9fafb !important;
+    border: 1px solid #374151 !important;
+}
+
+.form-control:focus,
+.form-select:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    background-color: #0b1220 !important;
+    color: #ffffff !important;
+    border-color: #e8192c !important;
+    box-shadow: 0 0 0 0.2rem rgba(232, 25, 44, 0.18) !important;
+}
+
+.form-control::placeholder,
+textarea::placeholder {
+    color: #9ca3af !important;
+}
+
+option {
+    background: #111827 !important;
+    color: #ffffff !important;
+}
+
+/* Tables */
+.table,
+table {
+    color: #e5e7eb !important;
+    background: #162033 !important;
+}
+
+.table thead,
+table thead {
+    background: #1c2940 !important;
+}
+
+.table th,
+.table td,
+table th,
+table td {
+    color: #e5e7eb !important;
+    background: transparent !important;
+    border-color: #2a3448 !important;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* Alerts */
+.alert {
+    border: 1px solid #2a3448 !important;
+}
+
+.alert-info {
+    background: #102a43 !important;
+    color: #bfdbfe !important;
+}
+
+.alert-success {
+    background: #123524 !important;
+    color: #bbf7d0 !important;
+}
+
+.alert-danger {
+    background: #3b1218 !important;
+    color: #fecaca !important;
+}
+
+.alert-warning {
+    background: #3a2d0c !important;
+    color: #fde68a !important;
+}
+
+/* Modals */
+.modal-content {
+    background: #172033 !important;
+    color: #e5e7eb !important;
+    border: 1px solid #2a3448 !important;
+}
+
+.modal-header,
+.modal-footer {
+    border-color: #2a3448 !important;
+}
+
+/* Dropdown */
+.dropdown-menu {
+    background: #172033 !important;
+    border: 1px solid #2a3448 !important;
+}
+
+.dropdown-item {
+    color: #e5e7eb !important;
+}
+
+.dropdown-item:hover {
+    background: #1e293b !important;
+    color: #ffffff !important;
+}
+
+/* Buttons */
+.btn-default,
+.btn-light,
+.btn-outline-secondary {
+    background: #1e293b !important;
+    color: #ffffff !important;
+    border-color: #374151 !important;
+}
+
+.btn-default:hover,
+.btn-light:hover,
+.btn-outline-secondary:hover {
+    background: #334155 !important;
+    color: #ffffff !important;
+}
+
+/* Pagination */
+.pagination .page-link {
+    background: #162033 !important;
+    color: #e5e7eb !important;
+    border-color: #2a3448 !important;
+}
+
+.pagination .active .page-link {
+    background: #e8192c !important;
+    border-color: #e8192c !important;
+    color: #ffffff !important;
+}
+
+.pagination .page-link svg {
+    width: 16px !important;
+    height: 16px !important;
+}
+
+.pagination .disabled .page-link {
+    background: #111827 !important;
+    color: #4b5563 !important;
+    border-color: #2a3448 !important;
+}
+
+/* Special cards */
+.bg-white,
+.bg-light,
+.bg-body,
+.bg-body-tertiary {
+    background-color: #162033 !important;
+    color: #e5e7eb !important;
+}
+
+.text-dark {
+    color: #e5e7eb !important;
+}
+
+/* Transaction page */
+.product-card,
+.purchase-card,
+.cart-card {
+    background: #162033 !important;
+    border: 1px solid #2a3448 !important;
+    color: #e5e7eb !important;
+    border-radius: 14px !important;
+}
+
+.product-card:hover,
+.purchase-card:hover {
+    border-color: #e8192c !important;
+    transform: translateY(-2px);
+    transition: 0.2s ease;
+}
+
+/* =========================================================
+   BADGE / STATUS / PILL FIX
+   Untuk golongan produk, status, margin, role, log activity
+   ========================================================= */
+
+   .badge,
+   .label,
+   .status-badge,
+   .am-badge,
+   [class*="badge"],
+   [class*="label"] {
+       display: inline-flex !important;
+       align-items: center !important;
+       justify-content: center !important;
+       gap: 4px !important;
+       min-height: 26px !important;
+       padding: 6px 12px !important;
+       border-radius: 999px !important;
+       font-size: 12px !important;
+       font-weight: 700 !important;
+       line-height: 1 !important;
+       letter-spacing: 0.2px !important;
+       white-space: nowrap !important;
+       text-shadow: none !important;
+   }
+   
+   /* Default badge */
+   .badge,
+   .label,
+   .status-badge,
+   .am-badge {
+       background: #334155 !important;
+       color: #f8fafc !important;
+       border: 1px solid #475569 !important;
+   }
+   
+   /* Bootstrap badge fix */
+   .bg-primary,
+   .badge.bg-primary {
+       background: #2563eb !important;
+       color: #ffffff !important;
+   }
+   
+   .bg-success,
+   .badge.bg-success {
+       background: #16a34a !important;
+       color: #ffffff !important;
+   }
+   
+   .bg-info,
+   .badge.bg-info {
+       background: #0891b2 !important;
+       color: #ffffff !important;
+   }
+   
+   .bg-warning,
+   .badge.bg-warning {
+       background: #facc15 !important;
+       color: #111827 !important;
+   }
+   
+   .bg-danger,
+   .badge.bg-danger {
+       background: #dc2626 !important;
+       color: #ffffff !important;
+   }
+   
+   .bg-secondary,
+   .badge.bg-secondary {
+       background: #475569 !important;
+       color: #ffffff !important;
+   }
+   
+   /* Golongan produk */
+   .am-badge-bebas,
+   .badge-bebas,
+   .golongan-bebas {
+       background: #16a34a !important;
+       color: #ffffff !important;
+       border: 1px solid #22c55e !important;
+   }
+   
+   .am-badge-terbatas,
+   .badge-terbatas,
+   .golongan-terbatas {
+       background: #f59e0b !important;
+       color: #111827 !important;
+       border: 1px solid #fbbf24 !important;
+   }
+   
+   .am-badge-keras,
+   .badge-keras,
+   .golongan-keras {
+       background: #dc2626 !important;
+       color: #ffffff !important;
+       border: 1px solid #ef4444 !important;
+   }
+   
+   .am-badge-narkotika,
+   .badge-narkotika,
+   .golongan-narkotika {
+       background: #7c3aed !important;
+       color: #ffffff !important;
+       border: 1px solid #8b5cf6 !important;
+   }
+   
+   .am-badge-psikotropika,
+   .badge-psikotropika,
+   .golongan-psikotropika {
+       background: #be185d !important;
+       color: #ffffff !important;
+       border: 1px solid #ec4899 !important;
+   }
+   
+   /* Status umum */
+   .status-aktif,
+   .badge-aktif,
+   .am-badge-aktif {
+       background: #16a34a !important;
+       color: #ffffff !important;
+   }
+   
+   .status-nonaktif,
+   .badge-nonaktif,
+   .am-badge-nonaktif {
+       background: #64748b !important;
+       color: #ffffff !important;
+   }
+   
+   .status-kritis,
+   .badge-kritis,
+   .am-badge-kritis {
+       background: #f97316 !important;
+       color: #111827 !important;
+   }
+   
+   .status-expired,
+   .badge-expired,
+   .am-badge-expired {
+       background: #dc2626 !important;
+       color: #ffffff !important;
+   }
+   
+   /* Role user */
+   .badge-admin,
+   .role-admin {
+       background: #e8192c !important;
+       color: #ffffff !important;
+   }
+   
+   .badge-apoteker,
+   .role-apoteker {
+       background: #2563eb !important;
+       color: #ffffff !important;
+   }
+   
+   .badge-kasir,
+   .role-kasir {
+       background: #facc15 !important;
+       color: #111827 !important;
+   }
+   
+   /* Laporan laba rugi / margin */
+   .badge-margin-plus,
+   .margin-positive,
+   .text-profit {
+       background: #16a34a !important;
+       color: #ffffff !important;
+   }
+   
+   .badge-margin-minus,
+   .margin-negative,
+   .text-loss {
+       background: #dc2626 !important;
+       color: #ffffff !important;
+   }
+   
+   /* Log activity */
+   .badge-log-create,
+   .log-create {
+       background: #16a34a !important;
+       color: #ffffff !important;
+   }
+   
+   .badge-log-update,
+   .log-update {
+       background: #2563eb !important;
+       color: #ffffff !important;
+   }
+   
+   .badge-log-delete,
+   .log-delete {
+       background: #dc2626 !important;
+       color: #ffffff !important;
+   }
+   
+   .badge-log-login,
+   .log-login {
+       background: #7c3aed !important;
+       color: #ffffff !important;
+   }
+   
+   /* Fix badge text inside table */
+   .table .badge,
+   .table .label,
+   table .badge,
+   table .label {
+       color: inherit;
+   }
+   
+   .table .badge *,
+   .table .label *,
+   table .badge *,
+   table .label * {
+       color: inherit !important;
+   }
+   
+   /* Force readable text for pale legacy badges */
+   .badge[style],
+   .label[style],
+   .am-badge[style] {
+       color: #ffffff !important;
+   }
+   
+   /* Khusus badge dengan background terang */
+   .badge.bg-warning,
+   .badge.bg-light,
+   .label.bg-warning,
+   .label.bg-light {
+       color: #111827 !important;
+   }
+
+   /* =========================================================
+   LAPORAN / REPORT PAGE FIX
+   ========================================================= */
+
+.report-card,
+.summary-card,
+.stat-card,
+.metric-card,
+.laporan-card,
+.profit-card,
+.card.bg-white,
+.card.bg-light {
+    background: #162033 !important;
+    color: #e5e7eb !important;
+    border: 1px solid #2a3448 !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.28) !important;
+}
+
+.report-card *,
+.summary-card *,
+.stat-card *,
+.metric-card *,
+.laporan-card *,
+.profit-card *,
+.card.bg-white *,
+.card.bg-light * {
+    color: #e5e7eb !important;
+}
+
+.report-card .text-primary,
+.summary-card .text-primary,
+.stat-card .text-primary,
+.metric-card .text-primary {
+    color: #60a5fa !important;
+}
+
+.report-card .text-warning,
+.summary-card .text-warning,
+.stat-card .text-warning,
+.metric-card .text-warning {
+    color: #facc15 !important;
+}
+
+.report-card .text-success,
+.summary-card .text-success,
+.stat-card .text-success,
+.metric-card .text-success {
+    color: #22c55e !important;
+}
+
+/* khusus nilai laba kotor yang hijau */
+.bg-success,
+.badge.bg-success,
+.text-bg-success {
+    background-color: #16a34a !important;
+    color: #ffffff !important;
+}
+
+/* margin badge agar tidak pucat */
+.badge-margin,
+.margin-badge,
+.badge-profit,
+.badge-laba,
+.badge.bg-light,
+.badge.bg-white {
+    background: #16a34a !important;
+    color: #ffffff !important;
+    border: 1px solid #22c55e !important;
+}
+
+/* tabel laporan */
+.report-table,
+.laporan-table,
+.table-report {
+    background: #162033 !important;
+    color: #e5e7eb !important;
+}
+
+.report-table th,
+.report-table td,
+.laporan-table th,
+.laporan-table td,
+.table-report th,
+.table-report td {
+    background: transparent !important;
+    color: #e5e7eb !important;
+    border-color: #2a3448 !important;
+}
+
+/* filter laporan */
+.report-filter,
+.laporan-filter,
+.filter-card {
+    background: transparent !important;
+    color: #e5e7eb !important;
+}
+
+/* ======================================================
+   FORCE DARK CARD UNTUK DASHBOARD & LAPORAN
+   ====================================================== */
+
+   .row .card,
+   .col .card,
+   .dashboard-card,
+   .summary-card,
+   .metric-card,
+   .report-card,
+   .profit-card,
+   .stats-card,
+   .card {
+   
+       background-color: #162033 !important;
+       background: #162033 !important;
+   
+       border: 1px solid #2a3448 !important;
+   
+       color: #f8fafc !important;
+   
+       box-shadow:
+           0 12px 24px rgba(0,0,0,.28) !important;
+   
+       border-radius: 14px !important;
+   }
+   
+   /* isi card */
+   .card-body,
+   .card-header,
+   .card-footer {
+   
+       background: transparent !important;
+   
+       color: #f8fafc !important;
+   
+       border-color: #2a3448 !important;
+   }
+   
+   /* semua text dalam card */
+   .card *,
+   .card-body *,
+   .card-header *,
+   .card-footer * {
+   
+       color: inherit !important;
+   }
+   
+   /* angka laporan */
+   
+   .card h1,
+   .card h2,
+   .card h3,
+   .card h4,
+   .card h5,
+   .card p,
+   .card span {
+   
+       color: #f8fafc !important;
+   }
+   
+   /* total penjualan */
+   
+   .text-primary,
+   .text-blue,
+   .text-info {
+   
+       color: #3b82f6 !important;
+   }
+   
+   /* modal */
+   
+   .text-warning {
+   
+       color: #facc15 !important;
+   }
+   
+   /* laba */
+   
+   .text-success {
+   
+       color: #22c55e !important;
+   }
+   
+   /* card laba kotor */
+   
+   .card .bg-success {
+   
+       background: #16a34a !important;
+   
+       color: white !important;
+   
+       border-radius: 10px !important;
+   
+       padding: 10px !important;
+   }
+   
+   /* margin */
+   
+   .margin-badge,
+   .badge-margin {
+   
+       background: #16a34a !important;
+   
+       color: white !important;
+   
+       border-radius: 999px !important;
+   
+       padding: 8px 16px !important;
+   }
+
+   /* ======================================================
+   LAPORAN LABA RUGI - CARD SUMMARY FIX
+   ====================================================== */
+
+.card-summary {
+    background: #162033 !important;
+    background-color: #162033 !important;
+    color: #f8fafc !important;
+    border: 1px solid #2a3448 !important;
+    border-radius: 14px !important;
+    padding: 22px 24px !important;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.28) !important;
+}
+
+.card-summary .label {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: fit-content !important;
+    min-height: 28px !important;
+    padding: 7px 16px !important;
+    border-radius: 999px !important;
+    background: #334155 !important;
+    color: #ffffff !important;
+    border: 1px solid #475569 !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    margin-bottom: 12px !important;
+}
+
+.card-summary .value {
+    display: block !important;
+    color: #f8fafc !important;
+    font-size: 24px !important;
+    font-weight: 800 !important;
+    line-height: 1.25 !important;
+}
+
+.card-summary .value.text-primary {
+    color: #60a5fa !important;
+}
+
+.card-summary .value.text-warning {
+    color: #facc15 !important;
+}
+
+.card-summary .value.text-profit,
+.card-summary .value.text-success {
+    color: #22c55e !important;
+}
+
+.card-summary .badge-profit {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-top: 8px !important;
+    padding: 7px 16px !important;
+    border-radius: 999px !important;
+    background: #16a34a !important;
+    color: #ffffff !important;
+    border: 1px solid #22c55e !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+}
+
+/* ==========================================
+   HILANGKAN BAR HIJAU LABA KOTOR
+   ========================================== */
+
+   .card-summary .value,
+   .card-summary .text-profit {
+   
+       background: transparent !important;
+       background-color: transparent !important;
+   
+       box-shadow: none !important;
+   
+       border: none !important;
+   
+       width: auto !important;
+   
+       display: inline-block !important;
+   
+       padding: 0 !important;
+   }
+   
+   /* warna teks tetap */
+   
+   .card-summary .text-profit {
+       color: #22c55e !important;
+   }
+
+   /* ======================================================
+   ALIGN SUMMARY CARD LAPORAN
+   ====================================================== */
+
+.row .col-md-4:has(.card-summary){
+    display:flex !important;
+}
+
+.card-summary{
+
+    width:100% !important;
+
+    min-height:180px !important;
+
+    display:flex !important;
+
+    flex-direction:column !important;
+
+    align-items:flex-start !important;
+
+    justify-content:flex-start !important;
+
+    padding:26px !important;
+
+    gap:18px !important;
+}
+
+/* label */
+
+.card-summary .label{
+
+    margin:0 !important;
+
+    align-self:flex-start !important;
+}
+
+/* angka */
+
+.card-summary .value{
+
+    margin:0 !important;
+
+    padding:0 !important;
+
+    display:block !important;
+
+    width:auto !important;
+
+    line-height:1.2 !important;
+
+    font-size:28px !important;
+
+    font-weight:800 !important;
+
+    background:none !important;
+}
+
+/* margin didorong ke bawah */
+
+.card-summary .badge-profit{
+
+    margin-top:auto !important;
+
+    align-self:flex-start !important;
+}
+
+/* warna */
+
+.card-summary .text-primary{
+    color:#60a5fa!important;
+}
+
+.card-summary .text-warning{
+    color:#facc15!important;
+}
+
+.card-summary .text-profit{
+    color:#22c55e!important;
+}

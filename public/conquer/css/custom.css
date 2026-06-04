@@ -1,0 +1,235 @@
+/* here you can put your own css to customize and override the theme */
+/* ============================================================
+   Apotek Medico - Custom Professional UI Enhancements
+   ============================================================ */
+
+/* Page Header */
+.am-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid #e5e7eb;
+}
+.am-page-header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+.am-page-header p {
+    font-size: 13px;
+    color: #64748b;
+    margin: 2px 0 0;
+}
+
+/* Stat Cards */
+.am-stat-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px 22px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    border-left: 4px solid #3b82f6;
+    margin-bottom: 16px;
+}
+.am-stat-card.green  { border-left-color: #10b981; }
+.am-stat-card.red    { border-left-color: #ef4444; }
+.am-stat-card.yellow { border-left-color: #f59e0b; }
+.am-stat-card.purple { border-left-color: #8b5cf6; }
+.am-stat-card .label { font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+.am-stat-card .value { font-size: 24px; font-weight: 700; color: #1e293b; }
+.am-stat-card .sub   { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+
+/* Professional Table */
+.am-table-wrap { background: #fff; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); overflow: hidden; }
+.am-table-wrap .am-table-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid #f1f5f9;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.am-table-wrap table { margin: 0; }
+.am-table-wrap table thead th {
+    background: #f8fafc;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    padding: 12px 14px;
+    border-bottom: 1px solid #e2e8f0;
+    white-space: nowrap;
+}
+.am-table-wrap table tbody td {
+    padding: 11px 14px;
+    vertical-align: middle;
+    font-size: 13.5px;
+    color: #334155;
+    border-bottom: 1px solid #f1f5f9;
+}
+.am-table-wrap table tbody tr:last-child td { border-bottom: none; }
+.am-table-wrap table tbody tr:hover { background: #f8fafc; }
+
+/* Badges */
+.am-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .3px;
+}
+.am-badge-bebas       { background: #dcfce7; color: #15803d; }
+.am-badge-terbatas    { background: #fef9c3; color: #854d0e; }
+.am-badge-keras       { background: #fee2e2; color: #b91c1c; }
+.am-badge-narkotika   { background: #fce7f3; color: #9d174d; }
+.am-badge-psikotropika{ background: #ede9fe; color: #6d28d9; }
+.am-badge-tersedia    { background: #dcfce7; color: #15803d; }
+.am-badge-proses      { background: #dbeafe; color: #1d4ed8; }
+.am-badge-habis       { background: #f1f5f9; color: #64748b; }
+
+/* Form Card */
+.am-form-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    padding: 28px 32px;
+    margin-bottom: 24px;
+}
+.am-form-card .am-form-section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+/* Alert Pill */
+.am-alert { border-radius: 8px; padding: 12px 16px; margin-bottom: 14px; font-size: 13.5px; }
+.am-alert-danger  { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+.am-alert-warning { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+.am-alert-success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
+.am-alert-info    { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+
+/* Pagination */
+.am-table-wrap .pagination { margin: 12px 18px; }
+
+/* Action Button Group */
+.am-action-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.am-action-btns .btn { padding: 4px 10px; font-size: 12px; border-radius: 5px; }
+
+/* Empty State */
+.am-empty { text-align: center; padding: 48px 24px; color: #94a3b8; }
+.am-empty i { font-size: 40px; margin-bottom: 12px; display: block; }
+.am-empty p { margin: 0; font-size: 14px; }
+
+/*
+ * --------------------------------------------------------------------------
+ * Dark Theme Overrides
+ *
+ * To achieve the desired dark interface with red and yellow accents we append
+ * a set of custom overrides below. These rules intentionally appear after
+ * the default theme definitions to ensure they take precedence. Only key
+ * elements are targeted so the layout remains intact while colours and
+ * contrast better fit a dark background aesthetic.
+ */
+body {
+    background-color: #0f0f0f;
+    color: #f5f5f5;
+}
+
+/* Page headers */
+.am-page-header h1, .am-page-header p {
+    color: #f5f5f5;
+}
+.am-page-header {
+    border-color: #374151;
+}
+
+/* Stat cards */
+.am-stat-card {
+    background: #1f2937;
+    color: #f5f5f5;
+    box-shadow: none;
+}
+.am-stat-card.green { border-left-color: #ef4444; }
+.am-stat-card.red   { border-left-color: #ef4444; }
+.am-stat-card.yellow{ border-left-color: #facc15; }
+.am-stat-card.purple{ border-left-color: #8b5cf6; }
+
+/* Table wrappers */
+.am-table-wrap { background: #1f2937; box-shadow: none; }
+.am-table-wrap .am-table-toolbar {
+    border-color: #374151;
+}
+.am-table-wrap table thead th {
+    background: #111827;
+    color: #facc15;
+    border-color: #374151;
+}
+.am-table-wrap table tbody td {
+    color: #f5f5f5;
+    border-color: #374151;
+}
+.am-table-wrap table tbody tr:hover {
+    background: #374151;
+}
+
+/* Form cards */
+.am-form-card {
+    background: #1f2937;
+    color: #f5f5f5;
+    border-color: #374151;
+}
+.am-form-card .am-form-section-title {
+    color: #facc15;
+    border-color: #374151;
+}
+
+/* Inputs */
+input.form-control, textarea.form-control, select.form-control {
+    background-color: #1f2937;
+    color: #f5f5f5;
+    border-color: #374151;
+}
+input.form-control:focus, textarea.form-control:focus, select.form-control:focus {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 2px rgba(239,68,68,0.5);
+    outline: none;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #ef4444;
+    border-color: #ef4444;
+    color: #ffffff;
+}
+.btn-primary:hover {
+    background-color: #dc2626;
+    border-color: #dc2626;
+}
+.btn-default {
+    background-color: #374151;
+    border-color: #374151;
+    color: #f5f5f5;
+}
+.btn-default:hover {
+    background-color: #4b5563;
+    border-color: #4b5563;
+    color: #f5f5f5;
+}
+
+/* Badges colours remain as-is; they have sufficient contrast on dark backgrounds */
+
+
+/* Search Bar */
+.am-search-bar { display: flex; gap: 8px; align-items: center; }
+.am-search-bar input { border-radius: 6px; border: 1px solid #e2e8f0; padding: 6px 12px; font-size: 13px; min-width: 220px; }
+.am-search-bar input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,.1); }
