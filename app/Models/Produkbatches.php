@@ -50,12 +50,12 @@ class Produkbatches extends Model
 
     public function notaJualProduks()
     {
-        return $this->hasMany(NotaJualProduk::class, 'produkbatches_id');
+        return $this->hasMany(Notajualproduk::class, 'produkbatches_id');
     }
 
     public function notaBeliProduks()
     {
-        return $this->hasMany(NotaBeliProduk::class, 'produkbatches_id');
+        return $this->hasMany(Notabeliproduk::class, 'produkbatches_id');
     }
 
     public function terimaBatches()
