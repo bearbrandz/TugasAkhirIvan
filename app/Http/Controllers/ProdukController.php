@@ -108,7 +108,7 @@ class ProdukController extends Controller
         $produks = $query->paginate(8);
 
         $expiredBatches = $produks->filter(function ($batch) {
-            return $batch->tgl_kadaluarsa <= now() && $batch->tgl_kadaluarsa !== null && $batch->status === 'tersedia';;
+            return $batch->tgl_kadaluarsa <= now() && $batch->tgl_kadaluarsa !== null && $batch->status === 'tersedia' && $batch->stok > 0;
         });
 
         $expiredBatchList = null;
@@ -119,7 +119,7 @@ class ProdukController extends Controller
         }
 
         $sixmonthexpiredBatches = $produks->filter(function ($batch) {
-            return $batch->tgl_kadaluarsa >= now() && $batch->tgl_kadaluarsa <= Carbon::now()->addMonths(6) && $batch->tgl_kadaluarsa !== null && $batch->status === 'tersedia';;
+            return $batch->tgl_kadaluarsa >= now() && $batch->tgl_kadaluarsa <= Carbon::now()->addMonths(6) && $batch->tgl_kadaluarsa !== null && $batch->status === 'tersedia' && $batch->stok > 0;
         });
 
         $sixmonthexpiredBatchesList = null;
