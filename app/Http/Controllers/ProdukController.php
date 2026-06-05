@@ -756,7 +756,7 @@ class ProdukController extends Controller
     public function destroyTerima($id)
     {
         // dd($id);
-        $deletedData = TerimaBatches::find($id);
+        $deletedData = Terimabatches::find($id);
         try {
             //if no contraint error, then delete data. Redirect to index after it.
             $deletedData->delete();

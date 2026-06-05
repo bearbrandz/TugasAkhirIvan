@@ -20,7 +20,7 @@ class Notajualproduk extends Model//pakai model agar bisa dipakai query untuk fo
 
     public function Produkbatches()
     {
-        return $this->belongsTo(ProdukBatches::class, 'produkbatches_id');
+        return $this->belongsTo(Produkbatches::class, 'produkbatches_id');
     }
 
     public function notajual()

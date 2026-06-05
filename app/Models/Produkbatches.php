@@ -45,7 +45,7 @@ class Produkbatches extends Model
 
     public function produks(): BelongsTo
     {
-        return $this->belongsTo(produk::class, 'produks_id');
+        return $this->belongsTo(Produk::class, 'produks_id');
     }
 
     public function notaJualProduks()

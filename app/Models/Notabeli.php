@@ -32,6 +32,6 @@ class Notabeli extends Model
 
     public function notaBeliProduks()
     {
-        return $this->hasMany(NotaBeliProduk::class, 'notabelis_id');
+        return $this->hasMany(Notabeliproduk::class, 'notabelis_id');
     }
 }

@@ -21,7 +21,7 @@ class Racikanproduk extends Model
 
     public function produk(): BelongsTo
     {
-        return $this->belongsTo(produk::class, 'produks_id');
+        return $this->belongsTo(Produk::class, 'produks_id');
     }
 
     public function racikan(): BelongsTo

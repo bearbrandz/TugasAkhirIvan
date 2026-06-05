@@ -954,7 +954,7 @@ class NotabeliController extends Controller
 
         $total = $items->sum('subtotal');
 
-        return view('transaksi.nbprint', [
+        return view('transaksi.nbPrint', [
             'nota' => $nota,
             'items' => $items,
             'total' => $total,

@@ -322,7 +322,7 @@ class ProdukopnameController extends Controller
         ]);
 
         // Ambil batch yang dipilih
-        $batch = ProdukBatches::findOrFail($request->input('batch_id'));
+        $batch = Produkbatches::findOrFail($request->input('batch_id'));
         // Stok sistem adalah stok saat ini dari batch tersebut
         $stokSistem = $batch->stok;
 
@@ -405,7 +405,7 @@ class ProdukopnameController extends Controller
             'tanggal'    => 'required|date',
             'keterangan' => 'nullable|string',
         ]);
-        $batch = ProdukBatches::findOrFail($request->input('batch_id'));
+        $batch = Produkbatches::findOrFail($request->input('batch_id'));
         $stokSistem = $batch->stok;
         $opname->produkbatches_id = $batch->id;
         $opname->produks_id       = $batch->produks_id;

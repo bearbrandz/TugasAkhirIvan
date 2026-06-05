@@ -21,7 +21,7 @@ class Notabeliproduk extends Model
 
     public function produkbatches()
     {
-        return $this->belongsTo(ProdukBatches::class, 'produkbatches_id');
+        return $this->belongsTo(Produkbatches::class, 'produkbatches_id');
     }
 
     public function batch()

@@ -39,11 +39,11 @@ class Notajual extends Model
 
     public function notaJualProduks()
     {
-        return $this->hasMany(NotaJualProduk::class, 'notajuals_id');
+        return $this->hasMany(Notajualproduk::class, 'notajuals_id');
     }
 
     public function notaJualRacikans()
     {
-        return $this->hasMany(NotaJualRacikan::class, 'notajuals_id');
+        return $this->hasMany(Notajualracikan::class, 'notajuals_id');
     }
 }
