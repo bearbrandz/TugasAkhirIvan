@@ -214,7 +214,12 @@ class LaporanController extends Controller
                 'Total HPP (Rp)',
                 'Laba Kotor (Rp)',
                 'Margin (%)',
-            ], ';');
+            ], ',');
+
+            $grandTotalQty = 0;
+            $grandTotalPenjualan = $totalEmbalaseRacikan;
+            $grandTotalHpp = 0;
+            $grandTotalLaba = $totalEmbalaseRacikan;
 
             foreach ($data as $row) {
                 $margin = $row->total_penjualan > 0
@@ -224,23 +229,41 @@ class LaporanController extends Controller
                 fputcsv($file, [
                     $row->nama_produk,
                     $row->total_qty,
-                    number_format($row->total_penjualan, 2, '.', ''),
-                    number_format($row->total_hpp, 2, '.', ''),
-                    number_format($row->laba_kotor, 2, '.', ''),
-                    number_format($margin, 2, '.', ''),
-                ], ';');
+                    number_format($row->total_penjualan, 0, '.', ','),
+                    number_format($row->total_hpp, 0, '.', ','),
+                    number_format($row->laba_kotor, 0, '.', ','),
+                    number_format($margin, 0, '.', ','),
+                ], ',');
+
+                $grandTotalQty += $row->total_qty;
+                $grandTotalPenjualan += $row->total_penjualan;
+                $grandTotalHpp += $row->total_hpp;
+                $grandTotalLaba += $row->laba_kotor;
             }
 
             if ($totalEmbalaseRacikan > 0) {
                 fputcsv($file, [
                     'Biaya Embalase Racikan',
                     '-',
-                    number_format($totalEmbalaseRacikan, 2, '.', ''),
-                    number_format(0, 2, '.', ''),
-                    number_format($totalEmbalaseRacikan, 2, '.', ''),
-                    number_format(100, 2, '.', ''),
-                ], ';');
+                    number_format($totalEmbalaseRacikan, 0, '.', ','),
+                    number_format(0, 0, '.', ','),
+                    number_format($totalEmbalaseRacikan, 0, '.', ','),
+                    number_format(100, 0, '.', ','),
+                ], ',');
             }
+
+            $grandMargin = $grandTotalPenjualan > 0 
+                ? (($grandTotalLaba / $grandTotalPenjualan) * 100) 
+                : 0;
+
+            fputcsv($file, [
+                'TOTAL',
+                $grandTotalQty,
+                number_format($grandTotalPenjualan, 0, '.', ','),
+                number_format($grandTotalHpp, 0, '.', ','),
+                number_format($grandTotalLaba, 0, '.', ','),
+                number_format($grandMargin, 0, '.', ','),
+            ], ',');
 
             fclose($file);
         };

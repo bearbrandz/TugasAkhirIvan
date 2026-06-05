@@ -3,16 +3,16 @@
 @section('content')
     <style>
         @media print {
-            .page-sidebar-menu,
-            .main-sidebar,
-            .navbar,
-            .footer,
-            .page-sidebar-menu-collapse {
+            /* Hide the Sidebar, Topbar, and any other non-essential UI */
+            .sidebar,
+            .topbar,
+            .footer {
                 display: none !important;
             }
-            .content-wrapper,
-            .main-content {
+            /* Make the main content take up full width */
+            .main-wrapper {
                 margin-left: 0 !important;
+                padding-top: 0 !important;
                 width: 100% !important;
             }
             body { overflow: visible !important; }
@@ -64,7 +64,7 @@
         </div>
 
         {{-- Summary Cards --}}
-        <div class="row mb-4 g-3">
+        <div class="row mb-4 g-3 no-print">
             <div class="col-md-4">
                 <div class="card-summary">
                     <div class="label">Total Penjualan</div>
@@ -181,7 +181,7 @@
                     <th>Tipe</th>
                     <th>Stok Lama</th>
                     <th>Harga Lama</th>
-                    <th>Stok Baru</th>
+                    <th>Mutasi Stok</th>
                     <th>Harga Baru</th>
                     <th>HPP Avg Baru</th>
                 </tr>

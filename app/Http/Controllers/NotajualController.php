@@ -242,7 +242,7 @@ class NotajualController extends Controller
                     $sale->produk_id,
                     $sale->nama_produk,
                     $sale->quantity,
-                    number_format($sale->subtotal, 0, ',', '.')
+                    number_format($sale->subtotal, 0, '.', ',')
                 ]);
             }
 
@@ -321,6 +321,7 @@ class NotajualController extends Controller
         $batchExpired = Produkbatches::with('produks')
             ->whereHas('produks')
             ->where('status', 'tersedia')
+            ->where('stok', '>', 0)
             ->whereNotNull('tgl_kadaluarsa')
             ->whereDate('tgl_kadaluarsa', '<=', now())
             ->get()
@@ -329,6 +330,7 @@ class NotajualController extends Controller
         $batchWillExpire = Produkbatches::with('produks')
             ->whereHas('produks')
             ->where('status', 'tersedia')
+            ->where('stok', '>', 0)
             ->whereNotNull('tgl_kadaluarsa')
             ->whereDate('tgl_kadaluarsa', '>', now())
             ->whereDate('tgl_kadaluarsa', '<=', now()->addMonths(3))

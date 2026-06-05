@@ -313,6 +313,7 @@ class ProdukController extends Controller
         $batches = Produkbatches::with('produks')
             ->whereHas('produks')          // filter out batch yg produknya sudah soft-delete
             ->where('status', 'tersedia')
+            ->where('stok', '>', 0)
             ->whereNotNull('tgl_kadaluarsa')
             ->get();
 
@@ -1189,7 +1190,7 @@ class ProdukController extends Controller
                 'HPP',
                 'Total Harga',
                 'Tanggal Kadaluarsa'
-            ], ';');
+            ], ',');
 
             foreach ($expires as $expire) {
 
@@ -1199,10 +1200,10 @@ class ProdukController extends Controller
                     $expire->nama_produk,
                     $expire->stok,
                     $expire->nama_satuan,
-                    number_format($expire->hpp, 0, ',', '.'),
-                    number_format($expire->total_harga, 0, ',', '.'),
+                    number_format($expire->hpp, 0, '.', ','),
+                    number_format($expire->total_harga, 0, '.', ','),
                     $expire->tgl_kadaluarsa
-                ], ';');
+                ], ',');
             }
 
             fclose($file);

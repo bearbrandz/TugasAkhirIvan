@@ -293,7 +293,7 @@ class NotabeliController extends Controller
                 'Quantity',
                 'Harga Satuan',
                 'Subtotal',
-            ], ';');
+            ], ',');
 
             foreach ($purchases as $purchase) {
                 fputcsv($file, [
@@ -301,9 +301,9 @@ class NotabeliController extends Controller
                     $purchase->produkbatches->produks_id ?? '-',
                     $purchase->produkbatches->produks->nama ?? '-',
                     $purchase->quantity,
-                    number_format($purchase->produkbatches->unitprice ?? 0, 0, ',', '.'),
-                    number_format($purchase->subtotal ?? 0, 0, ',', '.'),
-                ], ';');
+                    number_format($purchase->produkbatches->unitprice ?? 0, 0, '.', ','),
+                    number_format($purchase->subtotal ?? 0, 0, '.', ','),
+                ], ',');
             }
 
             fclose($file);

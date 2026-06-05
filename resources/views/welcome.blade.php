@@ -55,7 +55,7 @@
                             <div class="text-sm text-right text-gray-600">
                                 @if ($batch)
                                     <p>Stok: {{ $d->total_stok ?? 0 }}</p>
-                                    <p>Harga: Rp{{ number_format($d->sellingprice, 0, ',', '.') }}</p>
+                                    <p>Harga: Rp{{ number_format($d->final_price ?? 0, 0, ',', '.') }}</p>
                                 @else
                                     <p class="italic text-red-500">Belum ada batch</p>
                                 @endif

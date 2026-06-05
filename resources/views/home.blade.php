@@ -116,7 +116,7 @@
                                     </div>
                                     <div class="text-end small text-muted mt-auto">
                                         <p class="mb-0">Stok: {{ $d->total_stok ?? 0 }}</p>
-                                        <p class="mb-0">Harga: Rp{{ number_format($d->sellingprice ?? 0, 0, ',', '.') }}</p>
+                                        <p class="mb-0">Harga: Rp{{ number_format($d->final_price ?? 0, 0, ',', '.') }}</p>
                                     </div>
                                 </div>
                             </div>
