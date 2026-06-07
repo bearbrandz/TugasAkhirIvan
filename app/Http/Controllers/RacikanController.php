@@ -857,7 +857,7 @@ class RacikanController extends Controller
                         FROM notajuals_has_produks njp2
                         INNER JOIN notajuals nj2 ON nj2.id = njp2.notajuals_id
                         WHERE njp2.produkbatches_id = pb.id
-                          AND nj2.created_at >= DATE_FORMAT(COALESCE(r.tgl_ambil, nj.created_at), '%Y-%m-01')
+                          AND nj2.created_at >= DATE_FORMAT(nj.created_at, '%Y-%m-01')
                           AND nj2.deleted_at IS NULL
                     )
                     - (
@@ -865,7 +865,7 @@ class RacikanController extends Controller
                         FROM notabelis_has_produks nbp
                         INNER JOIN notabelis nb ON nb.id = nbp.notabelis_id
                         WHERE nbp.produkbatches_id = pb.id
-                          AND nb.created_at >= DATE_FORMAT(COALESCE(r.tgl_ambil, nj.created_at), '%Y-%m-01')
+                          AND nb.created_at >= DATE_FORMAT(nj.created_at, '%Y-%m-01')
                     )
                 ) AS stok_awalbulan,
     
@@ -874,8 +874,8 @@ class RacikanController extends Controller
                     FROM notabelis_has_produks nbp
                     INNER JOIN notabelis nb ON nb.id = nbp.notabelis_id
                     WHERE nbp.produkbatches_id = pb.id
-                      AND nb.created_at >= DATE_FORMAT(COALESCE(r.tgl_ambil, nj.created_at), '%Y-%m-01')
-                      AND nb.created_at < DATE_ADD(LAST_DAY(COALESCE(r.tgl_ambil, nj.created_at)), INTERVAL 1 DAY)
+                      AND nb.created_at >= DATE_FORMAT(nj.created_at, '%Y-%m-01')
+                      AND nb.created_at < DATE_ADD(LAST_DAY(nj.created_at), INTERVAL 1 DAY)
                 ) AS stok_diterima,
     
                 njp.quantity AS stok_keluar,
