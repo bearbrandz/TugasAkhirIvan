@@ -479,7 +479,7 @@ class ProdukController extends Controller
         $produk->save();
 
         if (empty($produk->kode_produk)) {
-            $produk->kode_produk = $this->generateKodeProduk($produk->golongan);
+            $produk->kode_produk = Produk::generateKodeProduk($produk->golongan);
             $produk->save();
         }
 
@@ -562,7 +562,7 @@ class ProdukController extends Controller
         $data->save();
 
         if (empty($data->kode_produk)) {
-            $data->kode_produk = $this->generateKodeProduk($data->golongan);
+            $data->kode_produk = Produk::generateKodeProduk($data->golongan);
             $data->save();
         }
 
@@ -1227,27 +1227,5 @@ class ProdukController extends Controller
 
         // dd($nota);
         return view('transaksi.ntPrint', compact('nota'));
-    }
-
-    private function generateKodeProduk($golongan)
-    {
-        $prefix = 'OBT-';
-        if ($golongan === 'bmhp') $prefix = 'BHP-';
-        elseif ($golongan === 'alkes') $prefix = 'ALK-';
-        elseif ($golongan === 'pkrt') $prefix = 'PKR-';
-
-        // Find the highest sequence number for this prefix
-        $latest = Produk::where('kode_produk', 'like', $prefix . '%')
-            ->orderByRaw('CAST(SUBSTRING(kode_produk, 5) AS UNSIGNED) DESC')
-            ->first();
-
-        if ($latest && preg_match('/^' . $prefix . '(\d+)$/', $latest->kode_produk, $matches)) {
-            $lastNumber = (int) $matches[1];
-            $newNumber = $lastNumber + 1;
-        } else {
-            $newNumber = 1;
-        }
-
-        return $prefix . str_pad($newNumber, 4, '0', STR_PAD_LEFT);
     }
 }

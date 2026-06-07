@@ -629,6 +629,7 @@ class NotabeliController extends Controller
     
             $produk = Produk::create([
                 'nama' => $request->nama,
+                'kode_produk' => Produk::generateKodeProduk($request->golongan),
                 'golongan' => $request->golongan,
                 'deskripsi' => $request->deskripsi,
                 'sellingprice' => $request->sellingprice,

@@ -71,4 +71,26 @@ class Produk extends Model
     {
         return $this->hasMany(Produkopnames::class, 'produks_id');
     }
+
+    public static function generateKodeProduk($golongan)
+    {
+        $prefix = 'OBT-';
+        if ($golongan === 'bmhp') $prefix = 'BHP-';
+        elseif ($golongan === 'alkes') $prefix = 'ALK-';
+        elseif ($golongan === 'pkrt') $prefix = 'PKR-';
+
+        // Find the highest sequence number for this prefix
+        $latest = static::where('kode_produk', 'like', $prefix . '%')
+            ->orderByRaw('CAST(SUBSTRING(kode_produk, 5) AS UNSIGNED) DESC')
+            ->first();
+
+        if ($latest && preg_match('/^' . $prefix . '(\d+)$/', $latest->kode_produk, $matches)) {
+            $lastNumber = (int) $matches[1];
+            $newNumber = $lastNumber + 1;
+        } else {
+            $newNumber = 1;
+        }
+
+        return $prefix . str_pad($newNumber, 4, '0', STR_PAD_LEFT);
+    }
 }
