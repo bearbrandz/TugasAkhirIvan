@@ -479,7 +479,12 @@ class ProdukController extends Controller
         $produk->save();
 
         if (empty($produk->kode_produk)) {
-            $produk->kode_produk = 'OBT-' . str_pad($produk->id, 4, '0', STR_PAD_LEFT);
+            $prefix = 'OBT-';
+            if ($produk->golongan === 'bmhp') $prefix = 'BHP-';
+            elseif ($produk->golongan === 'alkes') $prefix = 'ALK-';
+            elseif ($produk->golongan === 'pkrt') $prefix = 'PKR-';
+
+            $produk->kode_produk = $prefix . str_pad($produk->id, 4, '0', STR_PAD_LEFT);
             $produk->save();
         }
 
@@ -562,7 +567,12 @@ class ProdukController extends Controller
         $data->save();
 
         if (empty($data->kode_produk)) {
-            $data->kode_produk = 'OBT-' . str_pad($data->id, 4, '0', STR_PAD_LEFT);
+            $prefix = 'OBT-';
+            if ($data->golongan === 'bmhp') $prefix = 'BHP-';
+            elseif ($data->golongan === 'alkes') $prefix = 'ALK-';
+            elseif ($data->golongan === 'pkrt') $prefix = 'PKR-';
+
+            $data->kode_produk = $prefix . str_pad($data->id, 4, '0', STR_PAD_LEFT);
             $data->save();
         }
 

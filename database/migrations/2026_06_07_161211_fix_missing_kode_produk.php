@@ -19,7 +19,12 @@ return new class extends Migration
             ->get();
 
         foreach ($produks as $produk) {
-            $kode = 'OBT-' . str_pad($produk->id, 4, '0', STR_PAD_LEFT);
+            $prefix = 'OBT-';
+            if ($produk->golongan === 'bmhp') $prefix = 'BHP-';
+            elseif ($produk->golongan === 'alkes') $prefix = 'ALK-';
+            elseif ($produk->golongan === 'pkrt') $prefix = 'PKR-';
+
+            $kode = $prefix . str_pad($produk->id, 4, '0', STR_PAD_LEFT);
             DB::table('produks')
                 ->where('id', $produk->id)
                 ->update(['kode_produk' => $kode]);
