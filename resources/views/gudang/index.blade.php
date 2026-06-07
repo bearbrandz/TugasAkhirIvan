@@ -26,7 +26,7 @@
         <tbody>
             @forelse ($datas as $d)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $datas->firstItem() + $loop->index }}</td>
                     <td><strong>{{ $d->lokasi }}</strong></td>
                     <td>
                         <div class="am-action-btns">
