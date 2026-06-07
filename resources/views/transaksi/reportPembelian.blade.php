@@ -46,7 +46,7 @@
                         <td>{{ $purchase->notabeli->id ?? '-' }}</td>
                         <td>{{ $purchase->produkbatches->produks_id ?? '-' }}</td>
                         <td>{{ $purchase->produkbatches->produks->nama ?? '-' }}</td>
-                        <td>{{ $purchase->quantity }}</td>
+                        <td>{{ $purchase->quantity }} {{ $purchase->produkbatches->satuan->nama ?? '' }}</td>
                         <td>Rp {{ number_format($purchase->subtotal, 0, ',', '.') }}</td>
                     </tr>
                 @endforeach

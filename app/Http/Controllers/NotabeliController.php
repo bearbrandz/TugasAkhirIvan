@@ -300,7 +300,7 @@ class NotabeliController extends Controller
                     $purchase->notabeli->id ?? '-',
                     $purchase->produkbatches->produks_id ?? '-',
                     $purchase->produkbatches->produks->nama ?? '-',
-                    $purchase->quantity,
+                    $purchase->quantity . ' ' . ($purchase->produkbatches->satuan->nama ?? ''),
                     number_format($purchase->produkbatches->unitprice ?? 0, 0, '.', ','),
                     number_format($purchase->subtotal ?? 0, 0, '.', ','),
                 ], ',');
