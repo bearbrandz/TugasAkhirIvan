@@ -45,6 +45,9 @@
             <option value="keras" {{ $datas->golongan == 'keras' ? 'selected' : '' }}>Keras</option>
             <option value="narkotika" {{ $datas->golongan == 'narkotika' ? 'selected' : '' }}>Narkotika</option>
             <option value="psikotropika" {{ $datas->golongan == 'psikotropika' ? 'selected' : '' }}>Psikotropika</option>
+            <option value="bmhp" {{ $datas->golongan == 'bmhp' ? 'selected' : '' }}>BMHP</option>
+            <option value="alkes" {{ $datas->golongan == 'alkes' ? 'selected' : '' }}>Alkes</option>
+            <option value="pkrt" {{ $datas->golongan == 'pkrt' ? 'selected' : '' }}>PKRT</option>
         </select>
         <small id="nameHelp" class="form-text text-muted">Mohon pilih input yang diinginkan.</small>
     </div>

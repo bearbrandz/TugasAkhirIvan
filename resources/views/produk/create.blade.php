@@ -40,9 +40,13 @@
                     <label>Golongan Produk <span class="text-danger">*</span></label>
                     <select class="form-control" name="golongan" required>
                         <option value="">-- Pilih Golongan --</option>
-                        @foreach(['bebas','terbatas','keras','narkotika','psikotropika'] as $g)
+                        @foreach(['bebas','terbatas','keras','narkotika','psikotropika','bmhp','alkes','pkrt'] as $g)
                             <option value="{{ $g }}" {{ old('golongan') == $g ? 'selected' : '' }}>
-                                {{ ucfirst($g) }}
+                                @if($g == 'bmhp') BMHP
+                                @elseif($g == 'alkes') Alkes
+                                @elseif($g == 'pkrt') PKRT
+                                @else {{ ucfirst($g) }}
+                                @endif
                             </option>
                         @endforeach
                     </select>

@@ -461,6 +461,9 @@
                                     <option value="keras">Keras</option>
                                     <option value="narkotika">Narkotika</option>
                                     <option value="psikotropika">Psikotropika</option>
+                                    <option value="bmhp">BMHP</option>
+                                    <option value="alkes">Alkes</option>
+                                    <option value="pkrt">PKRT</option>
                                 </select>
                             </div>
 
