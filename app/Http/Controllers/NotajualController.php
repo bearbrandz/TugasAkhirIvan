@@ -137,7 +137,7 @@ class NotajualController extends Controller
         $filter = $request->get('filter', 'day');
 
         // Base query: eager load related produk info
-        $query = Notajualproduk::with('notajual', 'produkbatches.produks');
+        $query = Notajualproduk::with('notajual', 'produkbatches.produks', 'produkbatches.satuan');
 
         // Grouping and filtering by created_at according to filter
         switch ($filter) {
@@ -170,6 +170,7 @@ class NotajualController extends Controller
                 'notajual_id' => $first->notajuals_id ?? '-',
                 'produk_id'   => $first->produkbatches->produks_id ?? '-',
                 'nama_produk' => $first->produkbatches->produks->nama ?? '-',
+                'nama_satuan' => $first->produkbatches->satuan->nama ?? '',
                 'quantity'    => $group->sum('quantity'),
                 'subtotal'    => $group->sum('subtotal')
             ];
@@ -185,7 +186,7 @@ class NotajualController extends Controller
     {
         $filter = $request->get('filter', 'day');
 
-        $query = Notajualproduk::with('notajual', 'produkbatches.produks');
+        $query = Notajualproduk::with('notajual', 'produkbatches.produks', 'produkbatches.satuan');
 
         switch ($filter) {
             case 'week':
@@ -214,6 +215,7 @@ class NotajualController extends Controller
                 'notajual_id' => $first->notajuals_id ?? '-',
                 'produk_id'   => $first->produkbatches->produks_id ?? '-',
                 'nama_produk' => $first->produkbatches->produks->nama ?? '-',
+                'nama_satuan' => $first->produkbatches->satuan->nama ?? '',
                 'quantity'    => $group->sum('quantity'),
                 'subtotal'    => $group->sum('subtotal')
             ];
@@ -241,7 +243,7 @@ class NotajualController extends Controller
                     $sale->notajual_id,
                     $sale->produk_id,
                     $sale->nama_produk,
-                    $sale->quantity,
+                    $sale->quantity . ' ' . $sale->nama_satuan,
                     number_format($sale->subtotal, 0, '.', ',')
                 ]);
             }

@@ -83,7 +83,7 @@
                     <td>{{ $sale->notajual_id ?? '-' }}</td>
                     <td>{{ $sale->produk_id ?? '-' }}</td>
                     <td>{{ $sale->nama_produk ?? '-' }}</td>
-                    <td>{{ $sale->quantity }}</td>
+                    <td>{{ $sale->quantity }} {{ $sale->nama_satuan ?? '' }}</td>
                     <td>Rp {{ number_format($sale->subtotal, 0, ',', '.') }}</td>
                 </tr>
             @empty
