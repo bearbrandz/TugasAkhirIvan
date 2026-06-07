@@ -846,6 +846,7 @@ class RacikanController extends Controller
                 COALESCE(r.id, 0) AS racikan_id,
                 pb.id AS batch_id,
                 p.id AS produk_id,
+                p.kode_produk,
                 p.nama AS nama_produk,
                 s.nama AS nama_satuan,
                 d.nama AS nama_distributor,
@@ -1216,6 +1217,7 @@ class RacikanController extends Controller
         $grouped = $datas->groupBy('nama_produk')->map(function ($rows) {
             $first = $rows->first();
             return [
+                'kode_obat'   => $first->kode_produk ?? '-',
                 'nama_obat'   => $first->nama_produk ?? '-',
                 'satuan'      => $first->nama_satuan ?? '-',
                 'stok_awal'   => $first->stok_awalbulan ?? 0,
@@ -1266,7 +1268,7 @@ class RacikanController extends Controller
             // Data
             foreach ($grouped as $row) {
                 fputcsv($file, [
-                    '-', // Kode (opsional)
+                    $row['kode_obat'], // Kode
                     $row['nama_obat'],
                     $row['satuan'],
                     $row['stok_awal'],
