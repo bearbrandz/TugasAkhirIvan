@@ -479,12 +479,7 @@ class ProdukController extends Controller
         $produk->save();
 
         if (empty($produk->kode_produk)) {
-            $prefix = 'OBT-';
-            if ($produk->golongan === 'bmhp') $prefix = 'BHP-';
-            elseif ($produk->golongan === 'alkes') $prefix = 'ALK-';
-            elseif ($produk->golongan === 'pkrt') $prefix = 'PKR-';
-
-            $produk->kode_produk = $prefix . str_pad($produk->id, 4, '0', STR_PAD_LEFT);
+            $produk->kode_produk = $this->generateKodeProduk($produk->golongan);
             $produk->save();
         }
 
@@ -567,12 +562,7 @@ class ProdukController extends Controller
         $data->save();
 
         if (empty($data->kode_produk)) {
-            $prefix = 'OBT-';
-            if ($data->golongan === 'bmhp') $prefix = 'BHP-';
-            elseif ($data->golongan === 'alkes') $prefix = 'ALK-';
-            elseif ($data->golongan === 'pkrt') $prefix = 'PKR-';
-
-            $data->kode_produk = $prefix . str_pad($data->id, 4, '0', STR_PAD_LEFT);
+            $data->kode_produk = $this->generateKodeProduk($data->golongan);
             $data->save();
         }
 
@@ -1237,5 +1227,27 @@ class ProdukController extends Controller
 
         // dd($nota);
         return view('transaksi.ntPrint', compact('nota'));
+    }
+
+    private function generateKodeProduk($golongan)
+    {
+        $prefix = 'OBT-';
+        if ($golongan === 'bmhp') $prefix = 'BHP-';
+        elseif ($golongan === 'alkes') $prefix = 'ALK-';
+        elseif ($golongan === 'pkrt') $prefix = 'PKR-';
+
+        // Find the highest sequence number for this prefix
+        $latest = Produk::where('kode_produk', 'like', $prefix . '%')
+            ->orderByRaw('CAST(SUBSTRING(kode_produk, 5) AS UNSIGNED) DESC')
+            ->first();
+
+        if ($latest && preg_match('/^' . $prefix . '(\d+)$/', $latest->kode_produk, $matches)) {
+            $lastNumber = (int) $matches[1];
+            $newNumber = $lastNumber + 1;
+        } else {
+            $newNumber = 1;
+        }
+
+        return $prefix . str_pad($newNumber, 4, '0', STR_PAD_LEFT);
     }
 }
