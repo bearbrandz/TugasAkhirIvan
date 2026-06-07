@@ -296,13 +296,13 @@ class NotabeliController extends Controller
             ], ',');
 
             foreach ($purchases as $purchase) {
-                $satuan = $purchase->produkbatches->satuan->nama ?? $purchase->produkbatches->satuans->nama ?? '';
+                $satuan = $purchase->produkbatches?->satuan?->nama ?? $purchase->produkbatches?->satuans?->nama ?? '';
                 fputcsv($file, [
-                    $purchase->notabeli->id ?? '-',
-                    $purchase->produkbatches->produks_id ?? '-',
-                    $purchase->produkbatches->produks->nama ?? '-',
+                    $purchase->notabeli?->id ?? '-',
+                    $purchase->produkbatches?->produks_id ?? '-',
+                    $purchase->produkbatches?->produks?->nama ?? '-',
                     $purchase->quantity . ' ' . $satuan,
-                    number_format($purchase->produkbatches->unitprice ?? 0, 0, '.', ','),
+                    number_format($purchase->produkbatches?->unitprice ?? 0, 0, '.', ','),
                     number_format($purchase->subtotal ?? 0, 0, '.', ','),
                 ], ',');
             }

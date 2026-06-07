@@ -54,10 +54,10 @@
             <tbody>
                 @forelse ($purchases as $purchase)
                     <tr>
-                        <td>{{ $purchase->notabeli->id ?? '-' }}</td>
-                        <td>{{ $purchase->produkbatches->produks_id ?? '-' }}</td>
-                        <td>{{ $purchase->produkbatches->produks->nama ?? '-' }}</td>
-                        <td>{{ $purchase->quantity }} {{ $purchase->produkbatches->satuan->nama ?? $purchase->produkbatches->satuans->nama ?? '' }}</td>
+                        <td>{{ $purchase->notabeli?->id ?? '-' }}</td>
+                        <td>{{ $purchase->produkbatches?->produks_id ?? '-' }}</td>
+                        <td>{{ $purchase->produkbatches?->produks?->nama ?? '-' }}</td>
+                        <td>{{ $purchase->quantity }} {{ $purchase->produkbatches?->satuan?->nama ?? $purchase->produkbatches?->satuans?->nama ?? '' }}</td>
                         <td>Rp {{ number_format($purchase->subtotal, 0, ',', '.') }}</td>
                     </tr>
                 @empty
