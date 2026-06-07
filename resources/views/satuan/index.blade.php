@@ -26,7 +26,7 @@
         <tbody>
             @forelse ($datas as $d)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $datas->firstItem() + $loop->index }}</td>
                     <td><strong>{{ $d->nama }}</strong></td>
                     <td>
                         <div class="am-action-btns">
@@ -51,5 +51,9 @@
             @endforelse
         </tbody>
     </table>
+</div>
+
+<div style="margin-top: 15px;">
+    {{ $datas->appends(request()->query())->links('pagination::bootstrap-5') }}
 </div>
 @endsection
