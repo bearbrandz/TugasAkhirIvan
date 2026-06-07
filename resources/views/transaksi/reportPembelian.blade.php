@@ -29,6 +29,17 @@
     <div class="container">
 
         <h1>Laporan Pembelian</h1>
+        <p class="text-muted">
+            Filter: 
+            @if($filter == 'day') Hari Ini
+            @elseif($filter == 'week') Minggu Ini
+            @elseif($filter == 'month') Bulan Ini
+            @elseif($filter == 'year') Tahun Ini
+            @else {{ ucfirst($filter) }}
+            @endif
+            <br>
+            Tanggal Cetak: {{ now()->format('d M Y, H:i') }}
+        </p>
         <!-- Table -->
         <table class="table table-bordered">
             <thead>
@@ -41,19 +52,23 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($purchases as $purchase)
+                @forelse ($purchases as $purchase)
                     <tr>
                         <td>{{ $purchase->notabeli->id ?? '-' }}</td>
                         <td>{{ $purchase->produkbatches->produks_id ?? '-' }}</td>
                         <td>{{ $purchase->produkbatches->produks->nama ?? '-' }}</td>
-                        <td>{{ $purchase->quantity }} {{ $purchase->produkbatches->satuan->nama ?? '' }}</td>
+                        <td>{{ $purchase->quantity }} {{ $purchase->produkbatches->satuan->nama ?? $purchase->produkbatches->satuans->nama ?? '' }}</td>
                         <td>Rp {{ number_format($purchase->subtotal, 0, ',', '.') }}</td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center">Tidak ada data pembelian untuk periode ini.</td>
+                    </tr>
+                @endforelse
             </tbody>
             <tfoot>
                 <tr>
-                    <th colspan="4">Total Penjualan</th>
+                    <th colspan="4" class="text-right">Total Pembelian</th>
                     <th>Rp {{ number_format($total, 0, ',', '.') }}</th>
                 </tr>
             </tfoot>
