@@ -58,7 +58,7 @@
                     <td>{{ $d->nama_distributor }}</td>
                     <td>{{ $d->stok_diterima }}</td>
                     <td>{{ $d->stok_keluar }}</td>
-                    <td>{{ $d->stok_akhirbulan }}</td>
+                    <td>{{ $d->stok_setelah_transaksi }}</td>
                     <td>{{ $d->nama_pasien }}</td>
                     <td>{{ $d->alamat_pasien }}</td>
                     <td>{{ $d->nama_dokter }}</td>
