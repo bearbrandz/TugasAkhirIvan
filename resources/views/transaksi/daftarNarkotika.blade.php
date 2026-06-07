@@ -215,7 +215,7 @@
 
                         <span class="cell-sub" style="margin-top:8px;">
                             Sisa stok saat ini:
-                            {{ number_format($d->stok_akhirbulan ?? 0, 0, ',', '.') }}
+                            {{ number_format($d->stok_setelah_transaksi ?? 0, 0, ',', '.') }}
                             {{ $d->nama_satuan ?? '' }}
                         </span>
                     </td>
