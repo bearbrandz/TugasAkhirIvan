@@ -16,7 +16,7 @@
     </div>
     <div class="form-group">
         <label for="unitprice">Harga Produk</label>
-        <input type="number" class="form-control" name="unitprice" aria-describedby="nameHelp"
+        <input type="number" step="any" class="form-control" name="unitprice" aria-describedby="nameHelp"
             placeholder="Masukkan Harga Produk" value="{{$datas->unitprice}}">
         <small id="nameHelp" class="form-text text-muted">Mohon isikan dengan input yang diinginkan.</small>
     </div>
