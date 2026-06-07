@@ -424,6 +424,14 @@ class RacikanController extends Controller
                 'updated_at' => now(),
             ]);
 
+            // Catat log aktivitas sesuai dengan Activity Diagram
+            $namaPegawai = \App\Models\User::find($pegawaiId)?->nama ?? 'Unknown';
+            \App\Models\LogActivity::catat(
+                'penjualan_racikan',
+                'Transaksi Penjualan Racikan',
+                'Nota jual racikan #' . $notajual->id . ' berhasil dibayar oleh ' . $namaPegawai . '. Total: Rp ' . number_format($totalRacikan, 0, ',', '.')
+            );
+
             DB::commit();
 
             return redirect()
