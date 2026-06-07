@@ -20,7 +20,7 @@ class SatuanController extends Controller
             return $query->where('nama', 'like', "%$search%");
         })
             ->orderBy($sortBy, $sortOrder)
-            ->paginate(6)
+            ->paginate(10)
             ->appends([
                 'search' => $search,
                 'sort_by' => $sortBy,

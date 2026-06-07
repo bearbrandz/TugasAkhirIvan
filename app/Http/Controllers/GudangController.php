@@ -21,7 +21,7 @@ class GudangController extends Controller
             return $query->where('lokasi', 'like', "%$search%");
         })
             ->orderBy($sortBy, $sortOrder)
-            ->paginate(6)
+            ->paginate(10)
             ->appends([
                 'search' => $search,
                 'sort_by' => $sortBy,
