@@ -55,4 +55,8 @@
         </tbody>
     </table>
 </div>
+
+<div style="margin-top: 15px;">
+    {{ $datas->appends(request()->query())->links('pagination::bootstrap-5') }}
+</div>
 @endsection
