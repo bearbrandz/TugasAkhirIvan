@@ -74,6 +74,7 @@ class LaporanController extends Controller
             ->join('notajuals as nj', 'nj.id', '=', 'njp.notajuals_id')
             ->join('produkbatches as pb', 'pb.id', '=', 'njp.produkbatches_id')
             ->join('produks as p', 'p.id', '=', 'pb.produks_id')
+            ->leftJoin('satuans as s', 's.id', '=', 'p.satuan_jual_id')
             ->whereNull('njp.deleted_at')
             ->whereNull('nj.deleted_at');
 
@@ -82,12 +83,13 @@ class LaporanController extends Controller
         $summaryProduk = $perProduk->select(
             'p.id as produk_id',
             'p.nama as nama_produk',
+            's.nama as nama_satuan',
             DB::raw('SUM(njp.quantity) as total_qty'),
             DB::raw('SUM(njp.subtotal) as total_penjualan'),
             DB::raw("SUM(njp.quantity * $hppExpression) as total_hpp"),
             DB::raw("SUM(njp.subtotal) - SUM(njp.quantity * $hppExpression) as laba_kotor")
         )
-        ->groupBy('p.id', 'p.nama')
+        ->groupBy('p.id', 'p.nama', 's.nama')
         ->orderByDesc('laba_kotor')
         ->get()
         ->map(function ($row) {
@@ -171,6 +173,7 @@ class LaporanController extends Controller
             ->join('notajuals as nj', 'nj.id', '=', 'njp.notajuals_id')
             ->join('produkbatches as pb', 'pb.id', '=', 'njp.produkbatches_id')
             ->join('produks as p', 'p.id', '=', 'pb.produks_id')
+            ->leftJoin('satuans as s', 's.id', '=', 'p.satuan_jual_id')
             ->whereNull('njp.deleted_at')
             ->whereNull('nj.deleted_at');
 
@@ -178,12 +181,13 @@ class LaporanController extends Controller
 
         $data = $query->select(
             'p.nama as nama_produk',
+            's.nama as nama_satuan',
             DB::raw('SUM(njp.quantity) as total_qty'),
             DB::raw('SUM(njp.subtotal) as total_penjualan'),
             DB::raw("SUM(njp.quantity * $hppExpression) as total_hpp"),
             DB::raw("SUM(njp.subtotal) - SUM(njp.quantity * $hppExpression) as laba_kotor")
         )
-        ->groupBy('p.id', 'p.nama')
+        ->groupBy('p.id', 'p.nama', 's.nama')
         ->orderBy('p.nama')
         ->get();
 
@@ -228,7 +232,7 @@ class LaporanController extends Controller
 
                 fputcsv($file, [
                     $row->nama_produk,
-                    $row->total_qty,
+                    $row->total_qty . ' ' . ($row->nama_satuan ?? ''),
                     number_format($row->total_penjualan, 0, '.', ','),
                     number_format($row->total_hpp, 0, '.', ','),
                     number_format($row->laba_kotor, 0, '.', ','),

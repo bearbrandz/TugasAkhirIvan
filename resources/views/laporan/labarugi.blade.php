@@ -119,7 +119,7 @@
                     <tr>
                         <td>{{ $i + 1 }}</td>
                         <td>{{ $row->nama_produk }}</td>
-                        <td>{{ number_format($row->total_qty, 0, ',', '.') }}</td>
+                        <td>{{ number_format($row->total_qty, 0, ',', '.') }} {{ $row->nama_satuan ?? '' }}</td>
                         <td>Rp {{ number_format($row->total_penjualan, 0, ',', '.') }}</td>
                         <td>Rp {{ number_format($row->total_hpp, 0, ',', '.') }}</td>
                         <td class="{{ $laba >= 0 ? 'text-success fw-bold' : 'text-danger fw-bold' }}">
