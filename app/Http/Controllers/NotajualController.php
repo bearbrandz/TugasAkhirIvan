@@ -275,6 +275,7 @@ class NotajualController extends Controller
             })
             ->join('satuans', 'produkbatches.satuans_id', '=', 'satuans.id')
             ->whereNotIn('produks.golongan', ['narkotika', 'psikotropika'])
+            ->whereNull('produks.deleted_at')
             ->select(
                 'produks.id',
                 'produks.nama',
