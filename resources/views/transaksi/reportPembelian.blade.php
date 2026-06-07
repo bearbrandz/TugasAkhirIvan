@@ -3,31 +3,25 @@
 @section('content')
     <style>
         @media print {
-
-            .page-sidebar-menu,
-            .main-sidebar,
-            .navbar,
-            .footer,
-            .page-sidebar-menu-collapse {
+            .sidebar,
+            .topbar,
+            .page-footer,
+            .btn,
+            button,
+            a {
                 display: none !important;
             }
 
-            .content-wrapper,
-            .main-content {
-                margin-left: 0 !important;
+            .main-wrapper,
+            .page-content {
+                margin: 0 !important;
+                padding: 0 !important;
                 width: 100% !important;
             }
 
             body {
-                overflow: visible !important;
-            }
-
-            button {
-                display: none !important;
-            }
-
-            a {
-                display: none !important;
+                background: white !important;
+                margin: 0 !important;
             }
         }
     </style>
