@@ -566,6 +566,10 @@ class NotajualController extends Controller
                     */
                     $produk = Produk::findOrFail($produkId);
     
+                    if (in_array(strtolower($produk->golongan), ['narkotika', 'psikotropika'])) {
+                        throw new \Exception("Produk Narkotika/Psikotropika ({$produk->nama}) tidak boleh dijual secara langsung di kasir! Wajib melalui Nota Penjualan Racikan (Resep).");
+                    }
+    
                     $availableStock = Produkbatches::where('produks_id', $produkId)
                         ->where('stok', '>', 0)
                         ->where('status', 'tersedia')
@@ -740,6 +744,13 @@ class NotajualController extends Controller
 
         $id = $request->input('id');
         $isRacikan = $request->input('is_racikan') == true || $request->input('is_racikan') == 'true';
+
+        if (!$isRacikan) {
+            $produk = \App\Models\Produk::find($id);
+            if ($produk && in_array(strtolower($produk->golongan), ['narkotika', 'psikotropika'])) {
+                return redirect()->back()->with('error', 'Peringatan: Obat Narkotika / Psikotropika (' . $produk->nama . ') TIDAK DAPAT dijual langsung secara reguler! Anda WAJIB menjualnya melalui fitur Nota Penjualan Racikan (Resep) agar informasi Pasien dan Dokter dapat dicatat untuk keperluan Laporan SIPNAP.');
+            }
+        }
 
         // Use unique key for racikan or normal product
         $key = $isRacikan ? 'racikan_' . $id : 'produk_' . $id;
