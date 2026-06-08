@@ -271,6 +271,9 @@
                     <option value="keras" {{ request('golongan') == 'keras' ? 'selected' : '' }}>Keras</option>
                     <option value="narkotika" {{ request('golongan') == 'narkotika' ? 'selected' : '' }}>Narkotika</option>
                     <option value="psikotropika" {{ request('golongan') == 'psikotropika' ? 'selected' : '' }}>Psikotropika</option>
+                    <option value="bmhp" {{ request('golongan') == 'bmhp' ? 'selected' : '' }}>BMHP</option>
+                    <option value="alkes" {{ request('golongan') == 'alkes' ? 'selected' : '' }}>Alkes</option>
+                    <option value="pkrt" {{ request('golongan') == 'pkrt' ? 'selected' : '' }}>PKRT</option>
                 </select>
 
                 <button type="submit" class="btn btn-primary btn-sm">
