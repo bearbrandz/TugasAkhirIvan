@@ -21,12 +21,12 @@ class Notabeliproduk extends Model
 
     public function produkbatches()
     {
-        return $this->belongsTo(Produkbatches::class, 'produkbatches_id');
+        return $this->belongsTo(Produkbatches::class, 'produkbatches_id')->withTrashed();
     }
 
     public function batch()
     {
-        return $this->belongsTo(Produkbatches::class, 'produkbatches_id');
+        return $this->belongsTo(Produkbatches::class, 'produkbatches_id')->withTrashed();
     }
 
     public function notabeli()

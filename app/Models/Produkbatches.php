@@ -30,22 +30,22 @@ class Produkbatches extends Model
 
     public function distributor(): BelongsTo
     {
-        return $this->belongsTo(Distributor::class, 'distributors_id');
+        return $this->belongsTo(Distributor::class, 'distributors_id')->withTrashed();
     }
 
     public function satuan(): BelongsTo
     {
-        return $this->belongsTo(Satuan::class, 'satuans_id');
+        return $this->belongsTo(Satuan::class, 'satuans_id')->withTrashed();
     }
 
     public function gudang(): BelongsTo
     {
-        return $this->belongsTo(Gudang::class, 'gudangs_id');
+        return $this->belongsTo(Gudang::class, 'gudangs_id')->withTrashed();
     }
 
     public function produks(): BelongsTo
     {
-        return $this->belongsTo(Produk::class, 'produks_id');
+        return $this->belongsTo(Produk::class, 'produks_id')->withTrashed();
     }
 
     public function notaJualProduks()
