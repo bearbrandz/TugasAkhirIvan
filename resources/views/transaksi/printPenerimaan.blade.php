@@ -130,7 +130,7 @@
                 <td>{{ $data->nama_produk }}</td>
                 <td>{{ $data->nama_distributor ?? '-' }}</td>
                 <td>{{ $data->nama_gudang ?? '-' }}</td>
-                <td>{{ number_format($data->stok, 0, ',', '.') }}</td>
+                <td>{{ number_format($data->jumlah_diterima, 0, ',', '.') }}</td>
                 <td>{{ $data->nama_satuan ?? '-' }}</td>
                 <td>Rp {{ number_format($data->unitprice, 0, ',', '.') }}</td>
                 <td>{{ $data->tgl_produksi ? \Carbon\Carbon::parse($data->tgl_produksi)->format('d/m/Y') : '-' }}</td>

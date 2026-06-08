@@ -105,11 +105,11 @@
 
                         <td>
                             @php
-                                $batchId = $d->batch_id ?? $d->id_batch ?? null;
+                                $printId = $d->detail_pembelian_id ?? $d->batch_id ?? $d->id_batch ?? null;
                             @endphp
 
-                            @if ($batchId)
-                                <a href="{{ route('produks.printTerima', $batchId) }}" class="btn btn-secondary btn-sm" target="_blank">
+                            @if ($printId)
+                                <a href="{{ route('produks.printTerima', $printId) }}" class="btn btn-secondary btn-sm" target="_blank">
                                     Cetak Nota
                                 </a>
                             @else

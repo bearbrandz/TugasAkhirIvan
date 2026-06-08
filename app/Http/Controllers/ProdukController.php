@@ -919,24 +919,53 @@ class ProdukController extends Controller
 
     public function printTerima($id)
     {
-        $data = \DB::table('produkbatches')
+        if (strpos($id, '-') !== false) {
+            list($notaBeliId, $batchId) = explode('-', $id);
+        } else {
+            $notaBeliId = null;
+            $batchId = $id;
+        }
+
+        $query = \DB::table('produkbatches')
             ->join('produks', 'produkbatches.produks_id', '=', 'produks.id')
             ->leftJoin('distributors', 'produkbatches.distributors_id', '=', 'distributors.id')
             ->leftJoin('satuans', 'produkbatches.satuans_id', '=', 'satuans.id')
-            ->leftJoin('gudangs', 'produkbatches.gudangs_id', '=', 'gudangs.id')
-            ->select(
+            ->leftJoin('gudangs', 'produkbatches.gudangs_id', '=', 'gudangs.id');
+
+        if ($notaBeliId) {
+            $query->join('notabelis_has_produks', function($join) use ($notaBeliId) {
+                $join->on('produkbatches.id', '=', 'notabelis_has_produks.produkbatches_id')
+                     ->where('notabelis_has_produks.notabelis_id', '=', $notaBeliId);
+            });
+            $query->join('notabelis', 'notabelis.id', '=', 'notabelis_has_produks.notabelis_id');
+            $query->leftJoin('users', 'users.id', '=', 'notabelis.pegawai_id');
+            
+            $query->select(
                 'produkbatches.*',
                 'produkbatches.id as batch_id',
+                'notabelis_has_produks.quantity as jumlah_diterima',
+                'notabelis.id as nota_beli_id',
+                'users.nama as nama_pegawai',
+                'produks.nama as nama_produk',
+                'distributors.nama as nama_distributor',
+                'satuans.nama as nama_satuan',
+                'gudangs.lokasi as nama_gudang'
+            );
+        } else {
+            $query->select(
+                'produkbatches.*',
+                'produkbatches.id as batch_id',
+                'produkbatches.stok as jumlah_diterima',
                 \DB::raw('NULL as nota_beli_id'),
-                \DB::raw('NULL as pegawai_id'),
                 \DB::raw("'-' as nama_pegawai"),
                 'produks.nama as nama_produk',
                 'distributors.nama as nama_distributor',
                 'satuans.nama as nama_satuan',
                 'gudangs.lokasi as nama_gudang'
-            )
-            ->where('produkbatches.id', $id)
-            ->first();
+            );
+        }
+
+        $data = $query->where('produkbatches.id', $batchId)->first();
 
         if (!$data) {
             abort(404, 'Data penerimaan tidak ditemukan.');
