@@ -37,7 +37,7 @@
                         <p class="mb-1"><strong>Bentuk Sediaan:</strong> {{ $produk->bentuk_sediaan ?: ($produk->satuanJual->nama ?? '-') }}</p>
                     </div>
                     <div class="col-md-6">
-                        <p class="mb-1"><strong>Harga Jual Aktif:</strong> Rp {{ number_format((float) ($produk->sellingprice ?? 0), 0, ',', '.') }}</p>
+                        <p class="mb-1"><strong>Harga Jual Aktif:</strong> Rp {{ number_format((float) ($produk->final_price ?? 0), 0, ',', '.') }} <small class="text-muted">(Margin: {{ $produk->sellingprice ?? 0 }}%)</small></p>
                         <p class="mb-1"><strong>Deskripsi Produk:</strong><br>
                             <span style="color: #cbd5e1;">{{ $produk->deskripsi ?: 'Tidak ada deskripsi.' }}</span>
                         </p>

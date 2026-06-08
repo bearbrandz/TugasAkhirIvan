@@ -74,7 +74,59 @@ class ProdukController extends Controller
     public function batch(Request $request)
     {
         $id = $request->id;
-        $data = Produk::findOrFail($id);
+        $data = Produk::with('satuanJual')
+            ->withSum(['produkbatches as total_stok' => function ($q) {
+                $q->where('status', 'tersedia')
+                    ->where(function ($sub) {
+                        $sub->whereDate('tgl_kadaluarsa', '>', now())
+                            ->orWhereNull('tgl_kadaluarsa');
+                    });
+            }], 'stok')
+            ->with(['produkbatches' => function ($q) {
+                $q->where('status', 'tersedia')
+                    ->where(function ($sub) {
+                        $sub->whereDate('tgl_kadaluarsa', '>', now())
+                            ->orWhereNull('tgl_kadaluarsa');
+                    });
+            }])
+            ->with(['allBatchesForHpp' => function ($q) {
+                $q->where('status', 'tersedia')
+                    ->where(function ($sub) {
+                        $sub->whereDate('tgl_kadaluarsa', '>', now())
+                            ->orWhereNull('tgl_kadaluarsa');
+                    })
+                    ->select('id', 'produks_id', 'hpp_avg_per_unit');
+            }])
+            ->withAvg(['produkbatches as avg_unitprice' => function ($q) {
+                $q->where('status', 'tersedia')
+                    ->where(function ($sub) {
+                        $sub->whereDate('tgl_kadaluarsa', '>', now())
+                            ->orWhereNull('tgl_kadaluarsa');
+                    });
+            }], 'unitprice')
+            ->findOrFail($id);
+
+        $totalStock = (int) ($data->total_stok ?? 0);
+        $hppAvgPerUnit = ($data->allBatchesForHpp ?? collect())
+            ->first(fn($b) => (float) ($b->hpp_avg_per_unit ?? 0) > 0)
+            ?->hpp_avg_per_unit;
+
+        if (!$hppAvgPerUnit) {
+            $hppAvgPerUnit = $data->produkbatches
+                ->first(fn($b) => (float) ($b->hpp_avg_per_unit ?? 0) > 0)
+                ?->hpp_avg_per_unit;
+        }
+
+        if ($hppAvgPerUnit && (float) $hppAvgPerUnit > 0) {
+            $basePrice = (float) $hppAvgPerUnit;
+        } else {
+            $totalCost = $data->produkbatches->sum(function ($batch) {
+                return ((float) $batch->unitprice) * ((int) $batch->stok);
+            });
+            $basePrice = $totalStock > 0 ? ($totalCost / $totalStock) : ((float) ($data->avg_unitprice ?? 0));
+        }
+
+        $data->final_price = round($basePrice * (1 + ((float) $data->sellingprice / 100)), 0);
 
         $sortBy = $request->get('sort_by', 'nama');
         $sortOrder = $request->get('sort_order', 'asc');
