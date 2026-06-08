@@ -214,7 +214,7 @@
                         </div>
 
                         <span class="cell-sub" style="margin-top:8px;">
-                            Sisa stok saat ini:
+                            Sisa stok setelah transaksi:
                             {{ number_format($d->stok_setelah_transaksi ?? 0, 0, ',', '.') }}
                             {{ $d->nama_satuan ?? '' }}
                         </span>

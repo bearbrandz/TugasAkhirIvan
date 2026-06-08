@@ -172,14 +172,10 @@
                         <span class="cell-sub">Dist: {{ $d->nama_distributor ?? '-' }}</span>
                     </td>
                     <td class="col-stok">
-                        <div class="stok-grid">
-                            <div class="stok-item">
-                                <span class="stok-label">Awal</span>
-                                <span class="stok-value">{{ number_format($d->stok_awalbulan ?? 0, 0, ',', '.') }}</span>
-                            </div>
-                            <div class="stok-item">
-                                <span class="stok-label">Masuk</span>
-                                <span class="stok-value">{{ number_format($d->stok_diterima ?? 0, 0, ',', '.') }}</span>
+                        <div class="stok-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+                            <div class="stok-item" style="border-color: rgba(96,165,250,0.5); background: rgba(96,165,250,0.1);">
+                                <span class="stok-label">Sblm</span>
+                                <span class="stok-value">{{ number_format(($d->stok_setelah_transaksi ?? 0) + ($d->stok_keluar ?? 0), 0, ',', '.') }}</span>
                             </div>
                             <div class="stok-item dipakai">
                                 <span class="stok-label">Dipakai</span>
