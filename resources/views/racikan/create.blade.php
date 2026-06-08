@@ -373,8 +373,57 @@
     </form>
 </div>
 
+@push('styles')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+    /* Dark mode adjustments for select2 */
+    .select2-container--default .select2-selection--single {
+        background-color: #111827;
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        border-radius: 8px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #f8fafc;
+        line-height: normal;
+        padding-left: 12px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 40px;
+    }
+    .select2-dropdown {
+        background-color: #1f2937;
+        border-color: rgba(148, 163, 184, 0.28);
+        color: #f8fafc;
+    }
+    .select2-container--default .select2-results__option[aria-selected=true] {
+        background-color: #374151;
+    }
+    .select2-container--default .select2-results__option--highlighted[aria-selected] {
+        background-color: #ef4444;
+        color: white;
+    }
+    .select2-search--dropdown .select2-search__field {
+        background-color: #111827;
+        color: #f8fafc;
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        border-radius: 4px;
+    }
+</style>
+@endpush
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    $(document).ready(function() {
+        // Init select2
+        $('.produk-komposisi').select2({
+            placeholder: "-- Pilih Produk --",
+            width: '100%'
+        });
+
         const wrapper = document.getElementById('komposisi-wrapper');
         const btnTambah = document.getElementById('btnTambahKomposisi');
 
@@ -382,13 +431,29 @@
 
         btnTambah.addEventListener('click', function () {
             const firstRow = wrapper.querySelector('.komposisi-row');
+            
+            // Destroy select2 on first row so we clone clean HTML
+            $(firstRow).find('.produk-komposisi').select2('destroy');
+
             const newRow = firstRow.cloneNode(true);
+
+            // Re-init select2 on first row
+            $(firstRow).find('.produk-komposisi').select2({
+                placeholder: "-- Pilih Produk --",
+                width: '100%'
+            });
 
             newRow.querySelectorAll('select, input').forEach(function (input) {
                 input.value = '';
             });
 
             wrapper.appendChild(newRow);
+
+            // Init select2 on new row
+            $(newRow).find('.produk-komposisi').select2({
+                placeholder: "-- Pilih Produk --",
+                width: '100%'
+            });
         });
 
         wrapper.addEventListener('click', function (event) {
@@ -399,13 +464,17 @@
             const rows = wrapper.querySelectorAll('.komposisi-row');
 
             if (rows.length > 1) {
+                $(event.target.closest('.komposisi-row')).find('.produk-komposisi').select2('destroy');
                 event.target.closest('.komposisi-row').remove();
             } else {
-                rows[0].querySelectorAll('select, input').forEach(function (input) {
+                const firstRowSelect = rows[0].querySelector('select');
+                $(firstRowSelect).val(null).trigger('change');
+                rows[0].querySelectorAll('input').forEach(function (input) {
                     input.value = '';
                 });
             }
         });
     });
 </script>
+@endpush
 @endsection
