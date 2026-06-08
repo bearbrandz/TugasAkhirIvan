@@ -255,19 +255,29 @@
 
     <div class="am-table-wrap">
         <div class="am-table-toolbar">
-            <form method="GET" action="{{ route('produks.index') }}" class="am-search-bar">
+            <form method="GET" action="{{ route('produks.index') }}" class="am-search-bar" style="display: flex; gap: 8px; flex-wrap: wrap;">
                 <input
                     type="text"
                     name="search"
                     placeholder="Cari nama produk..."
-                    value="{{ $search ?? '' }}"
+                    value="{{ request('search') }}"
+                    style="min-width: 200px;"
                 >
 
+                <select name="golongan" class="form-select form-select-sm" style="width: auto; background-color: #111827; color: #f8fafc; border: 1px solid rgba(148, 163, 184, 0.28); border-radius: 6px;">
+                    <option value="">Semua Golongan</option>
+                    <option value="bebas" {{ request('golongan') == 'bebas' ? 'selected' : '' }}>Bebas</option>
+                    <option value="terbatas" {{ request('golongan') == 'terbatas' ? 'selected' : '' }}>Bebas Terbatas</option>
+                    <option value="keras" {{ request('golongan') == 'keras' ? 'selected' : '' }}>Keras</option>
+                    <option value="narkotika" {{ request('golongan') == 'narkotika' ? 'selected' : '' }}>Narkotika</option>
+                    <option value="psikotropika" {{ request('golongan') == 'psikotropika' ? 'selected' : '' }}>Psikotropika</option>
+                </select>
+
                 <button type="submit" class="btn btn-primary btn-sm">
-                    Cari
+                    Cari & Filter
                 </button>
 
-                @if (!empty($search))
+                @if (!empty(request('search')) || !empty(request('golongan')))
                     <a href="{{ route('produks.index') }}" class="btn btn-default btn-sm">
                         Reset
                     </a>

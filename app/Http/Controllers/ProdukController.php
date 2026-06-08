@@ -145,6 +145,7 @@ class ProdukController extends Controller
         $sortBy = $request->get('sort_by', 'nama');
         $sortOrder = $request->get('sort_order', 'asc');
         $search = $request->get('search');
+        $golonganFilter = $request->get('golongan');
 
 
 
@@ -188,6 +189,9 @@ class ProdukController extends Controller
             'unitprice'
         );
 
+        if (!empty($golonganFilter)) {
+            $query->where('golongan', $golonganFilter);
+        }
 
         if (!empty($search)) {
             $query->where(function ($q) use ($search) {
@@ -226,6 +230,7 @@ class ProdukController extends Controller
 
         $produks = $query->paginate(12)->appends([
             'search' => $search,
+            'golongan' => $golonganFilter,
             'sort_by' => $sortBy,
             'sort_order' => $sortOrder,
         ]);
