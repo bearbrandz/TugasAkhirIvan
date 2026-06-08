@@ -26,9 +26,30 @@
         </div>
     </form>
 
-    <div class="container">
-        <h2>Batch Produk: {{ $produk->nama }}</h2>
-        <p>Daftar semua batch dari produk ini</p>
+    <div class="container-fluid mb-4">
+        <div class="card bg-dark text-white" style="border: 1px solid rgba(148, 163, 184, 0.18); border-radius: 12px;">
+            <div class="card-body">
+                <h2 class="mb-3">Informasi Produk: {{ $produk->nama }}</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="mb-1"><strong>Kode Produk:</strong> {{ $produk->kode_produk ?? '-' }}</p>
+                        <p class="mb-1"><strong>Golongan:</strong> {{ ucfirst($produk->golongan ?? '-') }}</p>
+                        <p class="mb-1"><strong>Bentuk Sediaan:</strong> {{ $produk->bentuk_sediaan ?: ($produk->satuanJual->nama ?? '-') }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="mb-1"><strong>Harga Jual Aktif:</strong> Rp {{ number_format((float) ($produk->sellingprice ?? 0), 0, ',', '.') }}</p>
+                        <p class="mb-1"><strong>Deskripsi Produk:</strong><br>
+                            <span style="color: #cbd5e1;">{{ $produk->deskripsi ?: 'Tidak ada deskripsi.' }}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <h4>Daftar Batch</h4>
+        <p>Rincian riwayat seluruh stok (batch) yang pernah masuk untuk obat ini.</p>
 
         <table class="table table-bordered">
             <thead>

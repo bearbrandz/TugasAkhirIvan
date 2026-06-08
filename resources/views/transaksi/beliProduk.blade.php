@@ -58,9 +58,13 @@
                     <div class="col-md-6 col-xl-4">
                         <div class="card h-100 purchase-card">
                             <div class="card-body d-flex flex-column">
-                                <h5 class="card-title text-white mb-3">
+                                <h5 class="card-title text-white mb-2">
                                     {{ $p->nama }}
                                 </h5>
+
+                                <p class="mb-3 text-muted" style="font-size: 0.85rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; min-height: 2.8em;">
+                                    {{ $p->deskripsi ?: 'Tidak ada deskripsi produk.' }}
+                                </p>
 
                                 <p class="mb-1">
                                     <strong>Stok Tersedia:</strong>
