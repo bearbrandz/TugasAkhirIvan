@@ -34,7 +34,6 @@
                     <div class="col-md-6">
                         <p class="mb-1"><strong>Kode Produk:</strong> {{ $produk->kode_produk ?? '-' }}</p>
                         <p class="mb-1"><strong>Golongan:</strong> {{ ucfirst($produk->golongan ?? '-') }}</p>
-                        <p class="mb-1"><strong>Bentuk Sediaan:</strong> {{ $produk->bentuk_sediaan ?: ($produk->satuanJual->nama ?? '-') }}</p>
                     </div>
                     <div class="col-md-6">
                         <p class="mb-1"><strong>Harga Jual Aktif:</strong> Rp {{ number_format((float) ($produk->final_price ?? 0), 0, ',', '.') }} <small class="text-muted">(Margin: {{ $produk->sellingprice ?? 0 }}%)</small></p>
