@@ -431,13 +431,33 @@
 
                         <td class="col-detail">
                             @php
-                                $detailItems = collect(explode(' | ', $d->detail_produk ?? ''))->filter();
+                                $rawItems = collect(explode(' | ', $d->detail_produk ?? ''))->filter();
+                                $mergedItems = [];
+                                foreach ($rawItems as $item) {
+                                    if (preg_match('/^(.*?) x(\d+(?:\.\d+)?) = Rp ([\d,]+)$/', $item, $matches)) {
+                                        $name = trim($matches[1]);
+                                        $qty = (float) $matches[2];
+                                        $subtotal = (float) str_replace(',', '', $matches[3]);
+                                        
+                                        if (!isset($mergedItems[$name])) {
+                                            $mergedItems[$name] = ['qty' => 0, 'subtotal' => 0];
+                                        }
+                                        $mergedItems[$name]['qty'] += $qty;
+                                        $mergedItems[$name]['subtotal'] += $subtotal;
+                                    } else {
+                                        $mergedItems[$item] = null; // fallback for unparseable formats
+                                    }
+                                }
                             @endphp
 
-                            @if($detailItems->count() > 0)
+                            @if(count($mergedItems) > 0)
                                 <ul class="nota-detail-list">
-                                    @foreach($detailItems as $item)
-                                        <li>{{ $item }}</li>
+                                    @foreach($mergedItems as $name => $data)
+                                        @if($data !== null)
+                                            <li>{{ $name }} x{{ $data['qty'] }} = Rp {{ number_format($data['subtotal'], 0, '.', ',') }}</li>
+                                        @else
+                                            <li>{{ $name }}</li>
+                                        @endif
                                     @endforeach
                                 </ul>
                             @else

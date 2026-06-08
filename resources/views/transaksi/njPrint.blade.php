@@ -211,7 +211,19 @@
 
 <body>
 @php
-    $produkItems = $nota->notajualproduks ?? collect();
+    $produkItems = ($nota->notajualproduks ?? collect())->groupBy(function($item) {
+        return $item->produkbatches?->produks_id ?? $item->id;
+    })->map(function($group) {
+        $first = $group->first();
+        return (object) [
+            'nama_produk' => $first->produkbatches?->produks?->nama ?? '-',
+            'quantity' => $group->sum('quantity'),
+            'subtotal' => $group->sum('subtotal'),
+            'batch_ids' => $group->pluck('produkbatches.id')->filter()->unique()->implode(', '),
+            'satuan' => $first->produkbatches?->satuan?->nama ?? $first->produkbatches?->satuans?->nama ?? ''
+        ];
+    })->values();
+
     $racikanItems = $nota->notajualracikans ?? collect();
 
     $grandTotal = 0;
@@ -314,14 +326,12 @@
 
             @forelse ($produkItems as $item)
                 @php
-                    $namaProduk = $item->produkbatches->produks->nama ?? '-';
-                    $qty = (float) ($item->quantity ?? 0);
-                    $subtotal = (float) ($item->subtotal ?? 0);
+                    $namaProduk = $item->nama_produk;
+                    $qty = (float) $item->quantity;
+                    $subtotal = (float) $item->subtotal;
                     $hargaSatuan = $qty > 0 ? ($subtotal / $qty) : 0;
-                    $batchId = $item->produkbatches->id ?? '-';
-                    $satuan = $item->produkbatches->satuan->nama
-                        ?? $item->produkbatches->satuans->nama
-                        ?? '';
+                    $batchId = $item->batch_ids;
+                    $satuan = $item->satuan;
                 @endphp
 
                 <tr>
