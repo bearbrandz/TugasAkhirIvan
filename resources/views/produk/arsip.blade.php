@@ -99,6 +99,9 @@
                                         'keras'        => 'am-badge-keras',
                                         'narkotika'    => 'am-badge-narkotika',
                                         'psikotropika' => 'am-badge-psikotropika',
+                                        'bmhp'         => 'am-badge-bmhp',
+                                        'alkes'        => 'am-badge-alkes',
+                                        'pkrt'         => 'am-badge-pkrt',
                                     ];
                                     $cls = $golMap[$golongan] ?? 'am-badge-bebas';
                                 @endphp
