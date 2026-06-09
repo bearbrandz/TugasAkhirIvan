@@ -144,52 +144,17 @@ Route::get('/fix-live-db', function () {
 });
 
 Route::get('/fix-sella', function () {
-    // Cari semua produk dengan nama "Sella Tongkat Kaki Empat (Quad Cane)"
-    // Kita panggil yang ID-nya paling kecil sebagai produk "Utama", sisanya "Duplikat"
     $produks = DB::table('produks')
-        ->where('nama', 'LIKE', '%Sella Tongkat Kaki Empat (Quad Cane)%')
+        ->where('nama', 'LIKE', '%Sella%')
         ->orderBy('id', 'asc')
         ->get();
 
-    if ($produks->count() <= 1) {
-        return "Tidak ditemukan produk duplikat untuk digabungkan.";
+    $response = "Debug Daftar Produk Sella:<br><br>";
+    foreach ($produks as $p) {
+        $response .= "ID: {$p->id} | Nama: '{$p->nama}' | Deleted_at: " . ($p->deleted_at ?? 'NULL') . "<br>";
     }
-
-    $mainProduct = $produks->first();
-    $duplicates = $produks->slice(1);
     
-    $updatedBatches = 0;
-    $updatedRacikans = 0;
-    $deletedProducts = 0;
-
-    foreach ($duplicates as $dup) {
-        // 1. Pindahkan semua stok (produkbatches) dari produk duplikat ke produk utama
-        $updatedBatches += DB::table('produkbatches')
-            ->where('produks_id', $dup->id)
-            ->update(['produks_id' => $mainProduct->id]);
-
-        // 2. Pindahkan referensi di racikan (jika produk ini pernah dipakai meracik)
-        $updatedRacikans += DB::table('racikanproduks')
-            ->where('produks_id', $dup->id)
-            ->update(['produks_id' => $mainProduct->id]);
-
-        // 3. Hapus produk duplikat
-        // Karena notabelis_has_produks dan notajuals_has_produks terhubung ke produkbatches (bukan produks),
-        // maka setelah produkbatches dipindah, kita bisa dengan aman menghapus produk duplikatnya.
-        DB::table('produks')->where('id', $dup->id)->delete();
-        $deletedProducts++;
-    }
-
-    // Ubah golongan produk utama menjadi "Alkes" sesuai gambar, jika sebelumnya "Bebas"
-    // Dan buat kode produk baru yang sesuai dengan golongan Alkes (ALK-XXXX)
-    $newCode = \App\Models\Produk::generateKodeProduk('alkes');
-    
-    DB::table('produks')->where('id', $mainProduct->id)->update([
-        'golongan' => 'Alkes',
-        'kode_produk' => $newCode
-    ]);
-
-    return "Sukses! $updatedBatches batch stok dan $updatedRacikans bahan racikan telah dipindah ke produk Utama (ID: {$mainProduct->id}). $deletedProducts produk duplikat berhasil dihapus. Kode Produk utama berhasil diubah menjadi $newCode.";
+    return $response;
 });
 
 Route::get('/', function () {
