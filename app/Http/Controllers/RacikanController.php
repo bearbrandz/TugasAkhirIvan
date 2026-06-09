@@ -435,7 +435,7 @@ class RacikanController extends Controller
             DB::commit();
 
             return redirect()
-                ->route('notajuals.print', $notajual->id)
+                ->route('notajuals.index')
                 ->with('status', 'Pembayaran racikan berhasil disimpan.');
         } catch (\Throwable $e) {
             DB::rollBack();
