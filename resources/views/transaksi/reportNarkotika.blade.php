@@ -174,7 +174,7 @@
                     <td class="col-stok">
                         <div class="stok-grid" style="grid-template-columns: 1fr 1fr 1fr;">
                             <div class="stok-item" style="border-color: rgba(96,165,250,0.5); background: rgba(96,165,250,0.1);">
-                                <span class="stok-label">Sblm</span>
+                                <span class="stok-label">Sebelum</span>
                                 <span class="stok-value">{{ number_format(($d->stok_setelah_transaksi ?? 0) + ($d->stok_keluar ?? 0), 0, ',', '.') }}</span>
                             </div>
                             <div class="stok-item dipakai">
