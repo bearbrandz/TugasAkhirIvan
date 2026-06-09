@@ -365,7 +365,8 @@
 
                             <td class="produk-col-golongan">
                                 @php
-                                    $golongan = $d->golongan ?? '-';
+                                    $golonganStr = $d->golongan ?? '-';
+                                    $golonganKey = strtolower(trim($golonganStr));
 
                                     $golMap = [
                                         'bebas'        => 'am-badge-bebas',
@@ -378,11 +379,11 @@
                                         'pkrt'         => 'am-badge-pkrt',
                                     ];
 
-                                    $cls = $golMap[$golongan] ?? 'am-badge-bebas';
+                                    $cls = $golMap[$golonganKey] ?? 'am-badge-bebas';
                                 @endphp
 
                                 <span class="am-badge {{ $cls }}">
-                                    {{ ucfirst($golongan) }}
+                                    {{ ucfirst($golonganStr) }}
                                 </span>
                             </td>
 

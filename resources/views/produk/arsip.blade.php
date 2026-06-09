@@ -92,7 +92,9 @@
                             <td class="produk-col-bentuk">{{ $d->bentuk_sediaan ?? '-' }}</td>
                             <td class="produk-col-golongan">
                                 @php
-                                    $golongan = $d->golongan ?? '-';
+                                    $golonganStr = $d->golongan ?? '-';
+                                    $golonganKey = strtolower(trim($golonganStr));
+
                                     $golMap = [
                                         'bebas'        => 'am-badge-bebas',
                                         'terbatas'     => 'am-badge-terbatas',
@@ -103,9 +105,9 @@
                                         'alkes'        => 'am-badge-alkes',
                                         'pkrt'         => 'am-badge-pkrt',
                                     ];
-                                    $cls = $golMap[$golongan] ?? 'am-badge-bebas';
+                                    $cls = $golMap[$golonganKey] ?? 'am-badge-bebas';
                                 @endphp
-                                <span class="am-badge {{ $cls }}">{{ ucfirst($golongan) }}</span>
+                                <span class="am-badge {{ $cls }}">{{ ucfirst($golonganStr) }}</span>
                             </td>
                             <td class="produk-col-aksi">
                                 <form method="POST" action="{{ route('produks.restore', $d->id) }}" style="display:inline;">
