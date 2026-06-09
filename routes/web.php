@@ -30,6 +30,119 @@ use App\Http\Middleware\IsAdminOrApoteker;
 |--------------------------------------------------------------------------
 */
 
+use Illuminate\Support\Facades\DB;
+
+Route::get('/fix-live-db', function () {
+    // 1. Hapus Duplikat notajuals_has_racikans
+    $allNjr = DB::table('notajuals_has_racikans')->orderBy('created_at', 'asc')->get();
+    $seen = [];
+    $deleted = 0;
+    foreach ($allNjr as $record) {
+        if (in_array($record->racikans_id, $seen)) {
+            DB::table('notajuals_has_racikans')
+                ->where('notajuals_id', $record->notajuals_id)
+                ->where('racikans_id', $record->racikans_id)
+                ->delete();
+            $deleted++;
+        } else {
+            $seen[] = $record->racikans_id;
+        }
+    }
+
+    // 2. Hapus notajuals yang tidak punya relasi
+    $orphans = DB::table('notajuals')
+        ->leftJoin('notajuals_has_produks', 'notajuals.id', '=', 'notajuals_has_produks.notajuals_id')
+        ->leftJoin('notajuals_has_racikans', 'notajuals.id', '=', 'notajuals_has_racikans.notajuals_id')
+        ->whereNull('notajuals_has_produks.notajuals_id')
+        ->whereNull('notajuals_has_racikans.notajuals_id')
+        ->pluck('notajuals.id');
+    if ($orphans->count() > 0) {
+        DB::table('notajuals')->whereIn('id', $orphans)->delete();
+    }
+
+    // 3. Tambah Racikan "Daniel Budianto" jika belum ada
+    $exists = DB::table('racikans')->where('nama_pasien', 'Daniel Budianto')->exists();
+    if (!$exists) {
+        $racikanId = DB::table('racikans')->insertGetId([
+            'nama' => 'Racikan Penurun Panas',
+            'deskripsi' => 'Serbuk/Puyer',
+            'aturan_pakai' => '3 x 1 Pcs',
+            'nama_pasien' => 'Daniel Budianto',
+            'nama_dokter' => 'dr. Budi',
+            'biaya_embalase' => 5000,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $notajualId = DB::table('notajuals')->insertGetId([
+            'pegawai_id' => 1,
+            'total_bayar' => 10000,
+            'nominal_bayar' => 10000,
+            'kembalian' => 0,
+            'metode_bayar' => 'tunai',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('notajuals_has_racikans')->insert([
+            'notajuals_id' => $notajualId,
+            'racikans_id' => $racikanId,
+            'quantity' => 1,
+            'subtotal' => 10000,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('racikanproduks')->insert([
+            'racikans_id' => $racikanId,
+            'produks_id' => 44,
+            'quantity' => 5,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
+
+    // 4. Sinkronisasi Stok Semua Produk
+    $produks = \App\Models\Produk::all();
+    $adjusted = 0;
+    foreach ($produks as $p) {
+        $beli = DB::table('notabelis_has_produks')
+            ->join('produkbatches', 'notabelis_has_produks.produkbatches_id', '=', 'produkbatches.id')
+            ->where('produkbatches.produks_id', $p->id)
+            ->sum('notabelis_has_produks.quantity');
+            
+        $jual = DB::table('notajuals_has_produks')
+            ->join('produkbatches', 'notajuals_has_produks.produkbatches_id', '=', 'produkbatches.id')
+            ->where('produkbatches.produks_id', $p->id)
+            ->sum('notajuals_has_produks.quantity');
+            
+        $jual_racikan = DB::table('notajuals_has_racikans')
+            ->join('racikanproduks', 'notajuals_has_racikans.racikans_id', '=', 'racikanproduks.racikans_id')
+            ->where('racikanproduks.produks_id', $p->id)
+            ->sum(DB::raw('notajuals_has_racikans.quantity * racikanproduks.quantity'));
+            
+        $retur = DB::table('retur_pembelian_items')
+            ->join('produkbatches', 'retur_pembelian_items.produkbatches_id', '=', 'produkbatches.id')
+            ->where('produkbatches.produks_id', $p->id)
+            ->sum('retur_pembelian_items.quantity');
+            
+        $expected_stok = $beli - $jual - $jual_racikan - $retur;
+        
+        $batches = \App\Models\Produkbatches::where('produks_id', $p->id)->orderBy('id', 'desc')->get();
+        $current_stok = $batches->sum('stok');
+        
+        if ($expected_stok != $current_stok && $batches->count() > 0) {
+            $diff = $current_stok - $expected_stok;
+            $batch = $batches->first();
+            $batch->stok = $batch->stok - $diff;
+            $batch->save();
+            $adjusted++;
+        }
+    }
+
+    return "Database live berhasil diperbaiki! Dihapus {$deleted} duplikat nota racikan, dan disinkronkan stok untuk {$adjusted} produk.";
+});
+
 Route::get('/', function () {
     return redirect()->route('login');
 })->name('welcome');
