@@ -21,6 +21,9 @@
             border-radius: 16px;
             height: 100%;
             transition: 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
         }
 
         .sales-product-card:hover {
