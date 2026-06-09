@@ -143,6 +143,49 @@ Route::get('/fix-live-db', function () {
     return "Database live berhasil diperbaiki! Dihapus {$deleted} duplikat nota racikan, dan disinkronkan stok untuk {$adjusted} produk.";
 });
 
+Route::get('/fix-sella', function () {
+    // Cari semua produk dengan nama "Sella Tongkat Kaki Empat (Quad Cane)"
+    // Kita panggil yang ID-nya paling kecil sebagai produk "Utama", sisanya "Duplikat"
+    $produks = DB::table('produks')
+        ->where('nama', 'LIKE', '%Sella Tongkat Kaki Empat (Quad Cane)%')
+        ->orderBy('id', 'asc')
+        ->get();
+
+    if ($produks->count() <= 1) {
+        return "Tidak ditemukan produk duplikat untuk digabungkan.";
+    }
+
+    $mainProduct = $produks->first();
+    $duplicates = $produks->slice(1);
+    
+    $updatedBatches = 0;
+    $updatedRacikans = 0;
+    $deletedProducts = 0;
+
+    foreach ($duplicates as $dup) {
+        // 1. Pindahkan semua stok (produkbatches) dari produk duplikat ke produk utama
+        $updatedBatches += DB::table('produkbatches')
+            ->where('produks_id', $dup->id)
+            ->update(['produks_id' => $mainProduct->id]);
+
+        // 2. Pindahkan referensi di racikan (jika produk ini pernah dipakai meracik)
+        $updatedRacikans += DB::table('racikanproduks')
+            ->where('produks_id', $dup->id)
+            ->update(['produks_id' => $mainProduct->id]);
+
+        // 3. Hapus produk duplikat
+        // Karena notabelis_has_produks dan notajuals_has_produks terhubung ke produkbatches (bukan produks),
+        // maka setelah produkbatches dipindah, kita bisa dengan aman menghapus produk duplikatnya.
+        DB::table('produks')->where('id', $dup->id)->delete();
+        $deletedProducts++;
+    }
+
+    // Ubah golongan produk utama menjadi "Alkes" sesuai gambar, jika sebelumnya "Bebas"
+    DB::table('produks')->where('id', $mainProduct->id)->update(['golongan' => 'Alkes']);
+
+    return "Sukses! $updatedBatches batch stok dan $updatedRacikans bahan racikan telah dipindah ke produk Utama (ID: {$mainProduct->id}). $deletedProducts produk duplikat berhasil dihapus.";
+});
+
 Route::get('/', function () {
     return redirect()->route('login');
 })->name('welcome');
