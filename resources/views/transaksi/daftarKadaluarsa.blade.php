@@ -68,7 +68,7 @@
                         <td>{{ $d->stok ?? '-' }}</td>
                         <td>{{ $d->nama_satuan ?? '-' }}</td>
                         <td>
-                            Rp {{ number_format($d->hpp_produk ?? $d->unitprice ?? 0, 0, ',', '.') }}
+                            Rp {{ number_format($d->hpp ?? $d->unitprice ?? 0, 0, ',', '.') }}
                         </td>
                         <td>RP {{ number_format($d->total_harga ?? 0, 0, ',', '.') }}</td>
                         <td>{{ $d->tgl_kadaluarsa }}</td>

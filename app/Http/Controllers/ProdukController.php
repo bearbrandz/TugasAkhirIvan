@@ -1031,49 +1031,12 @@ class ProdukController extends Controller
         return view('transaksi.printPenerimaan', compact('data'));
     }
 
-    private function kadaluarsaQuery()
-    {
-        return Produk::query()
-            ->join('produkbatches', 'produkbatches.produks_id', '=', 'produks.id')
-            ->join('satuans', 'produkbatches.satuans_id', '=', 'satuans.id')
-            ->select(
-                'produks.id as produk_id',
-                'produks.nama as nama_produk',
-                'satuans.nama as nama_satuan',
-                'produkbatches.id as batch_id',
-                'produkbatches.tgl_kadaluarsa'
-            )
-            ->selectRaw('SUM(produkbatches.stok) as stok')
-            ->selectRaw('
-            (SUM(produkbatches.unitprice * produkbatches.stok) / NULLIF(SUM(produkbatches.stok),0))
-            * (1 + (produks.sellingprice/100)) as hpp
-        ')
-            ->selectRaw('
-            (
-                (SUM(produkbatches.unitprice * produkbatches.stok) / NULLIF(SUM(produkbatches.stok),0))
-                * (1 + (produks.sellingprice/100))
-            ) * SUM(produkbatches.stok) as total_harga
-        ')
-            ->where('produkbatches.tgl_kadaluarsa', '<', now())
-            ->groupBy(
-                'produkbatches.id',
-                'produks.id',
-                'produks.nama',
-                'satuans.nama',
-                'produkbatches.tgl_kadaluarsa',
-                'produks.sellingprice'
-            );
-    }
-
-        public function daftarKadaluarsa(Request $request)
+    private function kadaluarsaQuery($filter)
     {
         $today = \Carbon\Carbon::today();
-        $filter = $request->get('filter', 'year');
 
-        // Tentukan batas tanggal kadaluarsa berdasarkan filter
         switch ($filter) {
             case 'expired':
-                // Sudah kadaluarsa (sebelum hari ini)
                 $batasKadaluarsa = $today->copy()->subDay();
                 $sudahKadaluarsa = true;
                 break;
@@ -1091,37 +1054,101 @@ class ProdukController extends Controller
                 break;
             case 'year':
             default:
+                // Default to end of year if no valid filter provided
                 $batasKadaluarsa = $today->copy()->endOfYear();
                 $sudahKadaluarsa = false;
                 break;
         }
 
         $query = \DB::table('produkbatches')
+            ->join('produks', 'produkbatches.produks_id', '=', 'produks.id')
+            ->leftJoin('satuans', 'produkbatches.satuans_id', '=', 'satuans.id')
             ->select(
                 'produkbatches.*',
                 'produkbatches.id as batch_id',
+                'produks.id as produk_id',
                 'produks.nama as nama_produk',
-                'gudangs.lokasi as nama_gudang',
-                'distributors.nama as nama_distributor',
                 'satuans.nama as nama_satuan',
-                \DB::raw('COALESCE(NULLIF(produkbatches.hpp_avg_per_unit, 0), produkbatches.unitprice, 0) as hpp_produk'),
+                \DB::raw('COALESCE(NULLIF(produkbatches.hpp_avg_per_unit, 0), produkbatches.unitprice, 0) as hpp'),
                 \DB::raw('(produkbatches.stok * COALESCE(NULLIF(produkbatches.hpp_avg_per_unit, 0), produkbatches.unitprice, 0)) as total_harga')
             )
-            ->join('produks', 'produkbatches.produks_id', '=', 'produks.id')
-            ->leftJoin('gudangs', 'produkbatches.gudangs_id', '=', 'gudangs.id')
-            ->leftJoin('distributors', 'produkbatches.distributors_id', '=', 'distributors.id')
-            ->leftJoin('satuans', 'produkbatches.satuans_id', '=', 'satuans.id')
             ->whereNotNull('produkbatches.tgl_kadaluarsa');
 
-        // Untuk filter "sudah kadaluarsa", tampilkan yang expired terlepas dari stok
         if (isset($sudahKadaluarsa) && $sudahKadaluarsa) {
             $query->whereDate('produkbatches.tgl_kadaluarsa', '<', $today->toDateString());
         } else {
-            // Untuk yang belum kadaluarsa, tampilkan yang masih ada stok dan akan expired
             $query->where('produkbatches.stok', '>', 0)
                   ->whereDate('produkbatches.tgl_kadaluarsa', '<=', $batasKadaluarsa->toDateString());
-
         }
+
+        // Default sort behavior
+        $query->orderBy('produkbatches.tgl_kadaluarsa', 'asc');
+
+        return $query;
+    }
+
+    public function reportKadaluarsa(Request $request)
+    {
+        $filter = $request->get('filter', 'year'); // Default changed to year
+
+        $query = $this->kadaluarsaQuery($filter);
+        $expires = $query->get();
+        $total = $expires->sum('total_harga');
+
+        return view('transaksi.reportKadaluarsa', compact('expires', 'total', 'filter'));
+    }
+
+    public function reportCsvKadaluarsa(Request $request)
+    {
+        $filter = $request->get('filter', 'year');
+
+        $query = $this->kadaluarsaQuery($filter);
+        $expires = $query->get();
+
+        $headers = [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="laporan_kadaluarsa.csv"',
+        ];
+
+        $callback = function () use ($expires) {
+            $file = fopen('php://output', 'w');
+            fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
+
+            fputcsv($file, [
+                'Batch ID',
+                'ID Produk',
+                'Nama Produk',
+                'Stok',
+                'Satuan',
+                'HPP',
+                'Total Harga',
+                'Tanggal Kadaluarsa'
+            ], ',');
+
+            foreach ($expires as $expire) {
+                fputcsv($file, [
+                    $expire->batch_id,
+                    $expire->produk_id,
+                    $expire->nama_produk,
+                    $expire->stok,
+                    $expire->nama_satuan,
+                    number_format($expire->hpp, 0, '.', ','),
+                    number_format($expire->total_harga, 0, '.', ','),
+                    $expire->tgl_kadaluarsa
+                ], ',');
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    public function daftarKadaluarsa(Request $request)
+    {
+        $today = \Carbon\Carbon::today();
+        $filter = $request->get('filter', 'year');
+
+        $query = $this->kadaluarsaQuery($filter);
 
         if ($search = $request->get('search')) {
             $query->where(function ($q) use ($search) {
@@ -1162,7 +1189,7 @@ class ProdukController extends Controller
                 break;
 
             case 'hpp_produk':
-                $query->orderBy('hpp_produk', $sortOrder);
+                $query->orderBy('hpp', $sortOrder);
                 break;
 
             case 'total_harga':
@@ -1186,121 +1213,13 @@ class ProdukController extends Controller
             'sortOrder' => $sortOrder,
             'search' => $search,
             'today' => $today,
-            'batasKadaluarsa' => $batasKadaluarsa,
             'filter' => $filter,
         ]);
     }
 
-    public function reportKadaluarsa(Request $request)
-    {
-        $filter = $request->get('filter', 'day');
-
-        $query = $this->kadaluarsaQuery();
-
-        switch ($filter) {
-            case 'week':
-                $query->whereBetween('produkbatches.tgl_kadaluarsa', [
-                    now()->startOfWeek(),
-                    now()->endOfWeek()
-                ]);
-                break;
-
-            case 'month':
-                $query->whereYear('produkbatches.tgl_kadaluarsa', now()->year)
-                    ->whereMonth('produkbatches.tgl_kadaluarsa', now()->month);
-                break;
-
-            case 'year':
-                $query->whereYear('produkbatches.tgl_kadaluarsa', now()->year);
-                break;
-
-            case 'day':
-            default:
-                $query->whereDate('produkbatches.tgl_kadaluarsa', now());
-        }
-
-        $expires = $query->get();
-
-        $total = $expires->sum('total_harga');
-
-        return view('transaksi.reportKadaluarsa', compact('expires', 'total', 'filter'));
-    }
-
-    public function reportCsvKadaluarsa(Request $request)
-    {
-        $filter = $request->get('filter', 'day');
-
-        $query = $this->kadaluarsaQuery();
-
-        switch ($filter) {
-            case 'week':
-                $query->whereBetween('produkbatches.tgl_kadaluarsa', [
-                    now()->startOfWeek(),
-                    now()->endOfWeek()
-                ]);
-                break;
-
-            case 'month':
-                $query->whereYear('produkbatches.tgl_kadaluarsa', now()->year)
-                    ->whereMonth('produkbatches.tgl_kadaluarsa', now()->month);
-                break;
-
-            case 'year':
-                $query->whereYear('produkbatches.tgl_kadaluarsa', now()->year);
-                break;
-
-            case 'day':
-            default:
-                $query->whereDate('produkbatches.tgl_kadaluarsa', now());
-        }
-
-        $expires = $query->get();
-
-        $headers = [
-            'Content-Type' => 'text/csv; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="laporan_kadaluarsa.csv"',
-        ];
-
-        $callback = function () use ($expires) {
-
-            $file = fopen('php://output', 'w');
-
-            fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
-
-            fputcsv($file, [
-                'Batch ID',
-                'ID Produk',
-                'Nama Produk',
-                'Stok',
-                'Satuan',
-                'HPP',
-                'Total Harga',
-                'Tanggal Kadaluarsa'
-            ], ',');
-
-            foreach ($expires as $expire) {
-
-                fputcsv($file, [
-                    $expire->batch_id,
-                    $expire->produk_id,
-                    $expire->nama_produk,
-                    $expire->stok,
-                    $expire->nama_satuan,
-                    number_format($expire->hpp, 0, '.', ','),
-                    number_format($expire->total_harga, 0, '.', ','),
-                    $expire->tgl_kadaluarsa
-                ], ',');
-            }
-
-            fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
-    }
-
     public function printKadaluarsa($id)
     {
-        $nota = $this->kadaluarsaQuery()
+        $nota = $this->kadaluarsaQuery(null) // Or specific filter if needed
             ->where('produkbatches.id', $id)
             ->firstOrFail();
 
