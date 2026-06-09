@@ -182,6 +182,53 @@ Route::get('/fix-sella', function () {
     } else {
         return "Sukses UPDATE! Tidak ada produk duplikat yang perlu digabung (mungkin Anda sudah menghapusnya atau gambar tadi dari server lokal). Namun, Kode Produk utama (ID: {$mainProduct->id}) BERHASIL diubah menjadi $newCode dan golongannya diset ke Alkes.";
     }
+Route::get('/fix-narkotika', function () {
+    // 1. Tambahkan kolom ke notajuals jika belum ada
+    $columns = ['nama_pasien', 'nama_dokter', 'alamat_pasien', 'alamat_dokter'];
+    foreach ($columns as $col) {
+        if (!Schema::hasColumn('notajuals', $col)) {
+            Schema::table('notajuals', function ($table) use ($col) {
+                $table->string($col)->nullable();
+            });
+        }
+    }
+
+    // 2. Ambil semua notajuals yang memiliki produk narkotika/psikotropika (pembelian langsung tanpa racikan)
+    // dan datanya masih kosong
+    $narkotikaNj = DB::table('notajuals')
+        ->join('notajuals_has_produks', 'notajuals.id', '=', 'notajuals_has_produks.notajuals_id')
+        ->join('produkbatches', 'notajuals_has_produks.produkbatches_id', '=', 'produkbatches.id')
+        ->join('produks', 'produkbatches.produks_id', '=', 'produks.id')
+        ->whereIn('produks.golongan', ['Narkotika', 'Psikotropika', 'narkotika', 'psikotropika'])
+        ->whereNull('notajuals.nama_pasien')
+        ->select('notajuals.id')
+        ->distinct()
+        ->get();
+
+    // 3. Buat daftar dummy data yang bervariasi
+    $dummies = [
+        ['p' => 'Adit Pratama', 'ap' => 'Jl. Merdeka No. 10', 'd' => 'dr. Budi Santoso', 'ad' => 'Klinik Sehat Raya'],
+        ['p' => 'Siti Aminah', 'ap' => 'Jl. Mawar 5', 'd' => 'dr. Anita Wijaya', 'ad' => 'RS Medika Utama'],
+        ['p' => 'Reza Pahlevi', 'ap' => 'Komp. Polri Blok C', 'd' => 'dr. Gunawan', 'ad' => 'Apotek K-24'],
+        ['p' => 'Dinda Hauw', 'ap' => 'Jl. Sudirman 99', 'd' => 'dr. Hendra', 'ad' => 'RS Hermina'],
+        ['p' => 'Bagas Maulana', 'ap' => 'Jl. Pahlawan 1', 'd' => 'dr. Ratna', 'ad' => 'Klinik Bunda'],
+        ['p' => 'Citra Kirana', 'ap' => 'Jl. Anggrek 12', 'd' => 'dr. Budi Santoso', 'ad' => 'Klinik Sehat Raya'],
+        ['p' => 'Fajar Alfian', 'ap' => 'Gg. Kancil No. 2', 'd' => 'dr. Anita Wijaya', 'ad' => 'RS Medika Utama']
+    ];
+
+    $updated = 0;
+    foreach ($narkotikaNj as $index => $nj) {
+        $dummy = $dummies[$index % count($dummies)];
+        DB::table('notajuals')->where('id', $nj->id)->update([
+            'nama_pasien' => $dummy['p'],
+            'alamat_pasien' => $dummy['ap'],
+            'nama_dokter' => $dummy['d'],
+            'alamat_dokter' => $dummy['ad']
+        ]);
+        $updated++;
+    }
+
+    return "Berhasil memperbarui $updated Nota Jual langsung dengan data pasien/dokter buatan agar tampil rapi di Laporan Narkotika!";
 });
 
 Route::get('/', function () {

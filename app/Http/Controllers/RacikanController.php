@@ -900,10 +900,10 @@ class RacikanController extends Controller
                     )
                 ) AS stok_setelah_transaksi,
     
-                COALESCE(r.nama_pasien, '-') AS nama_pasien,
-                COALESCE(r.alamat_pasien, '-') AS alamat_pasien,
-                COALESCE(r.nama_dokter, '-') AS nama_dokter,
-                COALESCE(r.alamat_dokter, '-') AS alamat_dokter,
+                COALESCE(r.nama_pasien, nj.nama_pasien, '-') AS nama_pasien,
+                COALESCE(r.alamat_pasien, nj.alamat_pasien, '-') AS alamat_pasien,
+                COALESCE(r.nama_dokter, nj.nama_dokter, '-') AS nama_dokter,
+                COALESCE(r.alamat_dokter, nj.alamat_dokter, '-') AS alamat_dokter,
                 DATE(nj.created_at) AS tgl_ambil,
                 u.nama AS nama_pegawai
     
