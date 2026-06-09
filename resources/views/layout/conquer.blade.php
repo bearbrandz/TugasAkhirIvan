@@ -23,9 +23,9 @@
     <!-- Custom CSS -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <!-- Legacy theme overrides for form cards and tables -->
-    <link href="{{ asset('conquer/css/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('conquer/css/custom.css') }}?v={{ time() }}" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset('css/apotek-ui.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/apotek-ui.css') }}?v={{ time() }}">
 
     <style>
     /* Sidebar logo Apotek Medico */
