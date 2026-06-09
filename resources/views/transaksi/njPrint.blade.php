@@ -5,6 +5,33 @@
     <title>Nota Penjualan #{{ $nota->id ?? '-' }}</title>
 
     <style>
+
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #e5e7eb;
+            --border-color: #374151;
+            --th-bg: #1e293b;
+            --th-text: #f8fafc;
+            --stripe-bg: #162033;
+            --muted-text: #9ca3af;
+            --summary-bg: #1e293b;
+            --brand-color: var(--th-text);
+        }
+
+        @media print {
+            :root {
+                --bg-color: var(--th-text);
+                --text-color: var(--text-color);
+                --border-color: #d1d5db;
+                --th-bg: #111827;
+                --th-text: #ffffff;
+                --stripe-bg: #f9fafb;
+                --muted-text: #6b7280;
+                --summary-bg: #f3f4f6;
+                --brand-color: var(--text-color);
+            }
+        }
+
         * {
             box-sizing: border-box;
         }
@@ -12,8 +39,8 @@
         body {
             margin: 0;
             padding: 24px;
-            background: #ffffff;
-            color: #111827;
+            background: var(--bg-color);
+            color: var(--text-color);
             font-family: Arial, sans-serif;
             font-size: 13px;
         }
@@ -34,7 +61,7 @@
             border-radius: 6px;
             padding: 8px 14px;
             background: #ef4444;
-            color: #ffffff;
+            color: var(--th-text);
             font-weight: 700;
             cursor: pointer;
         }
@@ -44,7 +71,7 @@
             justify-content: space-between;
             align-items: flex-start;
             gap: 24px;
-            border-bottom: 2px solid #111827;
+            border-bottom: 2px solid var(--brand-color);
             padding-bottom: 14px;
             margin-bottom: 18px;
         }
@@ -57,7 +84,7 @@
 
         .brand p {
             margin: 4px 0 0;
-            color: #6b7280;
+            color: var(--muted-text);
         }
 
         .nota-title {
@@ -72,7 +99,7 @@
 
         .nota-title p {
             margin: 4px 0 0;
-            color: #4b5563;
+            color: var(--muted-text);
         }
 
         .info-grid {
@@ -83,7 +110,7 @@
         }
 
         .info-box {
-            border: 1px solid #d1d5db;
+            border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 12px;
         }
@@ -99,7 +126,7 @@
 
         .info-label {
             width: 130px;
-            color: #6b7280;
+            color: var(--muted-text);
         }
 
         .info-value {
@@ -113,22 +140,22 @@
         }
 
         th {
-            background: #111827;
-            color: #ffffff;
-            border: 1px solid #111827;
+            background: var(--th-bg);
+            color: var(--th-text);
+            border: 1px solid var(--border-color);
             padding: 9px 8px;
             text-align: left;
             font-size: 12px;
         }
 
         td {
-            border: 1px solid #d1d5db;
+            border: 1px solid var(--border-color);
             padding: 9px 8px;
             vertical-align: top;
         }
 
         tbody tr:nth-child(even) {
-            background: #f9fafb;
+            background: var(--stripe-bg);
         }
 
         .text-right {
@@ -141,7 +168,7 @@
 
         .product-meta {
             display: block;
-            color: #6b7280;
+            color: var(--muted-text);
             font-size: 11px;
             margin-top: 3px;
             line-height: 1.35;
@@ -165,8 +192,8 @@
         .summary-table tr:last-child td {
             font-weight: 800;
             font-size: 15px;
-            border-top: 2px solid #111827;
-            background: #f3f4f6;
+            border-top: 2px solid var(--brand-color);
+            background: var(--summary-bg);
         }
 
         .footer {
