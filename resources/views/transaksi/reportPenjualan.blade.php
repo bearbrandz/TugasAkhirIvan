@@ -4,24 +4,53 @@
     <meta charset="UTF-8">
     <title>Laporan Penjualan - Apotek Medico</title>
     <style>
+
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #e5e7eb;
+            --border-color: #374151;
+            --th-bg: #1e293b;
+            --th-text: #f8fafc;
+            --stripe-bg: #162033;
+            --muted-text: #9ca3af;
+            --summary-bg: #1e293b;
+            --brand-color: #ffffff;
+            --title-color: #e5e7eb;
+        }
+
+        @media print {
+            :root {
+                --bg-color: #ffffff;
+                --text-color: #333333;
+                --border-color: #bdc3c7;
+                --th-bg: #f2f6f8;
+                --th-text: #2c3e50;
+                --stripe-bg: #ffffff;
+                --muted-text: #7f8c8d;
+                --summary-bg: #ecf0f1;
+                --brand-color: var(--title-color);
+                --title-color: var(--title-color);
+            }
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333; background: #fff; padding: 20px; }
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: var(--text-color); background: var(--bg-color); padding: 20px; }
         
         /* HEADER */
-        .print-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #2c3e50; padding-bottom: 15px; margin-bottom: 20px; }
-        .logo-box { color: #2c3e50; padding: 10px 0px; display: inline-block; font-weight: bold; font-size: 24px; }
+        .print-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid var(--brand-color); padding-bottom: 15px; margin-bottom: 20px; }
+        .logo-box { color: var(--title-color); padding: 10px 0px; display: inline-block; font-weight: bold; font-size: 24px; }
         .logo-box span { color: #e74c3c; }
         .print-title { text-align: right; }
-        .print-title h1 { font-size: 24px; color: #2c3e50; margin-bottom: 5px; }
-        .print-title p { font-size: 14px; color: #7f8c8d; }
+        .print-title h1 { font-size: 24px; color: var(--title-color); margin-bottom: 5px; }
+        .print-title p { font-size: 14px; color: var(--muted-text); }
         
         /* TABLE */
         table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px; }
-        th, td { border: 1px solid #bdc3c7; padding: 10px; text-align: left; }
-        th { background-color: #f2f6f8; font-weight: bold; color: #2c3e50; }
+        th, td { border: 1px solid var(--border-color); padding: 10px; text-align: left; }
+        th { background-color: var(--th-bg); font-weight: bold; color: var(--title-color); }
         
         /* FOOTER */
-        .tfoot-total th { background-color: #ecf0f1; font-size: 14px; }
+        .tfoot-total th { background-color: var(--summary-bg); font-size: 14px; }
         .tfoot-total th:last-child { text-align: right; color: #27ae60; }
         td:last-child { text-align: right; }
         
@@ -34,7 +63,7 @@
         
         @media print {
             .no-print, .actions { display: none !important; }
-            body { padding: 0; background: #fff; }
+            body { padding: 0; background: var(--bg-color); }
             @page { margin: 1.5cm; }
         }
     </style>

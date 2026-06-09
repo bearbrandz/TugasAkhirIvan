@@ -20,6 +20,8 @@
 
             body {
                 overflow: visible !important;
+                background: white !important;
+                color: black !important;
             }
 
             button {
