@@ -98,7 +98,7 @@ class RacikanController extends Controller
         }
 
         $sortBy = $request->get('sort_by', 'notajuals_id');
-        $sortOrder = $request->get('sort_order', 'asc');
+        $sortOrder = $request->get('sort_order', 'desc');
 
         switch ($sortBy) {
             case 'nama_racikan':
@@ -164,7 +164,7 @@ class RacikanController extends Controller
         }
 
         $sortBy = $request->get('sort_by', 'racikanproduks.racikans_id');
-        $sortOrder = $request->get('sort_order', 'asc');
+        $sortOrder = $request->get('sort_order', 'desc');
 
         switch ($sortBy) {
             case 'id_racikan':
@@ -945,7 +945,7 @@ class RacikanController extends Controller
         }
 
         $sortBy = $request->get('sort_by', 'batch_id');
-        $sortOrder = $request->get('sort_order', 'asc');
+        $sortOrder = $request->get('sort_order', 'desc');
 
         // Kolom menggunakan alias dari derived table narkotikaQuery
         switch ($sortBy) {

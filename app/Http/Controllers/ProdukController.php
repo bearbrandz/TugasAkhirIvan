@@ -26,7 +26,7 @@ class ProdukController extends Controller
         return view('produk.index', [
             'datas' => $produks,
             'sortBy' => $request->get('sort_by', 'nama'),
-            'sortOrder' => $request->get('sort_order', 'asc'),
+            'sortOrder' => $request->get('sort_order', 'desc'),
             'search' => $request->get('search')
         ]);
     }
@@ -129,7 +129,7 @@ class ProdukController extends Controller
         $data->final_price = round($basePrice * (1 + ((float) $data->sellingprice / 100)), 0);
 
         $sortBy = $request->get('sort_by', 'nama');
-        $sortOrder = $request->get('sort_order', 'asc');
+        $sortOrder = $request->get('sort_order', 'desc');
         $search = $request->get('search');
 
         $query = Produkbatches::with(['produks', 'satuan', 'distributor', 'gudang', 'notaBeliProduks', 'terimaBatches'])
@@ -195,7 +195,7 @@ class ProdukController extends Controller
     private function getFilteredProduk(Request $request)
     {
         $sortBy = $request->get('sort_by', 'nama');
-        $sortOrder = $request->get('sort_order', 'asc');
+        $sortOrder = $request->get('sort_order', 'desc');
         $search = $request->get('search');
         $golonganFilter = $request->get('golongan');
 
@@ -358,7 +358,7 @@ class ProdukController extends Controller
         return view('welcome', [
             'datas' => $produks,
             'sortBy' => $request->get('sort_by', 'nama'),
-            'sortOrder' => $request->get('sort_order', 'asc'),
+            'sortOrder' => $request->get('sort_order', 'desc'),
             'search' => $request->get('search')
         ]);
     }
@@ -482,7 +482,7 @@ class ProdukController extends Controller
         return view('home', [
             'datas' => $produks,
             'sortBy' => $request->get('sort_by', 'nama'),
-            'sortOrder' => $request->get('sort_order', 'asc'),
+            'sortOrder' => $request->get('sort_order', 'desc'),
             'search' => $request->get('search'),
             'chartLabelsSales' => $chartLabelsSales,
             'chartDataSales' => $chartDataSales,
@@ -1138,7 +1138,7 @@ class ProdukController extends Controller
         }
 
         $sortBy = $request->get('sort_by', 'tgl_kadaluarsa');
-        $sortOrder = $request->get('sort_order', 'asc');
+        $sortOrder = $request->get('sort_order', 'desc');
 
         switch ($sortBy) {
             case 'id_batch':

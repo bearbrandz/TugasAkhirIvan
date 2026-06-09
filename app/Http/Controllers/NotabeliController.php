@@ -164,7 +164,7 @@ class NotabeliController extends Controller
         }
 
         $sortBy = $request->get('sort_by', 'notabelis_id');
-        $sortOrder = $request->get('sort_order', 'asc');
+        $sortOrder = $request->get('sort_order', 'desc');
 
         if (!in_array(strtolower($sortOrder), ['asc', 'desc'])) {
             $sortOrder = 'asc';

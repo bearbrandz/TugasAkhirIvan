@@ -19,7 +19,7 @@ class UserController extends Controller
             abort(403, 'Unauthorized action.');
         }
         $sortBy = $request->get('sort_by', 'nama');  // Default to 'nama'
-        $sortOrder = $request->get('sort_order', 'asc');  // Default to ascending
+        $sortOrder = $request->get('sort_order', 'desc');  // Default to ascending
         $search = $request->get('search');              // Search query
 
         $query = User::query();
@@ -49,7 +49,7 @@ class UserController extends Controller
     public function detail(Request $request)
     {
         $sortBy = $request->get('sort_by', 'nama');  // Default to 'nama'
-        $sortOrder = $request->get('sort_order', 'asc');  // Default to ascending
+        $sortOrder = $request->get('sort_order', 'desc');  // Default to ascending
         $search = $request->get('search');              // Search query
 
         $query = User::query();
