@@ -182,6 +182,8 @@ Route::get('/fix-sella', function () {
     } else {
         return "Sukses UPDATE! Tidak ada produk duplikat yang perlu digabung (mungkin Anda sudah menghapusnya atau gambar tadi dari server lokal). Namun, Kode Produk utama (ID: {$mainProduct->id}) BERHASIL diubah menjadi $newCode dan golongannya diset ke Alkes.";
     }
+});
+
 Route::get('/fix-narkotika', function () {
     // 1. Tambahkan kolom ke notajuals jika belum ada
     $columns = ['nama_pasien', 'nama_dokter', 'alamat_pasien', 'alamat_dokter'];
