@@ -6,31 +6,16 @@
     <style>
 
         :root {
-            --bg-color: #0f172a;
-            --text-color: #e5e7eb;
-            --border-color: #374151;
-            --th-bg: #1e293b;
-            --th-text: #f8fafc;
-            --stripe-bg: #162033;
-            --muted-text: #9ca3af;
-            --summary-bg: #1e293b;
-            --brand-color: #ffffff;
-            --title-color: #e5e7eb;
-        }
-
-        @media print {
-            :root {
-                --bg-color: #ffffff;
-                --text-color: #333333;
-                --border-color: #bdc3c7;
-                --th-bg: #f2f6f8;
-                --th-text: #2c3e50;
-                --stripe-bg: #ffffff;
-                --muted-text: #7f8c8d;
-                --summary-bg: #ecf0f1;
-                --brand-color: var(--title-color);
-                --title-color: var(--title-color);
-            }
+            --bg-color: #ffffff;
+            --text-color: #111827;
+            --border-color: #d1d5db;
+            --th-bg: #f9fafb;
+            --th-text: #111827;
+            --stripe-bg: #f9fafb;
+            --muted-text: #6b7280;
+            --summary-bg: #f3f4f6;
+            --brand-color: #111827;
+            --title-color: #111827;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
