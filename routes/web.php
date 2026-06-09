@@ -144,16 +144,14 @@ Route::get('/fix-live-db', function () {
 });
 
 Route::get('/fix-sella', function () {
-    // Kita gunakan '%Sella%' dan '%Tongkat%' agar tidak terpengaruh spasi ganda atau typo kecil
     $produks = DB::table('produks')
         ->where('nama', 'LIKE', '%Sella%')
         ->where('nama', 'LIKE', '%Tongkat%')
         ->orderBy('id', 'asc')
         ->get();
 
-    if ($produks->count() <= 1) {
-        $debugNames = $produks->pluck('nama')->implode(', ');
-        return "Gagal: Hanya ditemukan " . $produks->count() . " produk Sella Tongkat. (Yang Ditemukan: $debugNames). Pastikan Anda tidak menghapusnya secara manual sebelumnya.";
+    if ($produks->isEmpty()) {
+        return "Gagal: Tidak ada produk Sella Tongkat yang ditemukan di database.";
     }
 
     $mainProduct = $produks->first();
@@ -163,11 +161,13 @@ Route::get('/fix-sella', function () {
     $updatedRacikans = 0;
     $deletedProducts = 0;
 
-    foreach ($duplicates as $dup) {
-        $updatedBatches += DB::table('produkbatches')->where('produks_id', $dup->id)->update(['produks_id' => $mainProduct->id]);
-        $updatedRacikans += DB::table('racikanproduks')->where('produks_id', $dup->id)->update(['produks_id' => $mainProduct->id]);
-        DB::table('produks')->where('id', $dup->id)->delete();
-        $deletedProducts++;
+    if ($duplicates->count() > 0) {
+        foreach ($duplicates as $dup) {
+            $updatedBatches += DB::table('produkbatches')->where('produks_id', $dup->id)->update(['produks_id' => $mainProduct->id]);
+            $updatedRacikans += DB::table('racikanproduks')->where('produks_id', $dup->id)->update(['produks_id' => $mainProduct->id]);
+            DB::table('produks')->where('id', $dup->id)->delete();
+            $deletedProducts++;
+        }
     }
 
     $newCode = \App\Models\Produk::generateKodeProduk('alkes');
@@ -177,7 +177,11 @@ Route::get('/fix-sella', function () {
         'kode_produk' => $newCode
     ]);
 
-    return "Sukses! $updatedBatches batch stok dan $updatedRacikans bahan racikan telah dipindah ke produk Utama (ID: {$mainProduct->id}). $deletedProducts produk duplikat berhasil dihapus. Kode Produk utama diubah menjadi $newCode.";
+    if ($duplicates->count() > 0) {
+        return "Sukses MERGE & UPDATE! $updatedBatches batch stok telah dipindah ke produk Utama (ID: {$mainProduct->id}). $deletedProducts produk duplikat dihapus. Kode Produk utama diubah menjadi $newCode.";
+    } else {
+        return "Sukses UPDATE! Tidak ada produk duplikat yang perlu digabung (mungkin Anda sudah menghapusnya atau gambar tadi dari server lokal). Namun, Kode Produk utama (ID: {$mainProduct->id}) BERHASIL diubah menjadi $newCode dan golongannya diset ke Alkes.";
+    }
 });
 
 Route::get('/', function () {
