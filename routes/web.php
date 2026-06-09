@@ -144,17 +144,40 @@ Route::get('/fix-live-db', function () {
 });
 
 Route::get('/fix-sella', function () {
+    // Kita gunakan '%Sella%' dan '%Tongkat%' agar tidak terpengaruh spasi ganda atau typo kecil
     $produks = DB::table('produks')
         ->where('nama', 'LIKE', '%Sella%')
+        ->where('nama', 'LIKE', '%Tongkat%')
         ->orderBy('id', 'asc')
         ->get();
 
-    $response = "Debug Daftar Produk Sella:<br><br>";
-    foreach ($produks as $p) {
-        $response .= "ID: {$p->id} | Nama: '{$p->nama}' | Deleted_at: " . ($p->deleted_at ?? 'NULL') . "<br>";
+    if ($produks->count() <= 1) {
+        $debugNames = $produks->pluck('nama')->implode(', ');
+        return "Gagal: Hanya ditemukan " . $produks->count() . " produk Sella Tongkat. (Yang Ditemukan: $debugNames). Pastikan Anda tidak menghapusnya secara manual sebelumnya.";
     }
+
+    $mainProduct = $produks->first();
+    $duplicates = $produks->slice(1);
     
-    return $response;
+    $updatedBatches = 0;
+    $updatedRacikans = 0;
+    $deletedProducts = 0;
+
+    foreach ($duplicates as $dup) {
+        $updatedBatches += DB::table('produkbatches')->where('produks_id', $dup->id)->update(['produks_id' => $mainProduct->id]);
+        $updatedRacikans += DB::table('racikanproduks')->where('produks_id', $dup->id)->update(['produks_id' => $mainProduct->id]);
+        DB::table('produks')->where('id', $dup->id)->delete();
+        $deletedProducts++;
+    }
+
+    $newCode = \App\Models\Produk::generateKodeProduk('alkes');
+    
+    DB::table('produks')->where('id', $mainProduct->id)->update([
+        'golongan' => 'Alkes',
+        'kode_produk' => $newCode
+    ]);
+
+    return "Sukses! $updatedBatches batch stok dan $updatedRacikans bahan racikan telah dipindah ke produk Utama (ID: {$mainProduct->id}). $deletedProducts produk duplikat berhasil dihapus. Kode Produk utama diubah menjadi $newCode.";
 });
 
 Route::get('/', function () {
