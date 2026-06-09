@@ -181,9 +181,15 @@ Route::get('/fix-sella', function () {
     }
 
     // Ubah golongan produk utama menjadi "Alkes" sesuai gambar, jika sebelumnya "Bebas"
-    DB::table('produks')->where('id', $mainProduct->id)->update(['golongan' => 'Alkes']);
+    // Dan buat kode produk baru yang sesuai dengan golongan Alkes (ALK-XXXX)
+    $newCode = \App\Models\Produk::generateKodeProduk('alkes');
+    
+    DB::table('produks')->where('id', $mainProduct->id)->update([
+        'golongan' => 'Alkes',
+        'kode_produk' => $newCode
+    ]);
 
-    return "Sukses! $updatedBatches batch stok dan $updatedRacikans bahan racikan telah dipindah ke produk Utama (ID: {$mainProduct->id}). $deletedProducts produk duplikat berhasil dihapus.";
+    return "Sukses! $updatedBatches batch stok dan $updatedRacikans bahan racikan telah dipindah ke produk Utama (ID: {$mainProduct->id}). $deletedProducts produk duplikat berhasil dihapus. Kode Produk utama berhasil diubah menjadi $newCode.";
 });
 
 Route::get('/', function () {
