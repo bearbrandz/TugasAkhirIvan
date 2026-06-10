@@ -334,6 +334,46 @@ Route::get('/fix-foto-resep', function () {
     return "<h1>GAGAL</h1><p>Tidak ditemukan Racikan #40 atau referensi foto resep lainnya di database.</p>";
 });
 
+Route::get('/fix-nama-resep', function () {
+    $racikans = \App\Models\Racikan::with('racikanproduks.produk')
+        ->where('nama', 'LIKE', '%Resep Susulan%')
+        ->get();
+
+    $updated = 0;
+    foreach ($racikans as $racikan) {
+        $firstProduk = $racikan->racikanproduks->first()?->produk?->nama ?? '';
+        $namaProduk = strtolower($firstProduk);
+        
+        $judulBaru = "Obat Racik Khusus";
+        $deskripsiBaru = "Resep Sinkronisasi";
+
+        if (str_contains($namaProduk, 'codein')) {
+            $judulBaru = "Obat Racik Batuk Parah";
+            $deskripsiBaru = "Obat racik yang dipakai untuk batuk berdahak parah (Sinkronisasi Sistem)";
+        } elseif (str_contains($namaProduk, 'diazepam')) {
+            $judulBaru = "Obat Antidepresan";
+            $deskripsiBaru = "Untuk orang dengan gangguan tidur berat atau depresi (Sinkronisasi Sistem)";
+        } elseif (str_contains($namaProduk, 'luminal') || str_contains($namaProduk, 'phenobarbital')) {
+            $judulBaru = "Puyer Pencegah Kejang";
+            $deskripsiBaru = "Resep racikan ini digunakan untuk mencegah kejang (Sinkronisasi Sistem)";
+        } elseif (str_contains($namaProduk, 'braxidin') || str_contains($namaProduk, 'omeprazole')) {
+            $judulBaru = "Obat Racik Asam Lambung Akut";
+            $deskripsiBaru = "Obat racik untuk mengobati asam lambung akut (Sinkronisasi Sistem)";
+        } elseif ($namaProduk) {
+            $judulBaru = "Obat Racik " . ucwords(strtolower($firstProduk));
+            $deskripsiBaru = "Resep racikan mengandung " . $firstProduk . " (Sinkronisasi Sistem)";
+        }
+
+        $racikan->update([
+            'nama' => $judulBaru,
+            'deskripsi' => $deskripsiBaru
+        ]);
+        $updated++;
+    }
+    
+    return "<h1>BERHASIL!</h1><p>{$updated} data racikan berhasil disesuaikan namanya berdasarkan obat yang ada di dalamnya. Silakan cek Daftar Racikan Anda!</p>";
+});
+
 Route::middleware(['auth'])->group(function () {
 
     /*
