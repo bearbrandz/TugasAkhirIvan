@@ -261,12 +261,12 @@
                 <th class="col-id">
                     <a class="sort-link" href="{{ route('racikans.index', [
                         'sort_by' => 'id',
-                        'sort_order' => ($sortBy ?? 'id') === 'id' && ($sortOrder ?? 'asc') === 'asc' ? 'desc' : 'asc',
+                        'sort_order' => ($sortBy ?? 'id') === 'id' && ($sortOrder ?? 'desc') === 'desc' ? 'asc' : 'desc',
                         'search' => request('search')
                     ]) }}">
                         ID
-                        @if (($sortBy ?? '') === 'id')
-                            {{ ($sortOrder ?? 'asc') === 'asc' ? '▲' : '▼' }}
+                        @if (($sortBy ?? 'id') === 'id')
+                            {{ ($sortOrder ?? 'desc') === 'desc' ? '▼' : '▲' }}
                         @endif
                     </a>
                 </th>
@@ -274,12 +274,12 @@
                 <th class="col-racikan">
                     <a class="sort-link" href="{{ route('racikans.index', [
                         'sort_by' => 'nama',
-                        'sort_order' => ($sortBy ?? '') === 'nama' && ($sortOrder ?? 'asc') === 'asc' ? 'desc' : 'asc',
+                        'sort_order' => ($sortBy ?? '') === 'nama' && ($sortOrder ?? 'desc') === 'desc' ? 'asc' : 'desc',
                         'search' => request('search')
                     ]) }}">
                         Racikan
                         @if (($sortBy ?? '') === 'nama')
-                            {{ ($sortOrder ?? 'asc') === 'asc' ? '▲' : '▼' }}
+                            {{ ($sortOrder ?? 'desc') === 'desc' ? '▼' : '▲' }}
                         @endif
                     </a>
                 </th>

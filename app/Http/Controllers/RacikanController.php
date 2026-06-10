@@ -23,7 +23,7 @@ class RacikanController extends Controller
     {
         $search = $request->input('search');
         $sortBy = $request->input('sort_by', 'id');
-        $sortOrder = $request->input('sort_order', 'asc');
+        $sortOrder = $request->input('sort_order', 'desc');
 
         $allowedSorts = [
             'id',
@@ -40,7 +40,7 @@ class RacikanController extends Controller
         }
 
         if (!in_array(strtolower($sortOrder), ['asc', 'desc'])) {
-            $sortOrder = 'asc';
+            $sortOrder = 'desc';
         }
 
         $query = Racikan::with(['racikanproduks.produk', 'notajualracikans']);
