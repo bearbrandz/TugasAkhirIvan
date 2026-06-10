@@ -233,6 +233,74 @@ Route::get('/fix-narkotika', function () {
     return "Berhasil memperbarui $updated Nota Jual langsung dengan data pasien/dokter buatan agar tampil rapi di Laporan Narkotika!";
 });
 
+Route::get('/fix-narkotika-racikan', function () {
+    // Cari semua notajuals yang ada Narkotika-nya tapi BELUM punya racikan (penjualan langsung masa lalu)
+    $narkotikaLangsung = DB::table('notajuals')
+        ->join('notajuals_has_produks', 'notajuals.id', '=', 'notajuals_has_produks.notajuals_id')
+        ->join('produkbatches', 'notajuals_has_produks.produkbatches_id', '=', 'produkbatches.id')
+        ->join('produks', 'produkbatches.produks_id', '=', 'produks.id')
+        ->leftJoin('notajuals_has_racikans', 'notajuals.id', '=', 'notajuals_has_racikans.notajuals_id')
+        ->whereIn('produks.golongan', ['Narkotika', 'Psikotropika', 'narkotika', 'psikotropika'])
+        ->whereNull('notajuals_has_racikans.racikans_id')
+        ->select(
+            'notajuals.id as nj_id', 
+            'notajuals.nomor_nota', 
+            'notajuals.created_at as tgl_jual',
+            'notajuals.nama_pasien', 
+            'notajuals.nama_dokter', 
+            'notajuals.alamat_pasien', 
+            'notajuals.alamat_dokter',
+            'produks.id as produks_id',
+            'notajuals_has_produks.quantity'
+        )
+        ->get();
+
+    if ($narkotikaLangsung->isEmpty()) {
+        return "Tidak ada data penjualan Narkotika langsung yang perlu dibuatkan Racikannya. Semua sudah tersinkron!";
+    }
+
+    $created = 0;
+    foreach ($narkotikaLangsung as $item) {
+        // 1. Buat dokumen Racikan secara fisik
+        $racikanId = DB::table('racikans')->insertGetId([
+            'nama' => "Resep Susulan " . $item->nomor_nota,
+            'deskripsi' => "Digenerate otomatis untuk sinkronisasi riwayat Narkotika",
+            'aturan_pakai' => "Sesuai petunjuk dokter",
+            'biaya_embalase' => 0,
+            'nama_pasien' => $item->nama_pasien ?? 'Pasien Narkotika',
+            'alamat_pasien' => $item->alamat_pasien ?? '-',
+            'nama_dokter' => $item->nama_dokter ?? 'Dokter Narkotika',
+            'alamat_dokter' => $item->alamat_dokter ?? '-',
+            'tgl_ambil' => date('Y-m-d', strtotime($item->tgl_jual)),
+            'created_at' => $item->tgl_jual,
+            'updated_at' => $item->tgl_jual
+        ]);
+
+        // 2. Masukkan obat ke dalam racikan tersebut
+        DB::table('racikanproduks')->insert([
+            'racikans_id' => $racikanId,
+            'produks_id' => $item->produks_id,
+            'quantity' => 1, // Kuantitas di resep (biasanya 1 tablet per resep atau sesuai racikan, tapi yang mengurangi stok adalah notajuals_has_produks)
+            'created_at' => $item->tgl_jual,
+            'updated_at' => $item->tgl_jual
+        ]);
+
+        // 3. Tautkan Nota Jual ke Racikan ini (Stock tidak berubah karena notajuals_has_produks tidak dihapus, persis seperti behavior checkout normal)
+        DB::table('notajuals_has_racikans')->insert([
+            'notajuals_id' => $item->nj_id,
+            'racikans_id' => $racikanId,
+            'quantity' => $item->quantity,
+            'subtotal' => 0, // Karena harganya sudah dihitung di notajuals_has_produks sebelumnya
+            'created_at' => $item->tgl_jual,
+            'updated_at' => $item->tgl_jual
+        ]);
+
+        $created++;
+    }
+
+    return "Sempurna! $created dokumen Racikan (Resep) telah berhasil diciptakan dan disambungkan ke stok yang ada secara sinkron. Pasien gaib sudah resmi memiliki dokumen!";
+});
+
 Route::get('/', function () {
     return redirect()->route('login');
 })->name('welcome');
