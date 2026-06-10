@@ -313,6 +313,27 @@ Auth::routes(['register' => false]);
 |--------------------------------------------------------------------------
 */
 
+Route::get('/fix-foto-resep', function () {
+    // 1. Ambil foto dari Racikan #40 (atau racikan pertama yang punya foto)
+    $referensi = \App\Models\Racikan::find(40);
+    
+    if (!$referensi || empty($referensi->bukti_resep)) {
+        // Fallback jika ID 40 tidak ada, cari racikan mana saja yang punya foto
+        $referensi = \App\Models\Racikan::whereNotNull('bukti_resep')->first();
+    }
+
+    if ($referensi && !empty($referensi->bukti_resep)) {
+        // 2. Copy alamat fotonya ke semua Racikan yang namanya mengandung "Resep Susulan"
+        $jumlahUpdate = \App\Models\Racikan::where('nama', 'LIKE', '%Resep Susulan%')
+            ->whereNull('bukti_resep')
+            ->update(['bukti_resep' => $referensi->bukti_resep]);
+
+        return "<h1>BERHASIL!</h1><p>{$jumlahUpdate} data Resep Susulan berhasil disalin alamat fotonya dari Racikan #{$referensi->id}. Silakan refresh halaman Daftar Racikan Anda.</p>";
+    }
+
+    return "<h1>GAGAL</h1><p>Tidak ditemukan Racikan #40 atau referensi foto resep lainnya di database.</p>";
+});
+
 Route::middleware(['auth'])->group(function () {
 
     /*
