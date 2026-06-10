@@ -1,8 +1,11 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use App\Models\Profilapotek;
 use App\Models\User;
 use Illuminate\Http\Request;
+
 class ProfilapotekController extends Controller
 {
     /**
@@ -11,8 +14,11 @@ class ProfilapotekController extends Controller
     public function index()
     {
         $profils = Profilapotek::first();
+        
+        // dd($profils);
         return view('profil.index', ['profil' => $profils]);
     }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -22,6 +28,7 @@ class ProfilapotekController extends Controller
         $users = User::all();
         return view('profil.create', ['profils' => $profils, 'user' => $users]);
     }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -35,7 +42,7 @@ class ProfilapotekController extends Controller
             'deskripsi' => 'required',
             'jam_operasional' => 'required',
             'pemilik_id' => 'required',
-        ]); 
+        ]); //ini memberitahu bahwa kolom name itu perlu, agar tidak null
         $data = new Profilapotek();
         $data->nama = $request->get('nama');
         $data->alamat = $request->get('alamat');
@@ -45,14 +52,19 @@ class ProfilapotekController extends Controller
         $data->jam_operasional = $request->get('jam_operasional');
         $data->pemilik_id = $request->pemilik_id;
         $data->save();
+
+        // Type::create($request->all());
         return redirect('profilapoteks')->with('status', 'The new data has been inserted');
     }
+
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
+        //
     }
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -62,6 +74,7 @@ class ProfilapotekController extends Controller
         $users = User::all();
         return view('profil.edit', ['profils' => $profils, 'user' => $users]);
     }
+
     /**
      * Update the specified resource in storage.
      */
@@ -76,18 +89,22 @@ class ProfilapotekController extends Controller
         $data->jam_operasional = $request->get('jam_operasional');
         $data->pemilik_id = $request->pemilik_id;
         $data->save();
+
         return redirect('profilapoteks')->with('status', 'Profil telah diperbarui');
     }
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
         try {
+            //if no contraint error, then delete data. Redirect to index after it.
             $deletedData = Profilapotek::find($id);
             $deletedData->delete();
             return redirect('profilapoteks')->with('status', 'Horray ! Your data is successfully deleted !');
         } catch (\PDOException $ex) {
+            // Failed to delete data, then show exception message
             $msg = "Failed to delete data ! Make sure there is no related data before deleting it";
             return redirect('profilapoteks')->with('status', $msg);
         }
