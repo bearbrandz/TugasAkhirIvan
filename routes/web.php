@@ -575,6 +575,8 @@ Route::middleware(['auth', IsAdminOrApoteker::class])->group(function () {
     |--------------------------------------------------------------------------
     | MASTER DATA
     |--------------------------------------------------------------------------
+    */
+    
     Route::get('/distributors/arsip', [DistributorController::class, 'arsip'])->name('distributors.arsip');
     Route::post('/distributors/restore/{id}', [DistributorController::class, 'restore'])->name('distributors.restore');
     Route::delete('/distributors/force-delete/{id}', [DistributorController::class, 'forceDelete'])->name('distributors.force-delete');
