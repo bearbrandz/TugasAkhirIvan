@@ -171,7 +171,6 @@
                                 <span class="menu-arrow"><i class="fas fa-chevron-right"></i></span>
                             </a>
                             <ul class="submenu">
-                                <li><a href="{{ route('registerUser') }}" class="{{ Request::is('register') ? 'active' : '' }}"><i class="fas fa-user-plus"></i> Daftar User Baru</a></li>
                                 <li><a href="{{ route('user') }}" class="{{ Request::is('user*') ? 'active' : '' }}"><i class="fas fa-users"></i> Daftar Karyawan</a></li>
                             </ul>
                         </li>
