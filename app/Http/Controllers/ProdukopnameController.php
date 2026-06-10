@@ -292,7 +292,8 @@ class ProdukopnameController extends Controller
                 }
             })
             ->whereNotNull('produks_id')
-            ->where('status', 'tersedia');
+            ->where('status', 'tersedia')
+            ->where('stok', '>', 0); // Sembunyikan stok 0 sesuai permintaan
     
         if (\Schema::hasColumn('produkbatches', 'deleted_at')) {
             $batchs->whereNull('deleted_at');
@@ -374,7 +375,8 @@ class ProdukopnameController extends Controller
             ->whereNotNull('produks_id')
             ->where(function ($q) use ($data) {
                 $q->where('status', 'tersedia')
-                    ->orWhere('id', $data->produkbatches_id);
+                  ->where('stok', '>', 0) // Sembunyikan stok 0
+                  ->orWhere('id', $data->produkbatches_id); // Tetap tampilkan batch yang sedang diedit
             });
     
         if (\Schema::hasColumn('produkbatches', 'deleted_at')) {
