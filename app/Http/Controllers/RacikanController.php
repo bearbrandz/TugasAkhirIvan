@@ -43,7 +43,7 @@ class RacikanController extends Controller
             $sortOrder = 'asc';
         }
 
-        $query = Racikan::with(['racikanproduks.produk']);
+        $query = Racikan::with(['racikanproduks.produk', 'notajualracikans']);
 
         if ($search) {
             $query->where(function ($q) use ($search) {

@@ -303,7 +303,8 @@
                     });
 
                     $adaResep = !empty($d->bukti_resep);
-                    $bolehJual = !$butuhResep || $adaResep;
+                    $sudahTerjual = $d->notajualracikans->count() > 0;
+                    $bolehJual = (!$butuhResep || $adaResep) && !$sudahTerjual;
                 @endphp
 
                 <tr>
@@ -439,9 +440,11 @@
                                 <span class="racikan-badge badge-resep-wajib">
                                     Wajib
                                 </span>
-                                <span class="cell-sub">
-                                    Upload lewat Edit
-                                </span>
+                                @if(!$sudahTerjual)
+                                    <span class="cell-sub">
+                                        Upload lewat Edit
+                                    </span>
+                                @endif
                             @else
                                 <span class="racikan-badge badge-resep-kosong">
                                     Opsional
@@ -452,42 +455,50 @@
 
                     <td class="col-aksi">
                         <div class="racikan-action">
-                            @if($bolehJual)
-                                <a
-                                    href="{{ route('racikans.checkout', $d->id) }}"
-                                    class="btn btn-success btn-sm"
-                                >
-                                    Bayar / Jual
-                                </a>
+                            @if($sudahTerjual)
+                                <span class="racikan-badge badge-resep-ada text-center mb-1" style="width: 100%; display:block;">
+                                    <i class="fa fa-check-circle"></i> Terjual
+                                </span>
                             @else
-                                <button type="button" class="btn btn-secondary btn-sm" disabled>
-                                    Bayar / Jual
-                                </button>
+                                @if($bolehJual)
+                                    <a
+                                        href="{{ route('racikans.checkout', $d->id) }}"
+                                        class="btn btn-success btn-sm"
+                                    >
+                                        Bayar / Jual
+                                    </a>
+                                @else
+                                    <button type="button" class="btn btn-secondary btn-sm" disabled>
+                                        Bayar / Jual
+                                    </button>
+                                @endif
                             @endif
 
                             <a class="btn btn-info btn-sm" href="{{ route('racikans.komposisi', $d->id) }}">
                                 Komposisi
                             </a>
 
-                            <a class="btn btn-warning btn-sm" href="{{ route('racikans.edit', $d->id) }}">
-                                Edit
-                            </a>
+                            @if(!$sudahTerjual)
+                                <a class="btn btn-warning btn-sm" href="{{ route('racikans.edit', $d->id) }}">
+                                    Edit
+                                </a>
 
-                            <form
-                                method="POST"
-                                action="{{ route('racikans.destroy', $d->id) }}"
-                            >
-                                @csrf
-                                @method('DELETE')
-
-                                <button
-                                    type="submit"
-                                    class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Hapus racikan {{ addslashes($d->nama) }}?')"
+                                <form
+                                    method="POST"
+                                    action="{{ route('racikans.destroy', $d->id) }}"
                                 >
-                                    Delete
-                                </button>
-                            </form>
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Hapus racikan {{ addslashes($d->nama) }}?')"
+                                    >
+                                        Delete
+                                    </button>
+                                </form>
+                            @endif
                         </div>
                     </td>
                 </tr>
