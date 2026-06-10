@@ -11,7 +11,14 @@
         <h1><i class="icon-briefcase" style="margin-right:8px;color:#3b82f6;"></i>Lokasi Penyimpanan</h1>
         <p>Kelola lokasi gudang dan rak penyimpanan obat</p>
     </div>
-    <a href="{{ route('gudangs.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Lokasi</a>
+    <div>
+        <a href="{{ route('gudangs.create') }}" class="btn btn-primary" style="margin-right: 8px;">
+            <i class="fa fa-plus"></i> Tambah Rak
+        </a>
+        <a href="{{ route('gudangs.arsip') }}" class="btn btn-default">
+            <i class="fa fa-trash"></i> Lihat Arsip
+        </a>
+    </div>
 </div>
 
 <div class="am-table-wrap">

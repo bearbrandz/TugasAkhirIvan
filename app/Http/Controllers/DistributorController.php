@@ -116,4 +116,50 @@ class DistributorController extends Controller
             return redirect('distributors')->with('status', $msg);
         }
     }
+
+    public function arsip(Request $request)
+    {
+        $search = $request->get('search');
+        $query = Distributor::onlyTrashed();
+
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'LIKE', "%$search%")
+                    ->orWhere('alamat', 'LIKE', "%$search%")
+                    ->orWhere('no_hp', 'LIKE', "%$search%");
+            });
+        }
+
+        $datas = $query->orderBy('deleted_at', 'desc')->paginate(10)->appends(['search' => $search]);
+
+        return view('distributor.arsip', [
+            'datas' => $datas,
+            'search' => $search
+        ]);
+    }
+
+    public function restore(Request $request, $id)
+    {
+        try {
+            $distributor = Distributor::onlyTrashed()->findOrFail($id);
+            $distributor->restore();
+
+            return redirect()->route('distributors.arsip')->with('status', 'Distributor ' . $distributor->nama . ' berhasil dikembalikan ke daftar aktif!');
+        } catch (\Exception $e) {
+            return redirect()->route('distributors.arsip')->withErrors('Gagal mengembalikan Distributor: ' . $e->getMessage());
+        }
+    }
+
+    public function forceDelete(Request $request, $id)
+    {
+        try {
+            $distributor = Distributor::onlyTrashed()->findOrFail($id);
+            $nama = $distributor->nama;
+            $distributor->forceDelete();
+
+            return redirect()->route('distributors.arsip')->with('status', 'Distributor ' . $nama . ' berhasil dihapus permanen!');
+        } catch (\Exception $e) {
+            return redirect()->route('distributors.arsip')->withErrors('Gagal menghapus permanen Distributor: ' . $e->getMessage());
+        }
+    }
 }

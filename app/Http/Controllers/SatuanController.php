@@ -105,4 +105,46 @@ class SatuanController extends Controller
             return redirect('satuans')->with('status', $msg);
         }
     }
+
+    public function arsip(Request $request)
+    {
+        $search = $request->get('search');
+        $query = Satuan::onlyTrashed();
+
+        if (!empty($search)) {
+            $query->where('nama', 'LIKE', "%$search%");
+        }
+
+        $datas = $query->orderBy('deleted_at', 'desc')->paginate(10)->appends(['search' => $search]);
+
+        return view('satuan.arsip', [
+            'datas' => $datas,
+            'search' => $search
+        ]);
+    }
+
+    public function restore(Request $request, $id)
+    {
+        try {
+            $satuan = Satuan::onlyTrashed()->findOrFail($id);
+            $satuan->restore();
+
+            return redirect()->route('satuans.arsip')->with('status', 'Satuan ' . $satuan->nama . ' berhasil dikembalikan ke daftar aktif!');
+        } catch (\Exception $e) {
+            return redirect()->route('satuans.arsip')->withErrors('Gagal mengembalikan Satuan: ' . $e->getMessage());
+        }
+    }
+
+    public function forceDelete(Request $request, $id)
+    {
+        try {
+            $satuan = Satuan::onlyTrashed()->findOrFail($id);
+            $nama = $satuan->nama;
+            $satuan->forceDelete();
+
+            return redirect()->route('satuans.arsip')->with('status', 'Satuan ' . $nama . ' berhasil dihapus permanen!');
+        } catch (\Exception $e) {
+            return redirect()->route('satuans.arsip')->withErrors('Gagal menghapus permanen Satuan: ' . $e->getMessage());
+        }
+    }
 }

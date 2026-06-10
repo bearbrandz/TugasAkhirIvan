@@ -11,7 +11,14 @@
         <h1><i class="icon-layers" style="margin-right:8px;color:#3b82f6;"></i>Satuan Produk</h1>
         <p>Kelola satuan dasar dan satuan besar produk</p>
     </div>
-    <a href="{{ route('satuans.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Satuan</a>
+    <div>
+        <a href="{{ route('satuans.create') }}" class="btn btn-primary" style="margin-right: 8px;">
+            <i class="fa fa-plus"></i> Tambah Kategori
+        </a>
+        <a href="{{ route('satuans.arsip') }}" class="btn btn-default">
+            <i class="fa fa-trash"></i> Lihat Arsip
+        </a>
+    </div>
 </div>
 
 <div class="am-table-wrap">

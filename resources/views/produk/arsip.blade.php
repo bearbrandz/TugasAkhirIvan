@@ -116,6 +116,14 @@
                                         <i class="fa fa-refresh"></i> Restore
                                     </button>
                                 </form>
+
+                                <form method="POST" action="{{ route('produks.force-delete', $d->id) }}" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('PERINGATAN: Anda yakin ingin menghapus PERMANEN produk {{ addslashes($d->nama ?? '') }}? Data yang dihapus permanen TIDAK BISA dikembalikan lagi!')" title="Hapus Permanen" style="border-radius: 6px; font-size: 12px; padding: 5px 10px;">
+                                        <i class="fa fa-trash"></i> Hapus Permanen
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @empty

@@ -11,9 +11,14 @@
         <h1><i class="icon-share" style="margin-right:8px;color:#3b82f6;"></i>Daftar Distributor</h1>
         <p>Kelola data pemasok dan distributor obat</p>
     </div>
-    <a href="{{ route('distributors.create') }}" class="btn btn-primary">
-        <i class="fa fa-plus"></i> Tambah Distributor
-    </a>
+    <div>
+        <a href="{{ route('distributors.create') }}" class="btn btn-primary" style="margin-right: 8px;">
+            <i class="fa fa-plus"></i> Tambah Pemasok
+        </a>
+        <a href="{{ route('distributors.arsip') }}" class="btn btn-default">
+            <i class="fa fa-trash"></i> Lihat Arsip
+        </a>
+    </div>
 </div>
 
 <div class="am-table-wrap">

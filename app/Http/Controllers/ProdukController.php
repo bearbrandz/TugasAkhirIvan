@@ -71,6 +71,25 @@ class ProdukController extends Controller
         }
     }
 
+    public function forceDelete(Request $request, $id)
+    {
+        try {
+            $produk = Produk::onlyTrashed()->findOrFail($id);
+            $nama = $produk->nama;
+            $produk->forceDelete();
+
+            LogActivity::catat(
+                'force_delete_produk',
+                'Master Produk',
+                'Berhasil menghapus permanen produk ' . $nama . ' dari arsip.'
+            );
+
+            return redirect()->route('produks.arsip')->with('status', 'Produk ' . $nama . ' berhasil dihapus permanen!');
+        } catch (\Exception $e) {
+            return redirect()->route('produks.arsip')->withErrors('Gagal menghapus permanen produk: ' . $e->getMessage());
+        }
+    }
+
     public function batch(Request $request)
     {
         $id = $request->id;

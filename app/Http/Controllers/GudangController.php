@@ -139,4 +139,46 @@ class GudangController extends Controller
             return redirect('gudangs')->with('status', $msg);
         }
     }
+
+    public function arsip(Request $request)
+    {
+        $search = $request->get('search');
+        $query = Gudang::onlyTrashed();
+
+        if (!empty($search)) {
+            $query->where('lokasi', 'LIKE', "%$search%");
+        }
+
+        $datas = $query->orderBy('deleted_at', 'desc')->paginate(10)->appends(['search' => $search]);
+
+        return view('gudang.arsip', [
+            'datas' => $datas,
+            'search' => $search
+        ]);
+    }
+
+    public function restore(Request $request, $id)
+    {
+        try {
+            $gudang = Gudang::onlyTrashed()->findOrFail($id);
+            $gudang->restore();
+
+            return redirect()->route('gudangs.arsip')->with('status', 'Gudang/Rak ' . $gudang->lokasi . ' berhasil dikembalikan ke daftar aktif!');
+        } catch (\Exception $e) {
+            return redirect()->route('gudangs.arsip')->withErrors('Gagal mengembalikan Gudang: ' . $e->getMessage());
+        }
+    }
+
+    public function forceDelete(Request $request, $id)
+    {
+        try {
+            $gudang = Gudang::onlyTrashed()->findOrFail($id);
+            $nama = $gudang->lokasi;
+            $gudang->forceDelete();
+
+            return redirect()->route('gudangs.arsip')->with('status', 'Gudang/Rak ' . $nama . ' berhasil dihapus permanen!');
+        } catch (\Exception $e) {
+            return redirect()->route('gudangs.arsip')->withErrors('Gagal menghapus permanen Gudang: ' . $e->getMessage());
+        }
+    }
 }

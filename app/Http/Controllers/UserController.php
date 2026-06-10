@@ -261,4 +261,63 @@ class UserController extends Controller
                 ->with('error', 'Gagal menghapus data karyawan. Pastikan tidak ada data terkait sebelum menghapus.');
         }
     }
+
+    public function arsip(Request $request)
+    {
+        if (Auth::user()->tipe_user !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $search = $request->get('search');
+        $query = User::onlyTrashed();
+
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'LIKE', "%$search%")
+                    ->orWhere('username', 'LIKE', "%$search%")
+                    ->orWhere('email', 'LIKE', "%$search%")
+                    ->orWhere('tipe_user', 'LIKE', "%$search%");
+            });
+        }
+
+        $datas = $query->orderBy('deleted_at', 'desc')->paginate(10)->appends(['search' => $search]);
+
+        return view('user.arsip', [
+            'datas' => $datas,
+            'search' => $search
+        ]);
+    }
+
+    public function restore(Request $request, $id)
+    {
+        if (Auth::user()->tipe_user !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        try {
+            $user = User::onlyTrashed()->findOrFail($id);
+            $user->restore();
+
+            return redirect()->route('users.arsip')->with('status', 'Karyawan ' . $user->nama . ' berhasil dikembalikan ke daftar aktif!');
+        } catch (\Exception $e) {
+            return redirect()->route('users.arsip')->withErrors('Gagal mengembalikan karyawan: ' . $e->getMessage());
+        }
+    }
+
+    public function forceDelete(Request $request, $id)
+    {
+        if (Auth::user()->tipe_user !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        try {
+            $user = User::onlyTrashed()->findOrFail($id);
+            $nama = $user->nama;
+            $user->forceDelete();
+
+            return redirect()->route('users.arsip')->with('status', 'Karyawan ' . $nama . ' berhasil dihapus permanen!');
+        } catch (\Exception $e) {
+            return redirect()->route('users.arsip')->withErrors('Gagal menghapus permanen karyawan: ' . $e->getMessage());
+        }
+    }
 }

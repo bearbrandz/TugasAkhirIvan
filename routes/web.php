@@ -575,10 +575,25 @@ Route::middleware(['auth', IsAdminOrApoteker::class])->group(function () {
     |--------------------------------------------------------------------------
     | MASTER DATA
     |--------------------------------------------------------------------------
-    */
+    Route::get('/distributors/arsip', [DistributorController::class, 'arsip'])->name('distributors.arsip');
+    Route::post('/distributors/restore/{id}', [DistributorController::class, 'restore'])->name('distributors.restore');
+    Route::delete('/distributors/force-delete/{id}', [DistributorController::class, 'forceDelete'])->name('distributors.force-delete');
 
     Route::resource('distributors', DistributorController::class);
+
+    Route::get('/satuans/arsip', [SatuanController::class, 'arsip'])->name('satuans.arsip');
+    Route::post('/satuans/restore/{id}', [SatuanController::class, 'restore'])->name('satuans.restore');
+    Route::delete('/satuans/force-delete/{id}', [SatuanController::class, 'forceDelete'])->name('satuans.force-delete');
+
     Route::resource('satuans', SatuanController::class);
+    Route::get('/users/arsip', [UserController::class, 'arsip'])->name('users.arsip');
+    Route::post('/users/restore/{id}', [UserController::class, 'restore'])->name('users.restore');
+    Route::delete('/users/force-delete/{id}', [UserController::class, 'forceDelete'])->name('users.force-delete');
+
+    Route::get('/gudangs/arsip', [GudangController::class, 'arsip'])->name('gudangs.arsip');
+    Route::post('/gudangs/restore/{id}', [GudangController::class, 'restore'])->name('gudangs.restore');
+    Route::delete('/gudangs/force-delete/{id}', [GudangController::class, 'forceDelete'])->name('gudangs.force-delete');
+
     Route::resource('gudangs', GudangController::class);
     Route::get('/gudangs/{id}/produk', [GudangController::class, 'produk'])
     ->name('gudangs.produk');
@@ -642,6 +657,9 @@ Route::middleware(['auth', IsAdminOrApoteker::class])->group(function () {
     
     Route::post('produk/restore/{id}', [ProdukController::class, 'restore'])
         ->name('produks.restore');
+
+    Route::delete('produk/force-delete/{id}', [ProdukController::class, 'forceDelete'])
+        ->name('produks.force-delete');
 
     Route::resource('produks', ProdukController::class)
         ->except(['create', 'store', 'show']);
