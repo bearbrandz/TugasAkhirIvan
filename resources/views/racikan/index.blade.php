@@ -302,9 +302,10 @@
                         return in_array($golongan, ['keras', 'narkotika', 'psikotropika']);
                     });
 
+                    $isSusulan = str_contains($d->nama ?? '', 'Resep Susulan');
                     $adaResep = !empty($d->bukti_resep);
                     $sudahTerjual = $d->notajualracikans->count() > 0;
-                    $bolehJual = (!$butuhResep || $adaResep) && !$sudahTerjual;
+                    $bolehJual = (!$butuhResep || $adaResep || $isSusulan) && !$sudahTerjual;
                 @endphp
 
                 <tr>
@@ -435,6 +436,11 @@
                             <span class="racikan-badge badge-resep-ada">
                                 Ada
                             </span>
+                        @elseif($isSusulan)
+                            <span class="racikan-badge" style="background: rgba(148, 163, 184, 0.16); color: #cbd5e1;">
+                                Auto (SIPNAP)
+                            </span>
+                            <span class="cell-sub">Tanpa Foto</span>
                         @else
                             @if($butuhResep)
                                 <span class="racikan-badge badge-resep-wajib">
