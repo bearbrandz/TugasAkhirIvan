@@ -1019,7 +1019,7 @@ class ProdukController extends Controller
                 break;
     
             case 'tgl_datang':
-                $query->orderBy('pb.tgl_datang', $sortOrder);
+                $query->orderBy('pb.created_at', $sortOrder);
                 break;
     
             case 'tgl_kadaluarsa':
@@ -1027,7 +1027,7 @@ class ProdukController extends Controller
                 break;
     
             default:
-                $query->orderByDesc('pb.tgl_datang')
+                $query->orderByDesc('nbp.created_at')
                     ->orderByDesc('pb.id');
                 break;
         }
