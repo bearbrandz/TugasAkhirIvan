@@ -96,10 +96,11 @@ class LaporanController extends Controller
             DB::raw('SUM(njp.quantity) as total_qty'),
             DB::raw('SUM(njp.subtotal) as total_penjualan'),
             DB::raw("SUM(njp.quantity * $hppExpression) as total_hpp"),
-            DB::raw("SUM(njp.subtotal) - SUM(njp.quantity * $hppExpression) as laba_kotor")
+            DB::raw("SUM(njp.subtotal) - SUM(njp.quantity * $hppExpression) as laba_kotor"),
+            DB::raw("MAX(nj.created_at) as transaksi_terakhir")
         )
         ->groupBy('p.id', 'p.nama', 's.nama')
-        ->orderByDesc('laba_kotor')
+        ->orderByDesc('transaksi_terakhir')
         ->paginate(10)
         ->appends([
             'filter' => $filter,
