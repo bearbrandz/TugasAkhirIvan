@@ -117,7 +117,7 @@
                     @endphp
 
                     <tr>
-                        <td>{{ $i + 1 }}</td>
+                        <td>{{ $summaryProduk->firstItem() + $i }}</td>
                         <td>{{ $row->nama_produk }}</td>
                         <td>{{ number_format($row->total_qty, 0, ',', '.') }} {{ $row->nama_satuan ?? '' }}</td>
                         <td>Rp {{ number_format($row->total_penjualan, 0, ',', '.') }}</td>
@@ -141,7 +141,7 @@
                     @endif
                 @endforelse
 
-                @if (($totalEmbalaseRacikan ?? 0) > 0)
+                @if (($totalEmbalaseRacikan ?? 0) > 0 && $summaryProduk->currentPage() === $summaryProduk->lastPage())
                     <tr>
                         <td>-</td>
                         <td>Biaya Embalase Racikan</td>
@@ -159,7 +159,7 @@
             </tbody>
             <tfoot class="table-secondary fw-bold">
                 <tr>
-                    <td colspan="3">Total</td>
+                    <td colspan="3">Total Keseluruhan (Semua Halaman)</td>
                     <td>Rp {{ number_format($totalPenjualan, 0, ',', '.') }}</td>
                     <td>Rp {{ number_format($totalHpp, 0, ',', '.') }}</td>
                     <td class="{{ $totalLaba >= 0 ? 'text-success' : 'text-danger' }}">
@@ -169,6 +169,11 @@
                 </tr>
             </tfoot>
         </table>
+
+        {{-- Pagination Links --}}
+        <div class="mt-3 mb-5 d-flex justify-content-end no-print">
+            {{ $summaryProduk->links('pagination::bootstrap-5') }}
+        </div>
 
         {{-- Riwayat Perubahan HPP --}}
         <h5 class="mt-5 mb-2 fw-bold">Riwayat Perubahan HPP (10 Terakhir)</h5>

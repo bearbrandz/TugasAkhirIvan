@@ -80,6 +80,15 @@ class LaporanController extends Controller
 
         $this->applyDateFilter($perProduk, $filter, $startDate, $endDate);
 
+        $baseQueryForTotals = clone $perProduk;
+        $totalsResult = $baseQueryForTotals->select(
+            DB::raw('SUM(njp.subtotal) as grand_total_penjualan'),
+            DB::raw("SUM(njp.quantity * $hppExpression) as grand_total_hpp")
+        )->first();
+
+        $totalPenjualanProduk = (float) ($totalsResult->grand_total_penjualan ?? 0);
+        $totalHpp             = (float) ($totalsResult->grand_total_hpp ?? 0);
+
         $summaryProduk = $perProduk->select(
             'p.id as produk_id',
             'p.nama as nama_produk',
@@ -91,8 +100,14 @@ class LaporanController extends Controller
         )
         ->groupBy('p.id', 'p.nama', 's.nama')
         ->orderByDesc('laba_kotor')
-        ->get()
-        ->map(function ($row) {
+        ->paginate(10)
+        ->appends([
+            'filter' => $filter,
+            'start_date' => $startDate,
+            'end_date' => $endDate
+        ]);
+
+        $summaryProduk->getCollection()->transform(function ($row) {
             $row->total_qty = (float) $row->total_qty;
             $row->total_penjualan = (float) $row->total_penjualan;
             $row->total_hpp = (float) $row->total_hpp;
@@ -127,8 +142,7 @@ class LaporanController extends Controller
         | Total laporan
         |--------------------------------------------------------------------------
         */
-        $totalPenjualanProduk = (float) $summaryProduk->sum('total_penjualan');
-        $totalHpp             = (float) $summaryProduk->sum('total_hpp');
+        // $totalPenjualanProduk dan $totalHpp sudah dihitung di atas sebelum query di-paginate
 
         $totalPenjualan = $totalPenjualanProduk + $totalEmbalaseRacikan;
         $totalLaba      = $totalPenjualan - $totalHpp;
