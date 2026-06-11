@@ -584,7 +584,7 @@ class NotabeliController extends Controller
             }
 
             return redirect()
-                ->route('transaksi')
+                ->route('notabelis.show', $nota->id)
                 ->with('status', 'Pembelian tercatat dan HPP berhasil diperbarui.');
         } catch (\Exception $e) {
             DB::rollBack();
