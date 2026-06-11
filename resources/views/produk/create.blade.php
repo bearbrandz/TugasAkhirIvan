@@ -104,3 +104,44 @@
     </form>
 </div>
 @endsection
+
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectGolongan = document.querySelector('select[name="golongan"]');
+        const inputStokMinimum = document.querySelector('input[name="stok_minimum"]');
+
+        if (selectGolongan && inputStokMinimum) {
+            selectGolongan.addEventListener('change', function() {
+                // Jangan timpa jika user sudah mengetikkan nilai sendiri
+                if (inputStokMinimum.value !== '' && inputStokMinimum.value !== '0' && !inputStokMinimum.dataset.isDefault) {
+                    return;
+                }
+
+                let val = this.value;
+                let min = 0;
+                
+                if (val === 'bebas' || val === 'terbatas') {
+                    min = 25;
+                } else if (val === 'keras') {
+                    min = 20;
+                } else if (val === 'narkotika' || val === 'psikotropika' || val === 'pkrt') {
+                    min = 15;
+                } else if (val === 'alkes' || val === 'bmhp') {
+                    min = 10;
+                }
+
+                if (min > 0) {
+                    inputStokMinimum.value = min;
+                    inputStokMinimum.dataset.isDefault = 'true';
+                }
+            });
+
+            // Tandai jika user mengubah input secara manual
+            inputStokMinimum.addEventListener('input', function() {
+                this.dataset.isDefault = 'false';
+            });
+        }
+    });
+</script>
+@endsection

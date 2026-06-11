@@ -93,4 +93,24 @@ class Produk extends Model
 
         return $prefix . str_pad($newNumber, 4, '0', STR_PAD_LEFT);
     }
+
+    public static function getDefaultStokMinimum($golongan)
+    {
+        switch (strtolower($golongan)) {
+            case 'bebas':
+            case 'terbatas':
+                return 25;
+            case 'keras':
+                return 20;
+            case 'narkotika':
+            case 'psikotropika':
+            case 'pkrt':
+                return 15;
+            case 'alkes':
+            case 'bmhp':
+                return 10;
+            default:
+                return 0;
+        }
+    }
 }

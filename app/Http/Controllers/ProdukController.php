@@ -547,8 +547,9 @@ class ProdukController extends Controller
         $produk->kode_produk    = $request->kode_produk;
         $produk->bentuk_sediaan = $request->bentuk_sediaan;
         $produk->golongan       = $request->golongan;
-        // Stock minimum uses a default of 0 when not provided
-        $produk->stok_minimum   = $request->stok_minimum ?? 0;
+        // Stock minimum uses a default based on golongan when not provided
+        $defaultMin = Produk::getDefaultStokMinimum($request->golongan);
+        $produk->stok_minimum   = $request->filled('stok_minimum') ? $request->stok_minimum : $defaultMin;
         // sellingprice acts as a margin percentage (e.g. 20 for 20%)
         $produk->sellingprice   = $request->sellingprice;
         $produk->deskripsi      = $request->deskripsi;

@@ -628,6 +628,8 @@ class NotabeliController extends Controller
             $satuanBeliId = (int) $request->satuans;
             $satuanJualId = (int) ($request->satuan_jual_id ?: $request->satuans);
     
+            $defaultMin = \App\Models\Produk::getDefaultStokMinimum($request->golongan);
+    
             $produk = Produk::create([
                 'nama' => $request->nama,
                 'kode_produk' => Produk::generateKodeProduk($request->golongan),
@@ -635,6 +637,7 @@ class NotabeliController extends Controller
                 'deskripsi' => $request->deskripsi,
                 'sellingprice' => $request->sellingprice,
                 'satuan_jual_id' => $satuanJualId,
+                'stok_minimum' => $defaultMin,
             ]);
     
             if (Schema::hasColumn('produks', 'is_active')) {
