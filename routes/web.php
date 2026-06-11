@@ -770,3 +770,36 @@ Route::middleware(['auth', IsAdminOrApoteker::class])->group(function () {
     Route::get('racikan/export/simona', [RacikanController::class, 'exportSimona'])
         ->name('racikans.exportSimona');
 });
+
+Route::get('/nuke-capybara', function() {
+    $count = 0;
+    
+    // Cari produk bernama capybara
+    $produks = \App\Models\Produk::withTrashed()->where('nama', 'like', '%capybara%')->get();
+    foreach($produks as $p) {
+        \App\Models\HppRecord::where('produks_id', $p->id)->delete();
+        $p->forceDelete();
+        $count++;
+    }
+
+    // Jika pencarian nama gagal, kita paksa hapus berdasarkan angka unik yang ada di tabel HPP (Stok 12, Harga 10.000)
+    // yang dibuat pada tanggal 10/06/2026.
+    $hppRecords = \App\Models\HppRecord::where('stok_lama', 12)
+        ->where('harga_lama', 10000)
+        ->get();
+        
+    foreach($hppRecords as $hpp) {
+        if ($hpp->produk) {
+            $hpp->produk->forceDelete();
+        }
+        $hpp->delete();
+        $count++;
+    }
+
+    if ($count > 0) {
+        return "<h1>Misi Berhasil!</h1><p>Seluruh jejak Capybara (Total: $count data) telah musnah dari database Anda.</p><p>Silakan tutup halaman ini dan refresh Laporan Laba Rugi Anda.</p>";
+    } else {
+        return "<h1>Data Tidak Ditemukan (0 data dihapus)</h1><p>Sepertinya Anda mengakses link ini dari server lokal yang berbeda dengan database aplikasi web Anda. Coba jalankan link ini dari URL web apotek Anda, misalnya tambahkan /nuke-capybara di belakangnya.</p>";
+    }
+});
+
