@@ -584,7 +584,7 @@ class NotabeliController extends Controller
             }
 
             return redirect()
-                ->route('notabelis.show', $nota->id)
+                ->route('notabelis.print', $nota->id)
                 ->with('status', 'Pembelian tercatat dan HPP berhasil diperbarui.');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -719,7 +719,7 @@ class NotabeliController extends Controller
             }
 
             return redirect()
-                ->route('notabelis.show', $nota->id)
+                ->route('notabelis.print', $nota->id)
                 ->with('success', 'Produk baru berhasil dibeli dan masuk ke Nota Penerimaan.');
         } catch (\Throwable $e) {
             DB::rollBack();
