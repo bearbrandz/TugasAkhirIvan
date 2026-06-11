@@ -210,7 +210,7 @@
                                                 <label class="form-label">Distributor</label>
                                                 <select name="distributors_id" class="form-select" required>
                                                     @foreach ($distributors as $d)
-                                                        <option value="{{ $d->id }}">
+                                                        <option value="{{ $d->id }}" {{ ($p->distributor_terakhir_id ?? '') == $d->id ? 'selected' : '' }}>
                                                             {{ $d->nama }}
                                                         </option>
                                                     @endforeach
@@ -221,7 +221,7 @@
                                                 <label class="form-label">Satuan Beli</label>
                                                 <select name="satuans_id" class="form-select satuan-input-select" required>
                                                     @foreach ($satuans as $s)
-                                                        <option value="{{ $s->id }}">
+                                                        <option value="{{ $s->id }}" {{ ($p->satuan_beli_terakhir_id ?? '') == $s->id ? 'selected' : '' }}>
                                                             {{ $s->nama }}
                                                         </option>
                                                     @endforeach

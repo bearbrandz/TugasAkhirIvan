@@ -348,7 +348,11 @@ class NotabeliController extends Controller
     
                 DB::raw('COALESCE(MAX(NULLIF(produkbatches.hpp_avg_per_unit, 0)), MAX(NULLIF(produkbatches.unitprice, 0)), 0) as harga_beli_terakhir'),
     
-                DB::raw('MAX(produkbatches.tgl_kadaluarsa) as kadaluarsa_terakhir')
+                DB::raw('MAX(produkbatches.tgl_kadaluarsa) as kadaluarsa_terakhir'),
+
+                DB::raw('(SELECT distributors_id FROM produkbatches WHERE produks_id = produks.id ORDER BY id DESC LIMIT 1) as distributor_terakhir_id'),
+
+                DB::raw('(SELECT satuans_id FROM produkbatches WHERE produks_id = produks.id ORDER BY id DESC LIMIT 1) as satuan_beli_terakhir_id')
             )
             ->leftJoin('produkbatches', function ($join) {
                 $join->on('produks.id', '=', 'produkbatches.produks_id')
