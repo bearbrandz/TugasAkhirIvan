@@ -499,6 +499,9 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::get('/user', [UserController::class, 'index'])
         ->name('user');
 
+    Route::get('/users/arsip', [UserController::class, 'arsip'])->name('users.arsip');
+    Route::post('/users/restore/{id}', [UserController::class, 'restore'])->name('users.restore');
+    Route::delete('/users/force-delete/{id}', [UserController::class, 'forceDelete'])->name('users.force-delete');
     Route::resource('users', UserController::class);
 
     /*
@@ -588,10 +591,6 @@ Route::middleware(['auth', IsAdminOrApoteker::class])->group(function () {
     Route::delete('/satuans/force-delete/{id}', [SatuanController::class, 'forceDelete'])->name('satuans.force-delete');
 
     Route::resource('satuans', SatuanController::class);
-    Route::get('/users/arsip', [UserController::class, 'arsip'])->name('users.arsip');
-    Route::post('/users/restore/{id}', [UserController::class, 'restore'])->name('users.restore');
-    Route::delete('/users/force-delete/{id}', [UserController::class, 'forceDelete'])->name('users.force-delete');
-
     Route::get('/gudangs/arsip', [GudangController::class, 'arsip'])->name('gudangs.arsip');
     Route::post('/gudangs/restore/{id}', [GudangController::class, 'restore'])->name('gudangs.restore');
     Route::delete('/gudangs/force-delete/{id}', [GudangController::class, 'forceDelete'])->name('gudangs.force-delete');
