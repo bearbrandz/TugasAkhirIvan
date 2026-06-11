@@ -777,9 +777,8 @@ Route::get('/nuke-capybara', function() {
     // Cari produk bernama capybara
     $produks = \App\Models\Produk::withTrashed()->where('nama', 'like', '%capybara%')->get();
     foreach($produks as $p) {
-        \App\Models\HppRecord::where('produks_id', $p->id)->delete();
-        $p->forceDelete();
-        $count++;
+        $deleted = \App\Models\HppRecord::where('produks_id', $p->id)->delete();
+        $count += $deleted;
     }
 
     // Jika pencarian nama gagal, kita paksa hapus berdasarkan angka unik yang ada di tabel HPP (Stok 12, Harga 10.000)
