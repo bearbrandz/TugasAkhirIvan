@@ -78,20 +78,22 @@
                                 <span class="produk-desc" style="color:#ef4444; margin-top:8px;">Dihapus pada: {{ $d->deleted_at->format('d/m/Y H:i') }}</span>
                             </td>
                             <td style="text-align: center;">
-                                <form method="POST" action="{{ route('satuans.restore', $d->id) }}" style="display:inline;">
-                                    @csrf
-                                    <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Kembalikan satuan {{ addslashes($d->nama ?? '') }} ke daftar aktif?')" title="Restore Satuan" style="border-radius: 6px; font-size: 12px; padding: 5px 10px;">
-                                        <i class="fa fa-refresh"></i> Restore
-                                    </button>
-                                </form>
+                                <div style="display: flex; flex-direction: column; gap: 6px; align-items: center; margin: 0 auto; width: 120px;">
+                                    <form method="POST" action="{{ route('satuans.restore', $d->id) }}" style="margin:0; width: 100%;">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Kembalikan kategori/satuan {{ addslashes($d->nama ?? '') }} ke daftar aktif?')" title="Restore Satuan" style="border-radius: 6px; font-size: 12px; padding: 6px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                                            <i class="fa fa-refresh"></i> Restore
+                                        </button>
+                                    </form>
 
-                                <form method="POST" action="{{ route('satuans.force-delete', $d->id) }}" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('PERINGATAN: Anda yakin ingin menghapus PERMANEN satuan {{ addslashes($d->nama ?? '') }}? Data yang dihapus permanen TIDAK BISA dikembalikan lagi!')" title="Hapus Permanen" style="border-radius: 6px; font-size: 12px; padding: 5px 10px;">
-                                        <i class="fa fa-trash"></i> Hapus Permanen
-                                    </button>
-                                </form>
+                                    <form method="POST" action="{{ route('satuans.force-delete', $d->id) }}" style="margin:0; width: 100%;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('PERINGATAN: Anda yakin ingin menghapus PERMANEN kategori/satuan {{ addslashes($d->nama ?? '') }}? Data yang dihapus permanen TIDAK BISA dikembalikan lagi!')" title="Hapus Permanen" style="border-radius: 6px; font-size: 12px; padding: 6px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                                            <i class="fa fa-trash"></i> Permanen
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @empty
