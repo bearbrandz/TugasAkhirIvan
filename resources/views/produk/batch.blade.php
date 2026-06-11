@@ -47,17 +47,8 @@
     </div>
 
     <div class="container-fluid">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-            <div>
-                <h4>Daftar Batch</h4>
-                <p class="mb-0">Rincian riwayat seluruh stok (batch) yang pernah masuk untuk obat ini.</p>
-            </div>
-            <div>
-                <a href="{{ route('produks.arsipBatch', ['id' => $produk->id]) }}" class="btn btn-default" style="color: #ef4444; border-color: #fca5a5;">
-                    <i class="fa fa-trash"></i> Lihat Arsip Batch
-                </a>
-            </div>
-        </div>
+        <h4>Daftar Batch</h4>
+        <p>Rincian riwayat seluruh stok (batch) yang pernah masuk untuk obat ini.</p>
 
         <table class="table table-bordered">
             <thead>

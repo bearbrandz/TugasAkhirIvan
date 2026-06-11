@@ -829,17 +829,22 @@ class ProdukController extends Controller
         }
     }
 
-    public function arsipBatch(Request $request, $id)
+    public function arsipBatchAll(Request $request)
     {
-        $produk = Produk::findOrFail($id);
         $search = $request->get('search');
         
-        $query = Produkbatches::onlyTrashed()->where('produks_id', $id)->with(['satuan', 'distributor', 'gudang']);
+        $query = Produkbatches::onlyTrashed()->with(['produks', 'satuan', 'distributor', 'gudang']);
+
+        if (!empty($search)) {
+            $query->whereHas('produks', function ($q) use ($search) {
+                $q->where('nama', 'LIKE', "%$search%")
+                  ->orWhere('kode_produk', 'LIKE', "%$search%");
+            });
+        }
 
         $datas = $query->orderBy('deleted_at', 'desc')->paginate(10)->appends(['search' => $search]);
 
         return view('produk.arsip_batch', [
-            'produk' => $produk,
             'datas' => $datas,
             'search' => $search
         ]);
@@ -851,8 +856,8 @@ class ProdukController extends Controller
             $batch = Produkbatches::onlyTrashed()->findOrFail($id);
             $batch->restore();
 
-            return redirect()->route('produks.arsipBatch', $batch->produks_id)
-                ->with('status', 'Batch ID ' . $batch->id . ' berhasil dikembalikan ke daftar aktif!');
+            return redirect()->route('produks.arsipBatchAll')
+                ->with('status', 'Batch ID ' . $batch->id . ' (Produk: ' . ($batch->produks->nama ?? '-') . ') berhasil dikembalikan ke daftar aktif!');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors('Gagal mengembalikan batch: ' . $e->getMessage());
         }
@@ -862,10 +867,11 @@ class ProdukController extends Controller
     {
         try {
             $batch = Produkbatches::onlyTrashed()->findOrFail($id);
+            $namaProduk = $batch->produks->nama ?? '-';
             $batch->forceDelete();
 
-            return redirect()->route('produks.arsipBatch', $batch->produks_id)
-                ->with('status', 'Batch ID ' . $batch->id . ' berhasil dihapus permanen.');
+            return redirect()->route('produks.arsipBatchAll')
+                ->with('status', 'Batch ID ' . $id . ' (Produk: ' . $namaProduk . ') berhasil dihapus permanen.');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors('Gagal menghapus batch: ' . $e->getMessage());
         }

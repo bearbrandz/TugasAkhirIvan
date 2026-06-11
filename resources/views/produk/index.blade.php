@@ -245,9 +245,12 @@
                 </h1>
                 <p>Kelola data obat dan produk farmasi Apotek Medico</p>
             </div>
-            <div>
+            <div style="display: flex; gap: 8px;">
+                <a href="{{ route('produks.arsipBatchAll') }}" class="btn btn-default" style="color: #f59e0b; border-color: #fcd34d;">
+                    <i class="icon-trash"></i> Arsip Batch
+                </a>
                 <a href="{{ route('produks.arsip') }}" class="btn btn-default" style="color: #ef4444; border-color: #fca5a5;">
-                    <i class="icon-trash"></i> Lihat Arsip Produk
+                    <i class="icon-trash"></i> Arsip Produk
                 </a>
             </div>
         </div>
