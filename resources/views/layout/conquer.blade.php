@@ -199,13 +199,13 @@
                             <span class="menu-label">Gudang</span>
                         </a>
                     </li>
+                    @if(auth()->user()->tipe_user === 'admin')
                     <li class="menu-item {{ Request::is('satuan') || Request::is('satuans*') ? 'active' : '' }}">
                         <a href="{{ route('satuan') }}" class="menu-link">
                             <span class="menu-icon"><i class="fas fa-layer-group"></i></span>
                             <span class="menu-label">Satuan Produk</span>
                         </a>
                     </li>
-                    @if(auth()->user()->tipe_user === 'admin')
                     <li class="menu-item {{ Request::is('satuankonversi*') ? 'active' : '' }}">
                         <a href="{{ route('satuankonversi.index') }}" class="menu-link">
                             <span class="menu-icon"><i class="fas fa-arrows-alt-h"></i></span>

@@ -540,6 +540,21 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
 
     Route::get('log-activity', [LogActivityController::class, 'index'])
         ->name('log.index');
+
+    /*
+    |--------------------------------------------------------------------------
+    | SATUAN PRODUK (ADMIN ONLY)
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/satuan', [SatuanController::class, 'index'])
+        ->name('satuan');
+
+    Route::get('/satuans/arsip', [SatuanController::class, 'arsip'])->name('satuans.arsip');
+    Route::post('/satuans/restore/{id}', [SatuanController::class, 'restore'])->name('satuans.restore');
+    Route::delete('/satuans/force-delete/{id}', [SatuanController::class, 'forceDelete'])->name('satuans.force-delete');
+    Route::resource('satuans', SatuanController::class);
+
 });
 
 /*
@@ -558,9 +573,6 @@ Route::middleware(['auth', IsAdminOrApoteker::class])->group(function () {
 
     Route::get('/distributor', [DistributorController::class, 'index'])
         ->name('distributor');
-
-    Route::get('/satuan', [SatuanController::class, 'index'])
-        ->name('satuan');
 
     Route::get('/produk', [ProdukController::class, 'index'])
         ->name('produk');
@@ -585,12 +597,6 @@ Route::middleware(['auth', IsAdminOrApoteker::class])->group(function () {
     Route::delete('/distributors/force-delete/{id}', [DistributorController::class, 'forceDelete'])->name('distributors.force-delete');
 
     Route::resource('distributors', DistributorController::class);
-
-    Route::get('/satuans/arsip', [SatuanController::class, 'arsip'])->name('satuans.arsip');
-    Route::post('/satuans/restore/{id}', [SatuanController::class, 'restore'])->name('satuans.restore');
-    Route::delete('/satuans/force-delete/{id}', [SatuanController::class, 'forceDelete'])->name('satuans.force-delete');
-
-    Route::resource('satuans', SatuanController::class);
     Route::get('/gudangs/arsip', [GudangController::class, 'arsip'])->name('gudangs.arsip');
     Route::post('/gudangs/restore/{id}', [GudangController::class, 'restore'])->name('gudangs.restore');
     Route::delete('/gudangs/force-delete/{id}', [GudangController::class, 'forceDelete'])->name('gudangs.force-delete');
