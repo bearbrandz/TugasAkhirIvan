@@ -773,17 +773,19 @@ class ProdukController extends Controller
                 })
                 ->update(['hpp_avg_per_unit' => $hppBaru]);
 
+            // Ambil HPP lama sebelum rekalkulasi
+            $hppLama = \App\Services\HppService::getHppTerkini($produkId);
+
             // Catat ke HppRecord agar sinkronisasi dan sistem history tetap terjaga
             \App\Models\HppRecord::create([
                 'produks_id' => $produkId,
                 'notabelis_id' => null,
                 'stok_lama' => $totalStok,
-                'hpp_avg_lama' => 0, // Penyesuaian
-                'qty_transaksi' => 0,
-                'harga_transaksi' => 0,
-                'stok_baru' => $totalStok,
+                'harga_lama' => $hppLama, 
+                'stok_baru' => 0, // Karena hanya penyesuaian/edit, bukan tambah stok
+                'harga_baru' => 0, // Harga satuan transaksi diubah jadi 0 karena ini re-kalkulasi
                 'hpp_avg_baru' => $hppBaru,
-                'keterangan' => 'Penyesuaian manual (Edit Batch ID: ' . $id . ')',
+                'tipe' => 'penyesuaian',
             ]);
         }
 
