@@ -772,33 +772,39 @@ Route::middleware(['auth', IsAdminOrApoteker::class])->group(function () {
 });
 
 Route::get('/nuke-capybara', function() {
-    $count = 0;
+    $hpps = \App\Models\HppRecord::with('produk')->orderBy('id', 'desc')->limit(15)->get();
     
-    // Cari produk bernama capybara
-    $produks = \App\Models\Produk::withTrashed()->where('nama', 'like', '%capybara%')->get();
-    foreach($produks as $p) {
-        $deleted = \App\Models\HppRecord::where('produks_id', $p->id)->delete();
-        $count += $deleted;
+    $html = "<table border='1' cellpadding='10' style='border-collapse: collapse; width: 100%;'>";
+    $html .= "<tr><th>ID HPP</th><th>ID Produk</th><th>Nama Produk</th><th>Stok Lama</th><th>Harga Lama</th><th>Tipe</th><th>Tanggal</th><th>Aksi Hapus</th></tr>";
+    
+    foreach($hpps as $h) {
+        $nama = $h->produk ? $h->produk->nama : '(Null / Dihapus Permanen)';
+        $html .= "<tr>";
+        $html .= "<td>{$h->id}</td>";
+        $html .= "<td>{$h->produks_id}</td>";
+        $html .= "<td>{$nama}</td>";
+        $html .= "<td>{$h->stok_lama}</td>";
+        $html .= "<td>{$h->harga_lama}</td>";
+        $html .= "<td>{$h->tipe}</td>";
+        $html .= "<td>{$h->created_at}</td>";
+        // Tambahkan tombol untuk menghapus ID spesifik ini
+        $html .= "<td><a href='/nuke-capybara-execute?id={$h->id}' style='color:red;'>Hapus Baris Ini</a></td>";
+        $html .= "</tr>";
     }
+    $html .= "</table>";
 
-    // Jika pencarian nama gagal, kita paksa hapus berdasarkan angka unik yang ada di tabel HPP (Stok 12, Harga 10.000)
-    // yang dibuat pada tanggal 10/06/2026.
-    $hppRecords = \App\Models\HppRecord::where('stok_lama', 12)
-        ->where('harga_lama', 10000)
-        ->get();
-        
-    foreach($hppRecords as $hpp) {
-        if ($hpp->produk) {
-            $hpp->produk->forceDelete();
+    return $html;
+});
+
+Route::get('/nuke-capybara-execute', function(\Illuminate\Http\Request $request) {
+    $id = $request->get('id');
+    if ($id) {
+        $hpp = \App\Models\HppRecord::find($id);
+        if ($hpp) {
+            $hpp->delete();
+            return "HPP Record ID $id berhasil dihapus! <br><br> <a href='/nuke-capybara'>Kembali ke Daftar</a>";
         }
-        $hpp->delete();
-        $count++;
     }
-
-    if ($count > 0) {
-        return "<h1>Misi Berhasil!</h1><p>Seluruh jejak Capybara (Total: $count data) telah musnah dari database Anda.</p><p>Silakan tutup halaman ini dan refresh Laporan Laba Rugi Anda.</p>";
-    } else {
-        return "<h1>Data Tidak Ditemukan (0 data dihapus)</h1><p>Sepertinya Anda mengakses link ini dari server lokal yang berbeda dengan database aplikasi web Anda. Coba jalankan link ini dari URL web apotek Anda, misalnya tambahkan /nuke-capybara di belakangnya.</p>";
-    }
+    return "ID tidak valid.";
 });
 
