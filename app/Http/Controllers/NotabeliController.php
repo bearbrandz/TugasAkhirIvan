@@ -719,7 +719,7 @@ class NotabeliController extends Controller
             }
 
             return redirect()
-                ->route('produks.daftarTerima')
+                ->route('notabelis.show', $nota->id)
                 ->with('success', 'Produk baru berhasil dibeli dan masuk ke Nota Penerimaan.');
         } catch (\Throwable $e) {
             DB::rollBack();
