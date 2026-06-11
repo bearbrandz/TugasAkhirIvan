@@ -195,7 +195,13 @@
                 @forelse ($hppHistory as $h)
                     <tr>
                         <td>{{ \Carbon\Carbon::parse($h->created_at)->format('d/m/Y H:i') }}</td>
-                        <td>{{ $h->produk->nama ?? '-' }}</td>
+                        <td>
+                            @if($h->produk)
+                                {{ $h->produk->nama }}
+                            @else
+                                <span class="text-danger fst-italic"><i class="fa fa-exclamation-triangle"></i> Produk Dihapus Permanen</span>
+                            @endif
+                        </td>
                         <td>
                             <span class="badge {{ $h->tipe === 'pembelian' ? 'bg-primary' : 'bg-warning text-dark' }}">
                                 {{ ucfirst($h->tipe) }}
