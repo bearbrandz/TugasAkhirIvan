@@ -632,6 +632,15 @@ Route::middleware(['auth', IsAdminOrApoteker::class])->group(function () {
     Route::delete('produk/destroyBatch/{id}', [ProdukController::class, 'destroyBatch'])
         ->name('produks.destroyBatch');
 
+    Route::get('produk/arsipBatch/{id}', [ProdukController::class, 'arsipBatch'])
+        ->name('produks.arsipBatch');
+
+    Route::post('produk/restoreBatch/{id}', [ProdukController::class, 'restoreBatch'])
+        ->name('produks.restoreBatch');
+
+    Route::delete('produk/forceDeleteBatch/{id}', [ProdukController::class, 'forceDeleteBatch'])
+        ->name('produks.forceDeleteBatch');
+
     Route::delete('produk/destroyTerima/{id}', [ProdukController::class, 'destroyTerima'])
         ->name('produks.destroyTerima');
 

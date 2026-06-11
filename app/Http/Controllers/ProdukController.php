@@ -829,6 +829,48 @@ class ProdukController extends Controller
         }
     }
 
+    public function arsipBatch(Request $request, $id)
+    {
+        $produk = Produk::findOrFail($id);
+        $search = $request->get('search');
+        
+        $query = Produkbatches::onlyTrashed()->where('produks_id', $id)->with(['satuan', 'distributor', 'gudang']);
+
+        $datas = $query->orderBy('deleted_at', 'desc')->paginate(10)->appends(['search' => $search]);
+
+        return view('produk.arsip_batch', [
+            'produk' => $produk,
+            'datas' => $datas,
+            'search' => $search
+        ]);
+    }
+
+    public function restoreBatch(Request $request, $id)
+    {
+        try {
+            $batch = Produkbatches::onlyTrashed()->findOrFail($id);
+            $batch->restore();
+
+            return redirect()->route('produks.arsipBatch', $batch->produks_id)
+                ->with('status', 'Batch ID ' . $batch->id . ' berhasil dikembalikan ke daftar aktif!');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('Gagal mengembalikan batch: ' . $e->getMessage());
+        }
+    }
+
+    public function forceDeleteBatch(Request $request, $id)
+    {
+        try {
+            $batch = Produkbatches::onlyTrashed()->findOrFail($id);
+            $batch->forceDelete();
+
+            return redirect()->route('produks.arsipBatch', $batch->produks_id)
+                ->with('status', 'Batch ID ' . $batch->id . ' berhasil dihapus permanen.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors('Gagal menghapus batch: ' . $e->getMessage());
+        }
+    }
+
     public function destroyTerima($id)
     {
         // dd($id);
