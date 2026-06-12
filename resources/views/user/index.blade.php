@@ -29,9 +29,6 @@
         <a href="{{ route('registerUser') }}" class="btn btn-primary" style="margin-right: 8px;">
             <i class="fa fa-plus"></i> Tambah Karyawan Baru
         </a>
-        <a href="{{ route('users.arsip') }}" class="btn btn-default">
-            <i class="fa fa-trash"></i> Lihat Arsip
-        </a>
     </div>
 </div>
 
