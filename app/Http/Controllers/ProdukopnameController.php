@@ -11,9 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProdukopnameController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index(Request $request)
     {
         $sortBy = $request->get('sort_by', 'tanggal');
@@ -227,7 +225,7 @@ class ProdukopnameController extends Controller
         return response()->streamDownload(function () use ($datas) {
             $handle = fopen('php://output', 'w');
 
-            // BOM agar Excel Windows membaca UTF-8 dengan benar
+            
             fprintf($handle, chr(0xEF).chr(0xBB).chr(0xBF));
 
             fputcsv($handle, [
@@ -276,9 +274,7 @@ class ProdukopnameController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    
     public function create()
     {
         $batchs = Produkbatches::with(['produks', 'satuan', 'gudang', 'distributor'])
@@ -310,9 +306,7 @@ class ProdukopnameController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -340,24 +334,20 @@ class ProdukopnameController extends Controller
         }
         $opname->save();
 
-        // Update stok batch sesuai stok fisik
+        
         $batch->stok = $opname->stok_fisik;
         $batch->save();
 
         return redirect()->route('opnames.index')->with('status', 'Data stok opname berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     */
+   
     public function show(string $id)
     {
-        //
+        
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit($id)
     {
         $data = Produkopnames::findOrFail($id);
@@ -395,9 +385,7 @@ class ProdukopnameController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    
     public function update(Request $request, $id)
     {
         $opname = Produkopnames::findOrFail($id);
@@ -426,18 +414,16 @@ class ProdukopnameController extends Controller
         return redirect()->route('opnames.index')->with('status', 'Data stok opname berhasil diperbarui');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy($id)
     {
         try {
-            //if no contraint error, then delete data. Redirect to index after it.
+           
             $deletedData = Produkopnames::find($id);
             $deletedData->delete();
             return redirect('opnames')->with('status', 'Horray ! Your data is successfully deleted !');
         } catch (\PDOException $ex) {
-            // Failed to delete data, then show exception message
+            
             $msg = "Failed to delete data ! Make sure there is no related data before deleting it";
             return redirect('opnames')->with('status', $msg);
         }
