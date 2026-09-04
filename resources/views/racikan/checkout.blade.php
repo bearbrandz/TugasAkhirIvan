@@ -11,19 +11,19 @@
         gap: 16px;
         margin-bottom: 22px;
         padding-bottom: 18px;
-        border-bottom: 1px solid rgba(148, 163, 184, .22);
+        border-bottom: 1px solid #e2e8f0;
     }
 
     .checkout-racikan-header h1 {
         margin: 0;
         font-size: 30px;
         font-weight: 800;
-        color: #f8fafc;
+        color: #1e293b;
     }
 
     .checkout-racikan-header p {
         margin: 8px 0 0;
-        color: #94a3b8;
+        color: #64748b;
     }
 
     .checkout-grid {
@@ -34,17 +34,17 @@
     }
 
     .checkout-card {
-        background: #162033;
-        border: 1px solid rgba(148, 163, 184, .18);
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
         border-radius: 16px;
         overflow: hidden;
-        color: #f8fafc;
+        color: #1e293b;
     }
 
     .checkout-card-header {
         padding: 16px 18px;
-        background: #1e2b42;
-        border-bottom: 1px solid rgba(148, 163, 184, .16);
+        background: #f8fafc;
+        border-bottom: 1px solid #e2e8f0;
     }
 
     .checkout-card-header h2 {
@@ -65,15 +65,15 @@
     }
 
     .info-box {
-        border: 1px solid rgba(148, 163, 184, .18);
+        border: 1px solid #e2e8f0;
         border-radius: 12px;
         padding: 12px;
-        background: rgba(15, 23, 42, .25);
+        background: #f8fafc;
     }
 
     .info-label {
         display: block;
-        color: #94a3b8;
+        color: #64748b;
         font-size: 12px;
         margin-bottom: 4px;
     }
@@ -81,34 +81,34 @@
     .info-value {
         display: block;
         font-weight: 800;
-        color: #f8fafc;
+        color: #1e293b;
         line-height: 1.35;
     }
 
     .detail-table {
         width: 100%;
         margin-bottom: 0;
-        color: #f8fafc;
+        color: #1e293b;
     }
 
     .detail-table th {
-        background: #1e2b42;
-        color: #f8fafc;
+        background: #f8fafc;
+        color: #1e293b;
         font-size: 12px;
         text-transform: uppercase;
-        border-color: rgba(148, 163, 184, .16);
+        border-color: #e2e8f0;
         padding: 10px;
     }
 
     .detail-table td {
-        border-color: rgba(148, 163, 184, .12);
+        border-color: #e2e8f0;
         padding: 10px;
         vertical-align: top;
     }
 
     .cell-sub {
         display: block;
-        color: #94a3b8;
+        color: #64748b;
         font-size: 12px;
         margin-top: 3px;
     }
@@ -119,7 +119,7 @@
         align-items: center;
         gap: 12px;
         padding: 10px 0;
-        border-bottom: 1px solid rgba(148, 163, 184, .14);
+        border-bottom: 1px solid #e2e8f0;
     }
 
     .payment-row:last-child {
@@ -127,16 +127,16 @@
     }
 
     .payment-row span:first-child {
-        color: #cbd5e1;
+        color: #334155;
     }
 
     .payment-row strong {
         font-size: 18px;
-        color: #f8fafc;
+        color: #1e293b;
     }
 
     .payment-row.total strong {
-        color: #22c55e;
+        color: #15803d;
         font-size: 26px;
     }
 
@@ -148,26 +148,26 @@
         display: block;
         font-weight: 800;
         margin-bottom: 8px;
-        color: #f8fafc;
+        color: #1e293b;
     }
 
     .payment-input {
-        background: #0f172a !important;
-        border: 1px solid rgba(148, 163, 184, .28) !important;
-        color: #f8fafc !important;
+        background: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #1e293b !important;
         min-height: 44px;
     }
 
     .payment-warning {
         display: none;
-        color: #f87171;
+        color: #dc2626;
         font-size: 12px;
         margin-top: 8px;
         font-weight: 700;
     }
 
-    .change-good { color: #22c55e !important; }
-    .change-bad { color: #f87171 !important; }
+    .change-good { color: #15803d !important; }
+    .change-bad { color: #dc2626 !important; }
 
     .checkout-actions {
         display: flex;
@@ -179,6 +179,9 @@
         flex: 1;
         min-height: 44px;
         font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     @media (max-width: 1100px) {
@@ -341,7 +344,7 @@
                         class="form-control payment-input"
                         min="0"
                         step="1"
-                        value="{{ old('nominal_bayar', $detail['total_racikan'] ?? 0) }}"
+                        value="{{ old('nominal_bayar', 0) }}"
                         required
                     >
                     <small class="cell-sub">Untuk transfer, nominal otomatis mengikuti total bayar.</small>

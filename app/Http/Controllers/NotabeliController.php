@@ -346,13 +346,15 @@ class NotabeliController extends Controller
                     END
                 ), 0) as total_stok'),
     
-                DB::raw('COALESCE(MAX(NULLIF(produkbatches.hpp_avg_per_unit, 0)), MAX(NULLIF(produkbatches.unitprice, 0)), 0) as harga_beli_terakhir'),
+                DB::raw('ROUND(COALESCE(MAX(NULLIF(produkbatches.hpp_avg_per_unit, 0)), MAX(NULLIF(produkbatches.unitprice, 0)), 0), 0) as harga_beli_terakhir'),
     
                 DB::raw('MAX(produkbatches.tgl_kadaluarsa) as kadaluarsa_terakhir'),
 
                 DB::raw('(SELECT distributors_id FROM produkbatches WHERE produks_id = produks.id ORDER BY id DESC LIMIT 1) as distributor_terakhir_id'),
 
-                DB::raw('(SELECT satuans_id FROM produkbatches WHERE produks_id = produks.id ORDER BY id DESC LIMIT 1) as satuan_beli_terakhir_id')
+                DB::raw('(SELECT satuans_id FROM produkbatches WHERE produks_id = produks.id ORDER BY id DESC LIMIT 1) as satuan_beli_terakhir_id'),
+                
+                DB::raw('(SELECT gudangs_id FROM produkbatches WHERE produks_id = produks.id ORDER BY id DESC LIMIT 1) as gudang_terakhir_id')
             )
             ->leftJoin('produkbatches', function ($join) {
                 $join->on('produks.id', '=', 'produkbatches.produks_id')
@@ -491,16 +493,12 @@ class NotabeliController extends Controller
     
                 /*
                 |--------------------------------------------------------------------------
-                | Hitung HPP berdasarkan stok yang sudah dikonversi ke satuan jual.
+                | Hpp dihitung saat barang diterima fisiknya
                 |--------------------------------------------------------------------------
                 */
-                $hppBaru = HppService::hitungUlang(
-                    $produkId,
-                    (int) $stokMasuk,
-                    $hargaPerSatuanJual,
-                    'pembelian',
-                    $nota->id
-                );
+                //  HPP akan dihitung saat barang DITERIMA fisik,Placeholder: Gunakan harga beli per satuan jual.
+                $hppBaru = $hargaPerSatuanJual;
+
     
                 if (isset($item['sellingprice'])) {
                     Produk::where('id', $produkId)->update([
@@ -510,46 +508,23 @@ class NotabeliController extends Controller
     
                 /*
                 |--------------------------------------------------------------------------
-                | Cari batch yang sama.
-                | Batch SELALU disimpan dalam satuan jual produk.
+                | SELALU BUAT BATCH BARU UNTUK SETIAP PO
+                | (Untuk menghindari tercampurnya tanggal kedatangan dengan batch lama)
                 |--------------------------------------------------------------------------
                 */
-                $batchQuery = Produkbatches::where('produks_id', $produkId)
-                    ->where('distributors_id', $item['distributors_id'])
-                    ->where('satuans_id', $satuanJualId)
-                    ->where('gudangs_id', $item['gudangs_id'])
-                    ->where('unitprice', $hargaPerSatuanJual);
-    
-                if (!empty($item['tgl_kadaluarsa'])) {
-                    $batchQuery->whereDate('tgl_kadaluarsa', $item['tgl_kadaluarsa']);
-                } else {
-                    $batchQuery->whereNull('tgl_kadaluarsa');
-                }
-    
-                $batch = $batchQuery->first();
-    
-                if ($batch) {
-                    $batch->update([
-                        'stok'             => $batch->stok + $stokMasuk,
-                        'unitprice'        => $hargaPerSatuanJual,
-                        'hpp_avg_per_unit' => $hppBaru,   // update HPP avg ke nilai terbaru
-                        'status'           => 'tersedia',
-                    ]);
-                } else {
-                    $batch = Produkbatches::create([
-                        'produks_id' => $produkId,
-                        'stok' => $stokMasuk,
-                        'unitprice' => $hargaPerSatuanJual,
-                        'hpp_avg_per_unit' => $hppBaru,
-                        'distributors_id' => $item['distributors_id'],
-                        'tgl_kadaluarsa' => $item['tgl_kadaluarsa'] ?? null,
-                        'tgl_produksi' => $item['tgl_produksi'] ?? null,
-                        'tgl_datang' => now(),
-                        'status' => 'tersedia',
-                        'satuans_id' => $satuanJualId,
-                        'gudangs_id' => $item['gudangs_id'],
-                    ]);
-                }
+                $batch = Produkbatches::create([
+                    'produks_id' => $produkId,
+                    'stok' => 0, // Diubah (Opsi 2): Stok 0 karena barang belum fisik datang
+                    'unitprice' => $hargaPerSatuanJual,
+                    'hpp_avg_per_unit' => $hppBaru,
+                    'distributors_id' => $item['distributors_id'],
+                    'tgl_kadaluarsa' => $item['tgl_kadaluarsa'] ?? null,
+                    'tgl_produksi' => $item['tgl_produksi'] ?? null,
+                    'tgl_datang' => null, // Diubah: Dikosongkan karena belum diterima
+                    'status' => 'proses_order', // Diubah (Opsi 2): Status proses_order sampai diterima di Terima Batch
+                    'satuans_id' => $satuanJualId,
+                    'gudangs_id' => $item['gudangs_id'],
+                ]);
     
                 /*
                 |--------------------------------------------------------------------------
@@ -562,8 +537,6 @@ class NotabeliController extends Controller
                     'quantity' => $stokMasuk,
                     'subtotal' => $stokMasuk * $hargaPerSatuanJual,
                 ]);
-    
-                HppService::updateBatchHpp($produkId, $hppBaru);
             }
     
             DB::commit();
@@ -587,9 +560,9 @@ class NotabeliController extends Controller
                 \Illuminate\Support\Facades\Log::warning('LogActivity pembelian gagal: ' . $logErr->getMessage());
             }
 
-            return redirect()
-                ->route('notabelis.print', $nota->id)
-                ->with('status', 'Pembelian tercatat dan HPP berhasil diperbarui.');
+                return redirect()
+                ->route('notabelis.index')
+                ->with('status', 'Pembelian tercatat dan menunggu Penerimaan Gudang.');
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -676,17 +649,16 @@ class NotabeliController extends Controller
             ]);
     
             $batch = Produkbatches::create([
-                'produks_id' => $produk->id,
-                'distributors_id' => $request->distributors,
                 'satuans_id' => $satuanJualId,
+                'produks_id' => $produk->id,
                 'gudangs_id' => $request->gudangs,
-                'stok' => $stokMasuk,
+                'stok' => 0, // Diubah (Opsi 2): Stok 0 karena barang belum fisik datang
                 'unitprice' => $hargaPerSatuanJual,
                 'hpp_avg_per_unit' => $hargaPerSatuanJual,
-                'tgl_datang' => now()->toDateString(),
+                'tgl_datang' => null, // Diubah: Dikosongkan karena belum diterima
                 'tgl_produksi' => $request->tgl_produksi,
                 'tgl_kadaluarsa' => $request->tgl_kadaluarsa,
-                'status' => 'tersedia',
+                'status' => 'proses_order', // Diubah (Opsi 2): Status proses_order sampai diterima di Terima Batch
             ]);
     
             Notabeliproduk::create([
@@ -695,15 +667,7 @@ class NotabeliController extends Controller
                 'quantity' => $stokMasuk,
                 'subtotal' => $stokMasuk * $hargaPerSatuanJual,
             ]);
-    
-            HppService::hitungUlang(
-                $produk->id,
-                (int) $stokMasuk,
-                $hargaPerSatuanJual,
-                'pembelian',
-                $nota->id
-            );
-    
+
             DB::commit();
 
             // Catat log aktivitas pembelian produk baru
@@ -722,9 +686,9 @@ class NotabeliController extends Controller
                 \Illuminate\Support\Facades\Log::warning('LogActivity pembelian produk baru gagal: ' . $logErr->getMessage());
             }
 
-            return redirect()
-                ->route('notabelis.print', $nota->id)
-                ->with('success', 'Produk baru berhasil dibeli dan masuk ke Nota Penerimaan.');
+                return redirect()
+                ->route('notabelis.index')
+                ->with('status', 'Pembelian produk baru berhasil dicatat dan menunggu Penerimaan Gudang.');
         } catch (\Throwable $e) {
             DB::rollBack();
     

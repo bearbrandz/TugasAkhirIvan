@@ -11,24 +11,24 @@
     .racikan-header {
         margin-bottom: 24px;
         padding-bottom: 18px;
-        border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+        border-bottom: 1px solid #e2e8f0;
     }
 
     .racikan-header h1 {
         margin: 0;
         font-size: 30px;
         font-weight: 800;
-        color: #f8fafc;
+        color: #1e293b;
     }
 
     .racikan-header p {
         margin: 8px 0 0;
-        color: #94a3b8;
+        color: #64748b;
     }
 
     .racikan-card {
-        background: #162033;
-        border: 1px solid rgba(148, 163, 184, 0.18);
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
         border-radius: 16px;
         padding: 20px;
         margin-bottom: 18px;
@@ -37,7 +37,7 @@
     .racikan-section-title {
         font-size: 17px;
         font-weight: 800;
-        color: #f8fafc;
+        color: #1e293b;
         margin-bottom: 16px;
     }
 
@@ -58,19 +58,19 @@
     .racikan-form-group label {
         display: block;
         margin-bottom: 6px;
-        color: #f8fafc;
+        color: #1e293b;
         font-weight: 700;
     }
 
     .racikan-form-group small {
-        color: #94a3b8;
+        color: #64748b;
     }
 
     .racikan-form-control {
         width: 100%;
-        background: #111827 !important;
-        color: #f8fafc !important;
-        border: 1px solid rgba(148, 163, 184, 0.28) !important;
+        background: #ffffff !important;
+        color: #1e293b !important;
+        border: 1px solid #cbd5e1 !important;
         border-radius: 8px;
         padding: 10px 12px;
     }
@@ -92,8 +92,8 @@
         grid-template-columns: minmax(260px, 1fr) 150px 90px;
         gap: 10px;
         align-items: start;
-        background: #0f172a;
-        border: 1px solid rgba(148, 163, 184, 0.16);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 12px;
         padding: 12px;
     }
@@ -105,7 +105,7 @@
 
     .komposisi-help {
         margin-top: 8px;
-        color: #94a3b8;
+        color: #64748b;
         font-size: 13px;
         line-height: 1.5;
     }
@@ -124,8 +124,8 @@
 
     .resep-note {
         background: rgba(234, 179, 8, 0.12);
-        border: 1px solid rgba(234, 179, 8, 0.28);
-        color: #fde68a;
+        border: 1px solid rgba(234, 179, 8, 0.35);
+        color: #92400e;
         border-radius: 10px;
         padding: 12px;
         font-size: 13px;
@@ -235,7 +235,7 @@
                         type="date"
                         name="tgl_ambil"
                         class="racikan-form-control"
-                        value="{{ old('tgl_ambil') }}"
+                        value="{{ old('tgl_ambil', now()->format('Y-m-d')) }}"
                     >
                     <small>Tanggal pasien mengambil racikan.</small>
                 </div>
@@ -265,48 +265,36 @@
 
             <div class="racikan-form-grid">
                 <div class="racikan-form-group">
-                    <label>Nama Dokter</label>
-                    <input
-                        type="text"
-                        name="nama_dokter"
-                        class="racikan-form-control"
-                        placeholder="Masukkan nama dokter"
-                        value="{{ old('nama_dokter') }}"
-                    >
-                </div>
+                <label style="display:flex; justify-content:space-between;">
+                    <span>Nama Dokter</span> 
+                    <button type="button" class="btn btn-sm btn-success py-0 px-2" data-bs-toggle="modal" data-bs-target="#modalAddDokter">+ Baru</button>
+                </label>
+                <select name="nama_dokter" id="nama_dokter" class="racikan-form-control">
+                <option value="">-- Pilih Dokter --</option>
+                @foreach($dokters as $d)
+                    
+                    <option value="{{ $d->nama }}">{{ $d->nama }}</option>
+                @endforeach
+        </select>
+    </div>
 
-                <div class="racikan-form-group">
-                    <label>Nama Pasien</label>
-                    <input
-                        type="text"
-                        name="nama_pasien"
-                        class="racikan-form-control"
-                        placeholder="Masukkan nama pasien"
-                        value="{{ old('nama_pasien') }}"
-                    >
-                </div>
+    
+    <div class="racikan-form-group">
+        <label style="display:flex; justify-content:space-between;">
+            <span>Nama Pasien</span>
+            <button type="button" class="btn btn-sm btn-success py-0 px-2" data-bs-toggle="modal" data-bs-target="#modalAddPasien">+ Baru</button>
+        </label>
+        <select name="nama_pasien" id="nama_pasien" class="racikan-form-control">
+            <option value="">-- Pilih Pasien --</option>
+            @foreach($pasiens as $p)
+               
+                <option value="{{ $p->nama }}">{{ $p->nama }}</option>
+            @endforeach
+        </select>
+    </div>
+</div>
 
-                <div class="racikan-form-group">
-                    <label>Alamat Dokter</label>
-                    <textarea
-                        name="alamat_dokter"
-                        class="racikan-form-control"
-                        rows="3"
-                        placeholder="Masukkan alamat dokter"
-                    >{{ old('alamat_dokter') }}</textarea>
-                </div>
-
-                <div class="racikan-form-group">
-                    <label>Alamat Pasien</label>
-                    <textarea
-                        name="alamat_pasien"
-                        class="racikan-form-control"
-                        rows="3"
-                        placeholder="Masukkan alamat pasien"
-                    >{{ old('alamat_pasien') }}</textarea>
-                </div>
-            </div>
-        </div>
+             
 
         <div class="racikan-card">
             <div class="racikan-section-title">Produk Komposisi</div>
@@ -376,17 +364,17 @@
 @push('styles')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <style>
-    /* Dark mode adjustments for select2 */
+    /* Light mode adjustments for select2 */
     .select2-container--default .select2-selection--single {
-        background-color: #111827;
-        border: 1px solid rgba(148, 163, 184, 0.28);
+        background-color: #ffffff;
+        border: 1px solid #cbd5e1;
         border-radius: 8px;
         height: 42px;
         display: flex;
         align-items: center;
     }
     .select2-container--default .select2-selection--single .select2-selection__rendered {
-        color: #f8fafc;
+        color: #1e293b;
         line-height: normal;
         padding-left: 12px;
     }
@@ -394,21 +382,21 @@
         height: 40px;
     }
     .select2-dropdown {
-        background-color: #1f2937;
-        border-color: rgba(148, 163, 184, 0.28);
-        color: #f8fafc;
+        background-color: #ffffff;
+        border-color: #cbd5e1;
+        color: #1e293b;
     }
     .select2-container--default .select2-results__option[aria-selected=true] {
-        background-color: #374151;
+        background-color: #f1f5f9;
     }
     .select2-container--default .select2-results__option--highlighted[aria-selected] {
         background-color: #ef4444;
         color: white;
     }
     .select2-search--dropdown .select2-search__field {
-        background-color: #111827;
-        color: #f8fafc;
-        border: 1px solid rgba(148, 163, 184, 0.28);
+        background-color: #ffffff;
+        color: #1e293b;
+        border: 1px solid #cbd5e1;
         border-radius: 4px;
     }
 </style>
@@ -477,4 +465,157 @@
     });
 </script>
 @endpush
+
+<!-- Modal Tambah Pasien -->
+<div class="modal fade" id="modalAddPasien" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tambah Pasien Cepat</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form id="formQuickPasien">
+              <div class="mb-2">
+                  <label>Nama Pasien *</label>
+                  <input type="text" id="quickPasienNama" class="form-control" required>
+              </div>
+              <div class="mb-2">
+                  <label>Tanggal Lahir</label>
+                  <input type="date" id="quickPasienTglLahir" class="form-control">
+              </div>
+              <div class="mb-2">
+                  <label>Jenis Kelamin *</label>
+                  <select id="quickPasienJK" class="form-control" required>
+                      <option value="L">Laki-laki</option>
+                      <option value="P">Perempuan</option>
+                  </select>
+              </div>
+              <div class="mb-2">
+                  <label>No. HP</label>
+                  <input type="text" id="quickPasienTelp" class="form-control">
+              </div>
+              <div class="mb-2">
+                  <label>Alamat</label>
+                  <textarea id="quickPasienAlamat" class="form-control" rows="2"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary w-100 mt-2">Simpan Pasien</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Tambah Dokter -->
+<div class="modal fade" id="modalAddDokter" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tambah Dokter Cepat</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form id="formQuickDokter">
+              <div class="mb-2">
+                  <label>Nama Dokter *</label>
+                  <input type="text" id="quickDokterNama" class="form-control" required>
+              </div>
+              <div class="mb-2">
+                  <label>No. SIP</label>
+                  <input type="text" id="quickDokterSip" class="form-control" placeholder="Opsional (Jika diharuskan)">
+              </div>
+              <div class="mb-2">
+                  <label>No. HP</label>
+                  <input type="text" id="quickDokterTelp" class="form-control">
+              </div>
+              <div class="mb-2">
+                  <label>Alamat Praktik</label>
+                  <textarea id="quickDokterAlamat" class="form-control" rows="2"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary w-100 mt-2">Simpan Dokter</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '{{ csrf_token() }}';
+
+    // --- QUICK ADD PASIEN ---
+    const formPasien = document.getElementById('formQuickPasien');
+    if(formPasien) {
+        formPasien.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btnSubmit = this.querySelector('button[type="submit"]');
+            btnSubmit.innerHTML = 'Menyimpan...';
+            btnSubmit.disabled = true;
+
+            fetch("{{ route('pasiens.quick-store') }}", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },
+                body: JSON.stringify({
+                    nama: document.getElementById('quickPasienNama').value,
+                    tanggal_lahir: document.getElementById('quickPasienTglLahir').value,
+                    jenis_kelamin: document.getElementById('quickPasienJK').value,
+                    no_telp: document.getElementById('quickPasienTelp').value,
+                    alamat: document.getElementById('quickPasienAlamat').value
+                })
+            }).then(res => res.json()).then(data => {
+                if(data.success) {
+                    const select = document.getElementById('nama_pasien');
+                    // Trik: value yang di-set adalah data.data.nama, bukan data.data.id
+                    select.add(new Option(data.data.nama, data.data.nama));
+                    select.value = data.data.nama;
+                    formPasien.reset();
+                    bootstrap.Modal.getInstance(document.getElementById('modalAddPasien')).hide();
+                    alert('Pasien berhasil ditambahkan!');
+                }
+            }).finally(() => {
+                btnSubmit.innerHTML = 'Simpan Pasien';
+                btnSubmit.disabled = false;
+            });
+        });
+    }
+
+    // --- QUICK ADD DOKTER ---
+    const formDokter = document.getElementById('formQuickDokter');
+    if(formDokter) {
+        formDokter.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btnSubmit = this.querySelector('button[type="submit"]');
+            btnSubmit.innerHTML = 'Menyimpan...';
+            btnSubmit.disabled = true;
+
+            fetch("{{ route('dokters.quick-store') }}", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },
+                body: JSON.stringify({
+                    nama: document.getElementById('quickDokterNama').value,
+                    sip: document.getElementById('quickDokterSip').value,
+                    no_telp: document.getElementById('quickDokterTelp').value,
+                    alamat: document.getElementById('quickDokterAlamat').value
+                })
+            }).then(res => res.json()).then(data => {
+                if(data.success) {
+                    const select = document.getElementById('nama_dokter');
+                    // Trik: value yang di-set adalah data.data.nama, bukan data.data.id
+                    select.add(new Option(data.data.nama, data.data.nama));
+                    select.value = data.data.nama;
+                    formDokter.reset();
+                    bootstrap.Modal.getInstance(document.getElementById('modalAddDokter')).hide();
+                    alert('Dokter berhasil ditambahkan!');
+                }
+            }).finally(() => {
+                btnSubmit.innerHTML = 'Simpan Dokter';
+                btnSubmit.disabled = false;
+            });
+        });
+    }
+});
+</script>
+@endpush
+
 @endsection

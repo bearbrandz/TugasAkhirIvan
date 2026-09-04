@@ -14,7 +14,7 @@ class SatuanController extends Controller
     {
         $search = $request->input('search');
         $sortBy = $request->input('sort_by', 'id');
-        $sortOrder = $request->input('sort_order', 'asc');
+        $sortOrder = $request->input('sort_order', 'desc');
 
         $datas = Satuan::when($search, function ($query, $search) {
             return $query->where('nama', 'like', "%$search%");

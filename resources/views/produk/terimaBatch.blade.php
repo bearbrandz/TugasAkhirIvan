@@ -44,10 +44,10 @@
         <div class="form-group">
             <label for="tgl_datang">Tanggal Datang</label>
             <input type="date" class="form-control" name="tgl_datang" aria-describedby="dateHelp"
-                value="{{ $datas->tgl_datang }}">
-            <small id="dateHelp" class="form-text text-muted">Pilih tanggal datang produk.</small>
+                value="{{ $datas->tgl_datang ? \Carbon\Carbon::parse($datas->tgl_datang)->format('Y-m-d') : \Carbon\Carbon::now()->format('Y-m-d') }}">
+            <small id="dateHelp" class="form-text text-muted">Pilih tanggal datang produk. Biarkan jika barang datang hari ini.</small>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="terima" class="btn btn-primary">Terima</button>
         <a href="{{ route('produks.batch', ['id' => $datas->produks_id]) }}"
             class="btn btn-primary bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Batal</a>
     </form>

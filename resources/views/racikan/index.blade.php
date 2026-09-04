@@ -1,6 +1,6 @@
 @extends('layout.conquer')
 
-@section('title', 'Daftar Racikan')
+@section('title', 'Obaat Khusus/Resep')
 
 @section('content')
 <style>
@@ -11,24 +11,24 @@
         gap: 16px;
         margin-bottom: 22px;
         padding-bottom: 18px;
-        border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+        border-bottom: 1px solid #e2e8f0;
     }
 
     .racikan-page-header h1 {
         margin: 0;
         font-size: 30px;
         font-weight: 800;
-        color: #f8fafc;
+        color: #1e293b;
     }
 
     .racikan-page-header p {
         margin: 8px 0 0;
-        color: #94a3b8;
+        color: #64748b;
     }
 
     .racikan-filter-card {
-        background: #162033;
-        border: 1px solid rgba(148, 163, 184, 0.18);
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
         border-radius: 16px;
         padding: 16px;
         margin-bottom: 18px;
@@ -45,8 +45,8 @@
 
     .racikan-table-box {
         width: 100%;
-        background: #162033;
-        border: 1px solid rgba(148, 163, 184, 0.18);
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
         border-radius: 16px;
         overflow: hidden;
     }
@@ -55,36 +55,36 @@
         width: 100%;
         table-layout: fixed;
         margin-bottom: 0;
-        color: #f8fafc;
+        color: #1e293b;
         font-size: 13px;
     }
 
     .racikan-table thead th {
-        background: #1e2b42;
-        color: #f8fafc;
+        background: #f8fafc;
+        color: #1e293b;
         font-size: 12px;
         font-weight: 800;
         text-transform: uppercase;
-        border-color: rgba(148, 163, 184, 0.14);
+        border-color: #e2e8f0;
         padding: 12px 10px;
         vertical-align: middle;
     }
 
     .racikan-table tbody td {
-        background: #162033;
-        color: #f8fafc;
-        border-color: rgba(148, 163, 184, 0.12);
+        background: #ffffff;
+        color: #1e293b;
+        border-color: #e2e8f0;
         padding: 12px 10px;
         vertical-align: top;
     }
 
     .racikan-table tbody tr:nth-child(even) td {
-        background: #1b2638;
+        background: #f8fafc;
     }
 
     .cell-main {
         display: block;
-        color: #f8fafc;
+        color: #1e293b;
         font-weight: 800;
         line-height: 1.35;
         word-break: break-word;
@@ -93,7 +93,7 @@
     .cell-sub {
         display: block;
         margin-top: 4px;
-        color: #94a3b8;
+        color: #64748b;
         font-size: 12px;
         line-height: 1.35;
         word-break: break-word;
@@ -112,23 +112,23 @@
 
     .badge-resep-ada {
         background: rgba(34, 197, 94, 0.16);
-        color: #22c55e;
+        color: #15803d;
     }
 
     .badge-resep-kosong {
         background: rgba(234, 179, 8, 0.16);
-        color: #facc15;
+        color: #92400e;
     }
 
     .badge-resep-wajib {
         background: rgba(239, 68, 68, 0.16);
-        color: #f87171;
+        color: #dc2626;
     }
 
     .komposisi-list {
         margin: 0;
         padding-left: 16px;
-        color: #cbd5e1;
+        color: #334155;
         font-size: 12px;
         line-height: 1.55;
     }
@@ -158,7 +158,7 @@
     .racikan-empty {
         padding: 28px;
         text-align: center;
-        color: #94a3b8;
+        color: #64748b;
     }
 
     .col-id { width: 6%; text-align:center; }
@@ -175,7 +175,7 @@
     }
 
     .sort-link:hover {
-        color: #93c5fd;
+        color: #1d4ed8;
         text-decoration: none;
     }
 
@@ -437,7 +437,7 @@
                                 Ada
                             </span>
                         @elseif($isSusulan)
-                            <span class="racikan-badge" style="background: rgba(148, 163, 184, 0.16); color: #cbd5e1;">
+                            <span class="racikan-badge" style="background: rgba(148, 163, 184, 0.16); color: #334155;">
                                 Auto (SIPNAP)
                             </span>
                             <span class="cell-sub">Tanpa Foto</span>

@@ -21,12 +21,12 @@
 
     <style>
         :root {
-            --am-bg: #0f172a;
-            --am-panel: #111827;
-            --am-panel-soft: #162033;
-            --am-border: #26354d;
-            --am-text: #f8fafc;
-            --am-muted: #94a3b8;
+            --am-bg: #ffffff;
+            --am-panel: #ffffff;
+            --am-panel-soft: #f1f5f9;
+            --am-border: #e2e8f0;
+            --am-text: #1e293b;
+            --am-muted: #64748b;
             --am-red: #ef233c;
             --am-red-dark: #d90429;
         }
@@ -42,15 +42,15 @@
         #app {
             min-height: 100vh;
             background:
-                radial-gradient(circle at top left, rgba(239, 68, 68, 0.18), transparent 28%),
-                radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.12), transparent 30%),
+                radial-gradient(circle at top left, rgba(239, 68, 68, 0.06), transparent 28%),
+                radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.05), transparent 30%),
                 var(--am-bg);
         }
 
         .auth-navbar {
-            background: rgba(8, 13, 24, 0.92);
+            background: rgba(255, 255, 255, 0.92);
             border-bottom: 1px solid var(--am-border);
-            box-shadow: 0 10px 32px rgba(0, 0, 0, 0.28);
+            box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
             backdrop-filter: blur(12px);
             min-height: 72px;
         }
@@ -99,11 +99,11 @@
         }
 
         .navbar-toggler-icon {
-            filter: invert(1);
+            filter: none;
         }
 
         .auth-navbar .nav-link {
-            color: #cbd5e1 !important;
+            color: #334155 !important;
             font-weight: 700;
             border-radius: 12px;
             padding: 10px 14px !important;
@@ -111,8 +111,8 @@
         }
 
         .auth-navbar .nav-link:hover {
-            color: #fff !important;
-            background: rgba(255, 255, 255, 0.06);
+            color: #1e293b !important;
+            background: rgba(15, 23, 42, 0.05);
         }
 
         .auth-navbar .nav-link.auth-login-link {
@@ -125,20 +125,20 @@
             background: var(--am-panel);
             border: 1px solid var(--am-border);
             border-radius: 16px;
-            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 12px 32px rgba(15, 23, 42, 0.1);
             padding: 8px;
         }
 
         .auth-navbar .dropdown-item {
-            color: #cbd5e1;
+            color: #334155;
             border-radius: 10px;
             padding: 10px 12px;
             font-weight: 600;
         }
 
         .auth-navbar .dropdown-item:hover {
-            background: rgba(239, 68, 68, 0.12);
-            color: #fff;
+            background: rgba(239, 68, 68, 0.08);
+            color: #1e293b;
         }
 
         .auth-main {

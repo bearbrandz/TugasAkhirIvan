@@ -45,32 +45,32 @@
         </div>
     @endif
 
-    <h1 class="mb-4">Dashboard</h1>
+    <h1 class="mb-4 fw-bold">Dashboard</h1>
 
     <div class="row">
         <!-- LEFT SIDE: Cards & Charts -->
         <div class="col-lg-4 mb-4">
             <div class="card mb-3 shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title text-success">Total Penjualan Bulan Ini</h5>
-                    <p class="card-text fw-bold">Rp{{ number_format($totalSalesRupiah, 0, ',', '.') }}</p>
+                    <h5 class="card-title text-success fs-0.9 fw-bold">Total Penjualan Bulan Ini</h5>
+                    <p class="card-text">Rp{{ number_format($totalSalesRupiah, 0, ',', '.') }}</p>
                 </div>
             </div>
             <div class="card mb-3 shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title text-primary">Total Pembelian Bulan Ini</h5>
-                    <p class="card-text fw-bold">Rp{{ number_format($totalPurchasesRupiah, 0, ',', '.') }}</p>
+                    <h5 class="card-title text-primary fs-0.9 fw-bold">Total Pembelian Bulan Ini</h5>
+                    <p class="card-text">Rp{{ number_format($totalPurchasesRupiah, 0, ',', '.') }}</p>
                 </div>
             </div>
             <div class="card mb-3 shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title">Penjualan per Minggu Bulan Ini</h5>
+                    <h5 class="card-title fw-bold">Penjualan per Minggu Bulan Ini</h5>
                     <canvas id="salesChart"></canvas>
                 </div>
             </div>
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title">Pembelian per Minggu Bulan Ini</h5>
+                    <h5 class="card-title fw-bold">Pembelian per Minggu Bulan Ini</h5>
                     <canvas id="purchasesChart"></canvas>
                 </div>
             </div>
@@ -104,7 +104,7 @@
                 </div>
             </form>
 
-            <h4 class="mb-3">Daftar Produk</h4>
+            <h3 class="mb-3 fw-bold">Daftar Produk</h3>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 @foreach ($datas as $d)
                     <div class="col">
@@ -112,11 +112,11 @@
                             <div class="card h-100 shadow-sm">
                                 <div class="card-body d-flex flex-column justify-content-between">
                                     <div class="mb-2">
-                                        <h6 class="card-title mb-1">{{ $d->nama }}</h6>
+                                        <h5 class="card-title mb-1">{{ $d->nama }}</h5>
                                     </div>
                                     <div class="text-end small text-muted mt-auto">
-                                        <p class="mb-0">Stok: {{ $d->total_stok ?? 0 }}</p>
-                                        <p class="mb-0">Harga: Rp{{ number_format($d->final_price ?? 0, 0, ',', '.') }}</p>
+                                        <p class="mb-0 fw-bold">Stok: {{ $d->total_stok ?? 0 }}</p>
+                                        <p class="mb-0 fw-bold">Harga: Rp{{ number_format($d->final_price ?? 0, 0, ',', '.') }}</p>
                                     </div>
                                 </div>
                             </div>

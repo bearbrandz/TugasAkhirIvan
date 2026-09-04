@@ -3,31 +3,38 @@
 @section('content')
 <style>
     body {
-        background: #0f172a !important;
-        color: #f8fafc;
+        background: #ffffff !important;
+        color: #1e293b;
         font-family: 'Inter', sans-serif;
     }
 
     .auth-page {
-        min-height: calc(100vh - 70px);
+        min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 40px 16px;
-        background:
-            radial-gradient(circle at top left, rgba(239, 68, 68, 0.22), transparent 30%),
-            radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.16), transparent 28%),
-            #0f172a;
+        background-image: url('{{ asset('assets/img/foto-bg-lp.JPG') }}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
     }
 
     .auth-card {
         width: 100%;
         max-width: 460px;
-        background: #111827;
-        border: 1px solid #26354d;
+        background: rgba(234, 243, 252, 0.9);
+        border: 1px solid #BFDBFE;
         border-radius: 22px;
-        box-shadow: 0 22px 70px rgba(0, 0, 0, 0.35);
+        box-shadow: 0 12px 40px rgba(15, 23, 42, 0.1);
         overflow: hidden;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+
+    .auth-card .sidebar-header {
+        background: #0B1D3A;
     }
 
     .auth-header {
@@ -51,7 +58,7 @@
 
     .auth-header h1 {
         margin: 0;
-        color: #fff;
+        color: #1e293b;
         font-size: 28px;
         font-weight: 800;
         letter-spacing: 0.5px;
@@ -59,7 +66,7 @@
 
     .auth-header p {
         margin: 8px 0 0;
-        color: #94a3b8;
+        color: #64748b;
         font-size: 14px;
     }
 
@@ -68,15 +75,15 @@
     }
 
     .form-label {
-        color: #e5e7eb;
+        color: #334155;
         font-weight: 600;
         margin-bottom: 8px;
     }
 
     .form-control {
-        background: #0b1220 !important;
-        border: 1px solid #334155 !important;
-        color: #f8fafc !important;
+        background: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #1e293b !important;
         border-radius: 12px;
         height: 48px;
         padding: 10px 14px;
@@ -88,17 +95,17 @@
     }
 
     .form-control::placeholder {
-        color: #64748b;
+        color: #94a3b8;
     }
 
     .form-check-label {
-        color: #cbd5e1;
+        color: #334155;
         font-size: 14px;
     }
 
     .form-check-input {
-        background-color: #0b1220;
-        border-color: #475569;
+        background-color: #ffffff;
+        border-color: #94a3b8;
     }
 
     .form-check-input:checked {
@@ -124,18 +131,18 @@
     }
 
     .auth-link {
-        color: #f87171;
+        color: #dc2626;
         text-decoration: none;
         font-size: 14px;
     }
 
     .auth-link:hover {
-        color: #fb7185;
+        color: #b91c1c;
         text-decoration: underline;
     }
 
     .invalid-feedback {
-        color: #fca5a5;
+        color: #dc2626;
         font-size: 13px;
         margin-top: 6px;
     }
@@ -186,7 +193,7 @@
                     @enderror
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-4">
                     <label for="password" class="form-label">Password</label>
 
                     <input
@@ -205,29 +212,6 @@
                         </span>
                     @enderror
                 </div>
-
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div class="form-check">
-                        <input
-                            class="form-check-input"
-                            type="checkbox"
-                            name="remember"
-                            id="remember"
-                            {{ old('remember') ? 'checked' : '' }}
-                        >
-
-                        <label class="form-check-label" for="remember">
-                            Remember Me
-                        </label>
-                    </div>
-
-                    @if (Route::has('password.request'))
-                        <a class="auth-link" href="{{ route('password.request') }}">
-                            Lupa Password?
-                        </a>
-                    @endif
-                </div>
-
                 <button type="submit" class="btn btn-login">
                     Login
                 </button>

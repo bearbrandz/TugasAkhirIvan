@@ -9,8 +9,8 @@
     .produk-table { width: 100%; table-layout: fixed; margin-bottom: 0; font-size: 13px; }
     .produk-table th { white-space: nowrap; vertical-align: middle !important; font-size: 12px; }
     .produk-table td { vertical-align: middle !important; word-break: break-word; font-size: 13px; }
-    .produk-name { display: block; font-weight: 800; color: #f8fafc; line-height: 1.35; }
-    .produk-desc { display: block; margin-top: 4px; color: #94a3b8; font-size: 12px; line-height: 1.35; }
+    .produk-name { display: block; font-weight: 800; color: #1e293b; line-height: 1.35; }
+    .produk-desc { display: block; margin-top: 4px; color: #64748b; font-size: 12px; line-height: 1.35; }
     .produk-pagination { margin-top: 18px; display: flex; justify-content: flex-end; }
 </style>
 
@@ -76,7 +76,7 @@
                         <tr>
                             <td>
                                 <span class="produk-name">{{ $d->nama ?? '-' }}</span>
-                                <span class="produk-desc" style="color:#ef4444; margin-top:8px;">Dihapus pada: {{ $d->deleted_at->format('d/m/Y H:i') }}</span>
+                                <span class="produk-desc" style="color:#dc2626; margin-top:8px;">Dihapus pada: {{ $d->deleted_at->format('d/m/Y H:i') }}</span>
                             </td>
                             <td>
                                 <span class="produk-name">{{ $d->no_hp ?? '-' }}</span>

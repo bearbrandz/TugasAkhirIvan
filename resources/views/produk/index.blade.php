@@ -1,6 +1,6 @@
 @extends('layout.conquer')
 
-@section('title', 'Daftar Produk')
+@section('title','Daftar Produk')
 
 @section('content')
 <style>
@@ -94,14 +94,14 @@
     .produk-name {
         display: block;
         font-weight: 800;
-        color: #f8fafc;
+        color: #1e293b;
         line-height: 1.35;
     }
 
     .produk-desc {
         display: block;
         margin-top: 4px;
-        color: #94a3b8;
+        color: #64748b;
         font-size: 12px;
         line-height: 1.35;
     }
@@ -192,7 +192,7 @@
 
     .produk-pagination p {
         margin: 0;
-        color: #94a3b8;
+        color: #64748b;
         font-size: 13px;
     }
 
@@ -241,7 +241,7 @@
             <div>
                 <h1>
                     <i class="icon-present" style="margin-right:8px;color:#3b82f6;"></i>
-                    Daftar Produk
+            Daftar Produk
                 </h1>
                 <p>Kelola data obat dan produk farmasi Apotek Medico</p>
             </div>
@@ -267,7 +267,7 @@
                     style="min-width: 200px;"
                 >
 
-                <select name="golongan" class="form-select form-select-sm" style="width: auto; background-color: #111827; color: #f8fafc; border: 1px solid rgba(148, 163, 184, 0.28); border-radius: 6px;">
+                <select name="golongan" class="form-select form-select-sm" style="width: auto; background-color: #ffffff; color: #1e293b; border: 1px solid #cbd5e1; border-radius: 6px;">
                     <option value="">Semua Golongan</option>
                     <option value="bebas" {{ request('golongan') == 'bebas' ? 'selected' : '' }}>Bebas</option>
                     <option value="terbatas" {{ request('golongan') == 'terbatas' ? 'selected' : '' }}>Bebas Terbatas</option>
@@ -338,6 +338,7 @@
                         <th class="produk-col-hpp">HPP Avg</th>
                         <th class="produk-col-markup">Markup</th>
                         <th class="produk-col-harga">Harga Jual</th>
+                        <th class="produk-col-Keterangan">Keterangan</th>
 
                         <th class="produk-col-aksi">Aksi</th>
                     </tr>
@@ -419,6 +420,10 @@
                                 <span class="produk-price">
                                     Rp {{ number_format((float) ($d->final_price ?? 0), 0, ',', '.') }}
                                 </span>
+                            </td>
+
+                            <td class="produk-col-keterangan">
+                                <span>Barang Tersedia</span>
                             </td>
 
 

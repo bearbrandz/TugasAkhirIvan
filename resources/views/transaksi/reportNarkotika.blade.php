@@ -7,30 +7,30 @@
     <style>
         * { box-sizing: border-box; }
 
-        /* ===== SCREEN (DARK MODE INHERIT) ===== */
-        .print-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid rgba(255,255,255,0.1); padding-bottom: 14px; margin-bottom: 18px; }
+        /* ===== SCREEN (LIGHT MODE INHERIT) ===== */
+        .print-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid rgba(15,23,42,0.12); padding-bottom: 14px; margin-bottom: 18px; }
         .print-title { text-align: right; }
-        .print-title h1 { font-size: 20px; margin-bottom: 4px; }
-        .print-title p { font-size: 12px; color: #94a3b8; line-height: 1.6; }
+        .print-title h1 { font-size: 20px; margin-bottom: 4px; color: #1e293b; }
+        .print-title p { font-size: 12px; color: #64748b; line-height: 1.6; }
         .filter-badge { display: inline-block; background: #3b82f6; color: #fff; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; margin-top: 4px; }
 
         /* ===== PANEL EKSPOR (hidden when printing) ===== */
-        .export-panel { background: linear-gradient(135deg, #1e3a5f, #162033); border: 1px solid #2a4a7f; border-radius: 10px; padding: 18px; margin-bottom: 20px; }
+        .export-panel { background: linear-gradient(135deg, #eef2ff, #e0e7ff); border: 1px solid #c7d2fe; border-radius: 10px; padding: 18px; margin-bottom: 20px; }
         .export-panel-title { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
         .export-badge { background: #e74c3c; color: #fff; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
-        .export-panel h2 { margin: 0; font-size: 15px; font-weight: 700; color: #fff; }
-        .export-panel p { color: #94a3b8; font-size: 12px; margin-bottom: 14px; }
+        .export-panel h2 { margin: 0; font-size: 15px; font-weight: 700; color: #1e293b; }
+        .export-panel p { color: #64748b; font-size: 12px; margin-bottom: 14px; }
         .export-form { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px; }
-        .export-form label { display: block; font-size: 11px; color: #94a3b8; margin-bottom: 4px; }
-        .export-form select { background: #111827; color: #fff; border: 1px solid #374151; border-radius: 6px; padding: 7px 12px; font-size: 13px; }
+        .export-form label { display: block; font-size: 11px; color: #64748b; margin-bottom: 4px; }
+        .export-form select { background: #ffffff; color: #1e293b; border: 1px solid #cbd5e1; border-radius: 6px; padding: 7px 12px; font-size: 13px; }
         .btn-sipnap { background: #3b82f6; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 700; font-size: 12px; cursor: pointer; }
         .btn-simona { background: #10b981; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 700; font-size: 12px; cursor: pointer; }
 
         /* ===== TABLE ===== */
         table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
-        th, td { border: 1px solid rgba(255,255,255,0.1); padding: 8px 10px; text-align: left; vertical-align: top; word-break: break-word; }
-        thead th { background: rgba(255,255,255,0.05); color: #fff; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; }
-        tbody tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+        th, td { border: 1px solid #e2e8f0; padding: 8px 10px; text-align: left; vertical-align: top; word-break: break-word; }
+        thead th { background: #f8fafc; color: #1e293b; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; }
+        tbody tr:nth-child(even) td { background: rgba(15,23,42,0.02); }
 
         .col-identitas { width: 12%; }
         .col-obat      { width: 22%; }
@@ -40,16 +40,16 @@
         .col-no        { width: 4%; text-align: center; }
 
         .cell-title { font-weight: 700; margin-bottom: 3px; font-size: 12px; }
-        .cell-sub { display: block; color: #94a3b8; font-size: 11px; margin-top: 2px; }
+        .cell-sub { display: block; color: #64748b; font-size: 11px; margin-top: 2px; }
 
         .stok-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
-        .stok-item { border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 5px 7px; display: flex; align-items: center; justify-content: space-between; gap: 6px; }
-        .stok-item.dipakai { border-color: rgba(248,113,113,0.5); background: rgba(248,113,113,0.1); }
-        .stok-item.akhir   { border-color: rgba(74,222,128,0.5); background: rgba(74,222,128,0.1); }
-        .stok-label { color: #94a3b8; font-size: 10px; white-space: nowrap; }
+        .stok-item { border: 1px solid #e2e8f0; border-radius: 4px; padding: 5px 7px; display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+        .stok-item.dipakai { border-color: rgba(248,113,113,0.5); background: rgba(248,113,113,0.08); }
+        .stok-item.akhir   { border-color: rgba(74,222,128,0.5); background: rgba(74,222,128,0.08); }
+        .stok-label { color: #64748b; font-size: 10px; white-space: nowrap; }
         .stok-value { font-weight: 700; font-size: 12px; white-space: nowrap; }
 
-        tfoot th { background: rgba(255,255,255,0.05); font-weight: 700; font-size: 12px; }
+        tfoot th { background: #f8fafc; font-weight: 700; font-size: 12px; }
 
         /* ===== ACTION BUTTONS ===== */
         .action-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }

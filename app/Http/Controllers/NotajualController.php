@@ -49,6 +49,7 @@ class NotajualController extends Controller
                 'notajuals.nominal_bayar',
                 'notajuals.kembalian',
                 'notajuals.metode_bayar',
+                'notajuals.foto_resep',
     
                 \DB::raw("GROUP_CONCAT(DISTINCT produkbatches.id ORDER BY produkbatches.id SEPARATOR ', ') as batch_ids"),
                 \DB::raw("GROUP_CONCAT(DISTINCT produks.id ORDER BY produks.id SEPARATOR ', ') as produk_ids"),
@@ -73,7 +74,8 @@ class NotajualController extends Controller
                 'notajuals.total_bayar',
                 'notajuals.nominal_bayar',
                 'notajuals.kembalian',
-                'notajuals.metode_bayar'
+                'notajuals.metode_bayar',
+                'notajuals.foto_resep'
             );
     
         if (!empty($search)) {
@@ -348,6 +350,9 @@ class NotajualController extends Controller
         ->filter(fn($p) => ($p->total_stok ?? 0) < 10 && ($p->total_stok ?? 0) > 0)
         ->map(fn($p) => "{$p->nama} — sisa stok: {$p->total_stok}");
 
+        $dokters = \App\Models\Dokter::all();
+        $pasiens = \App\Models\Pasien::all();
+
         return view('transaksi.jualProduk', [
             'prod'          => $paginated,
             'search'        => $search,
@@ -355,6 +360,8 @@ class NotajualController extends Controller
             'batchExpired'  => $batchExpired,
             'batchWillExpire' => $batchWillExpire,
             'lowStockProduk'  => $lowStockProduk,
+            'dokters'         => $dokters,
+            'pasiens'         => $pasiens,
         ]);
     }
 
@@ -458,7 +465,16 @@ class NotajualController extends Controller
             $notajual = Notajual::create([
                 'nomor_nota' => $this->generateNomorNota(),
                 'pegawai_id' => $pegawaiId,
+                'dokter_id' => $request->input('dokter_id'),
+                'pasien_id' => $request->input('pasien_id'),
             ]);
+
+            if ($request->hasFile('foto_resep')) {
+                $file = $request->file('foto_resep');
+                $path = $file->store('resep', 'public'); 
+                $notajual->foto_resep = $path;
+                $notajual->save();
+            }
     
             $totalTransaksi = 0;
     
@@ -570,6 +586,8 @@ class NotajualController extends Controller
                         throw new \Exception("Produk Narkotika/Psikotropika ({$produk->nama}) tidak boleh dijual secara langsung di kasir! Wajib melalui Nota Penjualan Racikan (Resep).");
                     }
     
+                    
+    
                     $availableStock = Produkbatches::where('produks_id', $produkId)
                         ->where('stok', '>', 0)
                         ->where('status', 'tersedia')
@@ -667,7 +685,9 @@ class NotajualController extends Controller
                     'updated_at' => now(),
                 ]);
     
-            session()->forget(['cart_jual', 'racikan_cart']);
+            session()->forget('cart_jual');
+            session()->forget('racikan_cart');
+            session()->save();
     
             DB::commit();
 
@@ -765,6 +785,7 @@ class NotajualController extends Controller
             'distributors_id' => $request->input('distributors_id'),
             'quantity' => $request->input('quantity'),
             'is_racikan' => $isRacikan,
+            'golongan' => $isRacikan ? 'keras' : ($produk->golongan ?? 'bebas'),
         ];
 
         // Save the updated cart back into the dedicated session key

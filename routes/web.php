@@ -381,6 +381,13 @@ Route::middleware(['auth'])->group(function () {
     | DASHBOARD & PROFILE
     |--------------------------------------------------------------------------
     */
+    /*
+    |--------------------------------------------------------------------------
+    | QUICK ADD API
+    |--------------------------------------------------------------------------
+    */
+    Route::post('/api/pasiens/quick-store', [\App\Http\Controllers\PasienController::class, 'quickStore'])->name('pasiens.quick-store');
+    Route::post('/api/dokters/quick-store', [\App\Http\Controllers\DokterController::class, 'quickStore'])->name('dokters.quick-store');
 
     Route::get('/home', [ProdukController::class, 'homeProduk'])
         ->name('homeProduk');
@@ -419,8 +426,6 @@ Route::middleware(['auth'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('notajuals', NotajualController::class);
-
     Route::post('/notajuals/cart', [NotajualController::class, 'addToCart'])
         ->name('notajuals.cart');
 
@@ -429,6 +434,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/notajuals/{id}/print', [NotajualController::class, 'print'])
         ->name('notajuals.print');
+
+    Route::resource('notajuals', NotajualController::class);
 
     /*
     |--------------------------------------------------------------------------
@@ -592,6 +599,9 @@ Route::middleware(['auth', IsAdminOrApoteker::class])->group(function () {
     |--------------------------------------------------------------------------
     */
     
+    Route::resource('dokters', \App\Http\Controllers\DokterController::class);
+    Route::resource('pasiens', \App\Http\Controllers\PasienController::class);
+
     Route::get('/distributors/arsip', [DistributorController::class, 'arsip'])->name('distributors.arsip');
     Route::post('/distributors/restore/{id}', [DistributorController::class, 'restore'])->name('distributors.restore');
     Route::delete('/distributors/force-delete/{id}', [DistributorController::class, 'forceDelete'])->name('distributors.force-delete');

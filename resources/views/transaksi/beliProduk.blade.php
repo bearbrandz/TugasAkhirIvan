@@ -45,13 +45,6 @@
                 </div>
             </form>
 
-            {{-- INFO PEGAWAI --}}
-            <div class="mb-3">
-                <p class="mb-0">
-                    <strong>Pegawai:</strong> {{ auth()->user()->nama }}
-                </p>
-            </div>
-
             {{-- PRODUCT LIST --}}
             <div class="row g-3">
                 @forelse ($prod as $p)
@@ -137,8 +130,14 @@
                                             <div class="col-md-6">
                                                 <label class="form-label">Harga Beli per Unit</label>
                                                 <input
-                                                    type="number"
-                                                    class="form-control input-harga-beli"
+                                                    type="text"
+                                                    class="form-control input-harga-beli-format"
+                                                    value="{{ $p->harga_beli_terakhir ? 'Rp' . number_format($p->harga_beli_terakhir, 0, ',', '.') : '' }}"
+                                                    required
+                                                >
+                                                <input
+                                                    type="hidden"
+                                                    class="input-harga-beli"
                                                     name="unitprice"
                                                     min="1"
                                                     step="0.01"
@@ -234,7 +233,7 @@
                                                 <label class="form-label">Gudang</label>
                                                 <select name="gudangs_id" class="form-select" required>
                                                     @foreach ($gudangs as $g)
-                                                        <option value="{{ $g->id }}">
+                                                        <option value="{{ $g->id }}" {{ ($p->gudang_terakhir_id ?? '') == $g->id ? 'selected' : '' }}>
                                                             {{ $g->lokasi }}
                                                         </option>
                                                     @endforeach
@@ -491,12 +490,19 @@
                             <div class="col-md-4">
                                 <label class="form-label">Harga Beli per Unit</label>
                                 <input
-                                    type="number"
+                                    type="text"
+                                    id="hargaBeliProdukBaruFormat"
+                                    class="form-control input-harga-beli-format"
+                                    required
+                                >
+                                <input
+                                    type="hidden"
                                     name="unitprice"
                                     id="hargaBeliProdukBaru"
-                                    class="form-control input-harga-beli"
+                                    class="input-harga-beli"
                                     min="0"
                                     step="0.01"
+                                    value=""
                                     required
                                 >
                             </div>
@@ -528,6 +534,7 @@
                             <div class="col-md-4">
                             <label class="form-label">Satuan Beli</label>
                             <select class="form-select satuan-input-select" name="satuans" required>
+                                <option value="">Pilih Satuan Beli</option>
                                     @foreach ($satuans as $s)
                                         <option value="{{ $s->id }}">
                                             {{ $s->nama }}
@@ -539,6 +546,7 @@
                             <div class="col-md-4">
                                 <label class="form-label">Satuan Stok/Jual Utama</label>
                                 <select class="form-select satuan-jual-select" name="satuan_jual_id" required>
+                                    <option value="">Pilih Satuan Stok/Jual Utama</option>
                                     @foreach ($satuans as $s)
                                         <option value="{{ $s->id }}">
                                             {{ $s->nama }}
@@ -590,6 +598,7 @@
                             <div class="col-md-4">
                                 <label class="form-label">Distributor</label>
                                 <select name="distributors" class="form-select" required>
+                                    <option value="">Pilih Distributor</option>
                                     @foreach ($distributors as $d)
                                         <option value="{{ $d->id }}">
                                             {{ $d->nama }}
@@ -601,6 +610,7 @@
                             <div class="col-md-4">
                                 <label class="form-label">Gudang Produk</label>
                                 <select class="form-select" name="gudangs" required>
+                                    <option value="">Pilih Gudang</option>
                                     @foreach ($gudangs as $g)
                                         <option value="{{ $g->id }}">
                                             {{ $g->lokasi }}
@@ -841,11 +851,26 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function initForm(form) {
+        const hargaFormatInput = form.querySelector('.input-harga-beli-format');
         const hargaInput = form.querySelector('.input-harga-beli');
         const marginInput = form.querySelector('.input-margin-jual');
         const satuanBeliSelect = getSatuanBeliSelect(form);
         const satuanJualSelect = form.querySelector('select[name="satuan_jual_id"]');
         const konversiSelect = form.querySelector('.konversi-select');
+
+        if (hargaFormatInput && hargaInput) {
+            hargaFormatInput.addEventListener('input', function (e) {
+                let val = this.value.replace(/[^0-9]/g, '');
+                if (val) {
+                    hargaInput.value = val;
+                    this.value = formatRupiah(val);
+                } else {
+                    hargaInput.value = '';
+                    this.value = '';
+                }
+                hitungPreviewHarga(form);
+            });
+        }
 
         if (hargaInput) {
             hargaInput.addEventListener('input', function () {

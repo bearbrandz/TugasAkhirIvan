@@ -11,6 +11,7 @@ class SatuanKonversiController extends Controller
     public function index()
     {
         $datas = SatuanKonversi::with(['satuanBesar', 'satuanKecil'])
+            ->orderBy('id', 'desc')
             ->paginate(10);
 
         return view('satuankonversi.index', compact('datas'));

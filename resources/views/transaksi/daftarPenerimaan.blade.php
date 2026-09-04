@@ -30,7 +30,7 @@
                             'id_batch'         => 'ID Batch',
                             'nama_produk'      => 'Produk / Nota',
                             'nama_dist'        => 'Nama Distributor',
-                            'nama_gudang'      => 'Lokasi Gudang',
+                            // 'nama_gudang'      => 'Lokasi Gudang',
                             'jumlah_diterima'  => 'Jumlah Diterima / Stok',
                             'tgl_datang'       => 'Tanggal Datang / Expired',
                         ] as $column => $label)
@@ -73,15 +73,17 @@
                             </small>
                         </td>
 
-                        <td>{{ $d->nama_distributor ?? '-' }}</td>
+                       // <td>{{ $d->nama_distributor ?? '-' }}</td> 
 
-                        <td>{{ $d->nama_gudang ?? '-' }}</td>
+                        <!-- <td>{{ $d->nama_gudang ?? '-' }}</td> -->
 
                         <td>
                             <strong>{{ number_format($d->jumlah_diterima ?? 0, 0, ',', '.') }}</strong>
                             <span class="text-muted">{{ $d->nama_satuan ?? '-' }}</span>
                             <br>
                             <small class="text-muted">
+                                Diterima: {{ number_format($d->total_telah_diterima ?? 0, 0, ',', '.') }}
+                                <br>
                                 Stok tersisa:
                                 {{ number_format($d->stok_tersisa ?? 0, 0, ',', '.') }}
                                 {{ $d->nama_satuan ?? '' }}
@@ -96,7 +98,6 @@
                             @endif
 
                             <br>
-
                             <small class="text-muted">
                                 Exp:
                                 {{ !empty($d->tgl_kadaluarsa) ? \Carbon\Carbon::parse($d->tgl_kadaluarsa)->format('d/m/Y') : '-' }}
@@ -109,9 +110,22 @@
                             @endphp
 
                             @if ($printId)
-                                <a href="{{ route('produks.printTerima', $printId) }}" class="btn btn-secondary btn-sm" target="_blank">
-                                    Cetak Nota
-                                </a>
+                                @php
+                                    $batchId = $d->batch_id ?? $d->id_batch ?? null;
+                                    $qtyOrdered = $d->jumlah_diterima ?? 0;
+                                    $qtyReceived = \App\Models\Terimabatches::where('produkbatches_id', $batchId)->sum('stok');
+                                    $qtyRemaining = $qtyOrdered - $qtyReceived;
+                                @endphp
+                                <div class="d-grid gap-1">
+                                    @if ($batchId && $qtyRemaining > 0)
+                                        <a href="{{ route('produks.terimaBatch', $batchId) }}" class="btn btn-primary btn-sm">
+                                            Terima (Sisa {{ $qtyRemaining }})
+                                        </a>
+                                    @endif
+                                    <a href="{{ route('produks.printTerima', $printId) }}" class="btn btn-secondary btn-sm" target="_blank">
+                                        Cetak Nota
+                                    </a>
+                                </div>
                             @else
                                 <span class="text-muted">Tidak ada batch</span>
                             @endif

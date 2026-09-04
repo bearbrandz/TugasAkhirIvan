@@ -11,24 +11,24 @@
             gap: 16px;
             margin-bottom: 24px;
             padding-bottom: 18px;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+            border-bottom: 1px solid #e2e8f0;
         }
 
         .nota-page-header h1 {
             margin: 0;
             font-size: 28px;
             font-weight: 800;
-            color: #f8fafc;
+            color: #1e293b;
         }
 
         .nota-page-header p {
             margin: 6px 0 0;
-            color: #94a3b8;
+            color: #64748b;
         }
 
         .nota-filter-card {
-            background: #162033;
-            border: 1px solid rgba(148, 163, 184, 0.18);
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
             border-radius: 16px;
             overflow: hidden;
             margin-bottom: 18px;
@@ -36,7 +36,7 @@
 
         .nota-filter-row {
             padding: 16px 18px;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+            border-bottom: 1px solid #e2e8f0;
         }
 
         .nota-filter-row:last-child {
@@ -62,9 +62,9 @@
 
         .nota-table-box {
             width: 100%;
-            border: 1px solid rgba(148, 163, 184, 0.18);
+            border: 1px solid #e2e8f0;
             border-radius: 16px;
-            background: #162033;
+            background: #ffffff;
             overflow: hidden;
         }
 
@@ -72,32 +72,32 @@
             width: 100%;
             table-layout: fixed;
             margin-bottom: 0;
-            color: #f8fafc;
+            color: #1e293b;
             font-size: 13px;
         }
 
         .nota-penjualan-table thead th {
-            background: #1e2b42;
-            color: #f8fafc;
+            background: #f8fafc;
+            color: #1e293b;
             font-size: 12px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.02em;
-            border-color: rgba(148, 163, 184, 0.14);
+            border-color: #e2e8f0;
             padding: 12px 10px;
             vertical-align: middle;
         }
 
         .nota-penjualan-table tbody td {
-            background: #162033;
-            color: #f8fafc;
-            border-color: rgba(148, 163, 184, 0.12);
+            background: #ffffff;
+            color: #1e293b;
+            border-color: #e2e8f0;
             padding: 12px 10px;
             vertical-align: top;
         }
 
         .nota-penjualan-table tbody tr:nth-child(even) td {
-            background: #1b2638;
+            background: #f8fafc;
         }
 
         .nota-penjualan-table th a {
@@ -106,7 +106,7 @@
         }
 
         .nota-penjualan-table th a:hover {
-            color: #fbbf24;
+            color: #b45309;
         }
 
         .col-nota {
@@ -140,14 +140,14 @@
         }
 
         .col-aksi {
-            width: 7%;
+            width: 12%;
             text-align: center;
             white-space: nowrap;
         }
 
         .nota-main-text {
             display: block;
-            color: #f8fafc;
+            color: #1e293b;
             font-weight: 800;
             line-height: 1.35;
             word-break: break-word;
@@ -156,7 +156,7 @@
         .nota-sub-text {
             display: block;
             margin-top: 4px;
-            color: #94a3b8;
+            color: #64748b;
             font-size: 12px;
             line-height: 1.35;
             word-break: break-word;
@@ -164,7 +164,7 @@
 
         .nota-product-meta {
             margin-top: 6px;
-            color: #94a3b8;
+            color: #64748b;
             font-size: 12px;
             line-height: 1.4;
             word-break: break-word;
@@ -180,7 +180,7 @@
         }
 
         .nota-detail-list li {
-            color: #e5e7eb;
+            color: #334155;
             line-height: 1.35;
             word-break: break-word;
         }
@@ -195,7 +195,7 @@
         .nota-empty {
             padding: 30px;
             text-align: center;
-            color: #94a3b8;
+            color: #64748b;
         }
 
         @media (max-width: 1200px) {
@@ -467,13 +467,20 @@
 
                         <td class="col-aksi">
                             @if(!empty($d->id))
-                                <a
-                                    href="{{ route('notajuals.print', $d->id) }}"
-                                    class="btn btn-secondary btn-sm nota-action-btn"
-                                    target="_blank"
-                                >
-                                    Cetak
-                                </a>
+                                <div class="d-flex flex-column gap-1">
+                                    <a
+                                        href="{{ route('notajuals.print', $d->id) }}"
+                                        class="btn btn-secondary btn-sm nota-action-btn"
+                                        target="_blank"
+                                    >
+                                        Cetak
+                                    </a>
+                                    @if($d->foto_resep)
+                                        <a href="{{ asset('storage/' . $d->foto_resep) }}" target="_blank" class="btn btn-info btn-sm nota-action-btn" title="Lihat Foto Resep">
+                                            <i class="fa fa-camera"></i> Resep
+                                        </a>
+                                    @endif
+                                </div>
                             @else
                                 <span class="text-muted">-</span>
                             @endif

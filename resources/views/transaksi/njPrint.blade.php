@@ -321,6 +321,20 @@
                 <div class="info-label">Metode Bayar</div>
                 <div class="info-value">{{ ucfirst($metodeBayar) }}</div>
             </div>
+
+            @if($nota->pasien)
+            <div class="info-row">
+                <div class="info-label">Pasien</div>
+                <div class="info-value">{{ $nota->pasien->nama }}</div>
+            </div>
+            @endif
+
+            @if($nota->dokter)
+            <div class="info-row">
+                <div class="info-label">Dokter</div>
+                <div class="info-value">{{ $nota->dokter->nama }}</div>
+            </div>
+            @endif
         </div>
     </div>
 
@@ -464,12 +478,5 @@
     </div>
 </div>
 
-<script>
-    window.addEventListener('load', function () {
-        setTimeout(function () {
-            window.print();
-        }, 300);
-    });
-</script>
 </body>
 </html>

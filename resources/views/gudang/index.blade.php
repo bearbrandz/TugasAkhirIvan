@@ -9,7 +9,7 @@
 <div class="am-page-header">
     <div>
         <h1><i class="icon-briefcase" style="margin-right:8px;color:#3b82f6;"></i>Lokasi Penyimpanan</h1>
-        <p>Kelola lokasi gudang dan rak penyimpanan obat</p>
+        <p>Kelola lokasi  rak penyimpanan barang/obat</p>
     </div>
     <div>
         <a href="{{ route('gudangs.create') }}" class="btn btn-primary" style="margin-right: 8px;">

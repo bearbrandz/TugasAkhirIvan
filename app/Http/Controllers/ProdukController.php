@@ -25,7 +25,7 @@ class ProdukController extends Controller
         // dd($produks);
         return view('produk.index', [
             'datas' => $produks,
-            'sortBy' => $request->get('sort_by', 'nama'),
+            'sortBy' => $request->get('sort_by', 'id'),
             'sortOrder' => $request->get('sort_order', 'desc'),
             'search' => $request->get('search')
         ]);
@@ -147,7 +147,7 @@ class ProdukController extends Controller
 
         $data->final_price = round($basePrice * (1 + ((float) $data->sellingprice / 100)), 0);
 
-        $sortBy = $request->get('sort_by', 'nama');
+        $sortBy = $request->get('sort_by', 'id');
         $sortOrder = $request->get('sort_order', 'desc');
         $search = $request->get('search');
 
@@ -200,6 +200,93 @@ class ProdukController extends Controller
             })->implode('\n');
         }
 
+        // --- Logika Kartu Stok (Mutasi) ---
+        $pembelian = DB::table('terimabatches as tb')
+            ->join('produkbatches as pb', 'tb.produkbatches_id', '=', 'pb.id')
+            ->join('notabelis_has_produks as nbp', 'nbp.produkbatches_id', '=', 'pb.id')
+            ->join('notabelis as nb', 'nbp.notabelis_id', '=', 'nb.id')
+            ->where('pb.produks_id', $id)
+            ->whereNull('nbp.deleted_at')
+            ->select(
+                'tb.created_at as tanggal',
+                DB::raw("'Pembelian' as jenis"),
+                DB::raw("CONCAT('PO-', nb.id) as referensi"),
+                'tb.stok as masuk',
+                DB::raw("0 as keluar"),
+                'pb.id as batch_id'
+            )->get();
+
+        $pembelianLegacy = DB::table('notabelis_has_produks as nbp')
+            ->join('produkbatches as pb', 'nbp.produkbatches_id', '=', 'pb.id')
+            ->join('notabelis as nb', 'nbp.notabelis_id', '=', 'nb.id')
+            ->leftJoin('terimabatches as tb', 'tb.produkbatches_id', '=', 'pb.id')
+            ->where('pb.produks_id', $id)
+            ->whereNull('nbp.deleted_at')
+            ->whereNull('tb.id')
+            ->select(
+                'nb.created_at as tanggal',
+                DB::raw("'Pembelian' as jenis"),
+                DB::raw("CONCAT('PO-', nb.id) as referensi"),
+                'nbp.quantity as masuk',
+                DB::raw("0 as keluar"),
+                'pb.id as batch_id'
+            )->get();
+            
+        $pembelian = $pembelian->merge($pembelianLegacy);
+
+        $penjualan = DB::table('notajuals_has_produks as njp')
+            ->join('produkbatches as pb', 'njp.produkbatches_id', '=', 'pb.id')
+            ->join('notajuals as nj', 'njp.notajuals_id', '=', 'nj.id')
+            ->where('pb.produks_id', $id)
+            ->whereNull('njp.deleted_at')
+            ->select(
+                'nj.created_at as tanggal',
+                DB::raw("'Penjualan' as jenis"),
+                DB::raw("COALESCE(nj.nomor_nota, CONCAT('NJ-', nj.id)) as referensi"),
+                DB::raw("0 as masuk"),
+                'njp.quantity as keluar',
+                'pb.id as batch_id'
+            )->get();
+
+        $retur = DB::table('retur_pembelian_details as rpi')
+            ->join('produkbatches as pb', 'rpi.produkbatches_id', '=', 'pb.id')
+            ->join('retur_pembelians as rp', 'rpi.retur_pembelian_id', '=', 'rp.id')
+            ->where('pb.produks_id', $id)
+            ->select(
+                'rp.created_at as tanggal',
+                DB::raw("'Retur Pembelian' as jenis"),
+                'rp.no_retur as referensi',
+                DB::raw("0 as masuk"),
+                'rpi.qty as keluar',
+                'pb.id as batch_id'
+            )->get();
+
+        $opname = DB::table('produkopnames as po')
+            ->where('po.produks_id', $id)
+            ->whereNull('po.deleted_at')
+            ->select(
+                'po.created_at as tanggal',
+                DB::raw("'Stok Opname' as jenis"),
+                DB::raw("COALESCE(po.keterangan, 'Penyesuaian Fisik') as referensi"),
+                DB::raw("IF(po.selisih > 0, po.selisih, 0) as masuk"),
+                DB::raw("IF(po.selisih < 0, ABS(po.selisih), 0) as keluar"),
+                'po.produkbatches_id as batch_id'
+            )->get();
+
+        $mutasi = $pembelian->merge($penjualan)->merge($retur)->merge($opname)
+            ->sortBy('tanggal')
+            ->values();
+
+        $saldo = 0;
+        foreach ($mutasi as $m) {
+            $saldo += (float) $m->masuk;
+            $saldo -= (float) $m->keluar;
+            $m->sisa = $saldo;
+        }
+
+        // Membalikkan urutan dari yang terbaru (descending) untuk tampilan
+        $mutasi = $mutasi->reverse();
+
         return view('produk.batch', [
             'datas' => $produks,
             'sortBy' => $sortBy,
@@ -207,13 +294,14 @@ class ProdukController extends Controller
             'search' => $search,
             'produk' => $data,
             'expired_batches' => $expiredBatchList,
-            'sixmonthsexpired_batches' => $sixmonthexpiredBatchesList
+            'sixmonthsexpired_batches' => $sixmonthexpiredBatchesList,
+            'mutasi' => $mutasi
         ]);
     }
 
     private function getFilteredProduk(Request $request)
     {
-        $sortBy = $request->get('sort_by', 'nama');
+        $sortBy = $request->get('sort_by', 'id');
         $sortOrder = $request->get('sort_order', 'desc');
         $search = $request->get('search');
         $golonganFilter = $request->get('golongan');
@@ -289,8 +377,10 @@ class ProdukController extends Controller
         }
 
         // Allow sorting only on selected fields
-        if (in_array($sortBy, ['nama', 'sellingprice', 'golongan', 'deskripsi', 'total_stok'])) {
+        if (in_array($sortBy, ['nama', 'sellingprice', 'golongan', 'deskripsi', 'total_stok', 'id', 'created_at'])) {
             $query->orderBy($sortBy, $sortOrder);
+        } else {
+            $query->orderBy('id', 'desc');
         }
 
         // return $query->paginate(6)->appends([
@@ -376,7 +466,7 @@ class ProdukController extends Controller
 
         return view('welcome', [
             'datas' => $produks,
-            'sortBy' => $request->get('sort_by', 'nama'),
+            'sortBy' => $request->get('sort_by', 'id'),
             'sortOrder' => $request->get('sort_order', 'desc'),
             'search' => $request->get('search')
         ]);
@@ -500,7 +590,7 @@ class ProdukController extends Controller
 
         return view('home', [
             'datas' => $produks,
-            'sortBy' => $request->get('sort_by', 'nama'),
+            'sortBy' => $request->get('sort_by', 'id'),
             'sortOrder' => $request->get('sort_order', 'desc'),
             'search' => $request->get('search'),
             'chartLabelsSales' => $chartLabelsSales,
@@ -716,7 +806,18 @@ class ProdukController extends Controller
             'produkbatches_id' => $batch->id,
             'stok' => $stokBaru,
             'gudangs_id' => $newGudangId,
+
         ]);
+        // HITUNG HPP DISINI KARENA BARANG SUDAH MASUK GUDANG
+        $notaId = $batch->notaBeliProduks->first()->notabelis_id ?? null;
+        $hppBaru = \App\Services\HppService::hitungUlang(
+            $batch->produks_id,
+            $stokBaru,
+            (float) $batch->unitprice,
+            'pembelian',
+            $notaId
+        );
+        \App\Services\HppService::updateBatchHpp($batch->produks_id, $hppBaru);
 
         return redirect()->route('produks.batch', [
             'id' => $request->get('produks_id')

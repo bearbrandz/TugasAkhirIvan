@@ -266,8 +266,11 @@
 
 <div class="nota-wrapper">
     <div class="print-actions">
+        <a href="{{ route('notabelis.create') }}" class="btn-print" style="background: #6b7280; text-decoration: none; display: inline-block; margin-right: 8px;">
+            &larr; Kembali
+        </a>
         <button type="button" onclick="window.print()" class="btn-print">
-            Print Nota
+            Cetak Nota
         </button>
     </div>
 
@@ -428,12 +431,6 @@
     </div>
 </div>
 
-<script>
-    window.addEventListener('load', function () {
-        setTimeout(function () {
-            window.print();
-        }, 300);
-    });
-</script>
+
 </body>
 </html>

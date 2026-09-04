@@ -18,24 +18,25 @@ class Notajual extends Model
         'nominal_bayar',
         'kembalian',
         'metode_bayar',
+        'pasien_id',
+        'dokter_id',
+        'foto_resep'
     ];
 
-    /**
-     * Get the user that owns the Transaction
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(user::class, 'pegawai_id');
+        return $this->belongsTo(User::class, 'pegawai_id');
     }
 
-    /**
-     * Get the user that customer the Transaction
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
+    public function pasien(): BelongsTo
+    {
+        return $this->belongsTo(Pasien::class, 'pasien_id');
+    }
 
+    public function dokter(): BelongsTo
+    {
+        return $this->belongsTo(Dokter::class, 'dokter_id');
+    }
 
     public function notaJualProduks()
     {

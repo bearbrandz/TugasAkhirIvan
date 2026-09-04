@@ -11,24 +11,24 @@
         gap: 16px;
         margin-bottom: 22px;
         padding-bottom: 16px;
-        border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+        border-bottom: 1px solid #e2e8f0;
     }
 
     .retur-header h1 {
         margin: 0;
-        color: #f8fafc;
+        color: #1e293b;
         font-size: 28px;
         font-weight: 800;
     }
 
     .retur-header p {
         margin: 6px 0 0;
-        color: #94a3b8;
+        color: #64748b;
     }
 
     .retur-card {
-        background: #162033;
-        border: 1px solid rgba(148, 163, 184, 0.18);
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
         border-radius: 16px;
         padding: 18px;
         margin-bottom: 18px;
@@ -41,57 +41,57 @@
     }
 
     .retur-info-box {
-        background: #0f172a;
-        border: 1px solid rgba(148, 163, 184, 0.14);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 12px;
         padding: 12px;
     }
 
     .retur-info-box small {
         display: block;
-        color: #94a3b8;
+        color: #64748b;
         margin-bottom: 4px;
     }
 
     .retur-info-box strong {
-        color: #f8fafc;
+        color: #1e293b;
     }
 
     .retur-table {
         width: 100%;
-        color: #f8fafc;
+        color: #1e293b;
         font-size: 13px;
     }
 
     .retur-table th {
-        background: #1e2b42;
-        color: #f8fafc;
-        border-color: rgba(148, 163, 184, 0.14);
+        background: #f8fafc;
+        color: #1e293b;
+        border-color: #e2e8f0;
         padding: 12px 10px;
         text-transform: uppercase;
         font-size: 12px;
     }
 
     .retur-table td {
-        background: #162033;
-        color: #f8fafc;
-        border-color: rgba(148, 163, 184, 0.12);
+        background: #ffffff;
+        color: #1e293b;
+        border-color: #e2e8f0;
         padding: 12px 10px;
         vertical-align: top;
     }
 
     .retur-table tr:nth-child(even) td {
-        background: #1b2638;
+        background: #f8fafc;
     }
 
     .retur-product-title {
         font-weight: 800;
-        color: #f8fafc;
+        color: #1e293b;
     }
 
     .retur-muted {
         display: block;
-        color: #94a3b8;
+        color: #64748b;
         font-size: 12px;
         margin-top: 4px;
     }

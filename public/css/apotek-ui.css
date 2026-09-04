@@ -1,15 +1,15 @@
-/* APOTEK MEDICO - GLOBAL DARK UI OVERRIDE */
+/* APOTEK MEDICO - GLOBAL LIGHT UI OVERRIDE (Main Theme Putih) */
 
 html,
 body {
-    background: #0f172a !important;
-    color: #e5e7eb !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
 }
 
 .page-content,
 .main-wrapper {
-    background: #0f172a !important;
-    color: #e5e7eb !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
 }
 
 /* Text */
@@ -22,13 +22,13 @@ p,
 span,
 td,
 th {
-    color: #e5e7eb !important;
+    color: #1e293b !important;
 }
 
 .text-muted,
 small,
 .form-text {
-    color: #9ca3af !important;
+    color: #64748b !important;
 }
 
 /* Cards / Panels */
@@ -38,19 +38,19 @@ small,
 .am-form-card,
 .panel,
 .mode-card {
-    background: #162033 !important;
-    color: #e5e7eb !important;
-    border: 1px solid #2a3448 !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.28) !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06) !important;
 }
 
 .card-header,
 .card-footer,
 .panel-heading,
 .panel-footer {
-    background: #1c2940 !important;
-    color: #ffffff !important;
-    border-color: #2a3448 !important;
+    background: #f8fafc !important;
+    color: #1e293b !important;
+    border-color: #e2e8f0 !important;
 }
 
 /* Forms */
@@ -59,9 +59,9 @@ small,
 input,
 select,
 textarea {
-    background-color: #111827 !important;
-    color: #f9fafb !important;
-    border: 1px solid #374151 !important;
+    background-color: #ffffff !important;
+    color: #1e293b !important;
+    border: 1px solid #cbd5e1 !important;
 }
 
 .form-control:focus,
@@ -69,120 +69,120 @@ textarea {
 input:focus,
 select:focus,
 textarea:focus {
-    background-color: #0b1220 !important;
-    color: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #1e293b !important;
     border-color: #e8192c !important;
     box-shadow: 0 0 0 0.2rem rgba(232, 25, 44, 0.18) !important;
 }
 
 .form-control::placeholder,
 textarea::placeholder {
-    color: #9ca3af !important;
+    color: #64748b !important;
 }
 
 option {
-    background: #111827 !important;
-    color: #ffffff !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
 }
 
 /* Tables */
 .table,
 table {
-    color: #e5e7eb !important;
-    background: #162033 !important;
+    color: #1e293b !important;
+    background: #ffffff !important;
 }
 
 .table thead,
 table thead {
-    background: #1c2940 !important;
+    background: #f8fafc !important;
 }
 
 .table th,
 .table td,
 table th,
 table td {
-    color: #e5e7eb !important;
+    color: #1e293b !important;
     background: transparent !important;
-    border-color: #2a3448 !important;
+    border-color: #e2e8f0 !important;
 }
 
 .table-striped > tbody > tr:nth-of-type(odd) > * {
-    background-color: rgba(255, 255, 255, 0.03) !important;
+    background-color: rgba(15, 23, 42, 0.03) !important;
 }
 
 /* Alerts */
 .alert {
-    border: 1px solid #2a3448 !important;
+    border: 1px solid #e2e8f0 !important;
 }
 
 .alert-info {
-    background: #102a43 !important;
-    color: #bfdbfe !important;
+    background: #eff6ff !important;
+    color: #1e40af !important;
 }
 
 .alert-success {
-    background: #123524 !important;
-    color: #bbf7d0 !important;
+    background: #f0fdf4 !important;
+    color: #166534 !important;
 }
 
 .alert-danger {
-    background: #3b1218 !important;
-    color: #fecaca !important;
+    background: #fef2f2 !important;
+    color: #991b1b !important;
 }
 
 .alert-warning {
-    background: #3a2d0c !important;
-    color: #fde68a !important;
+    background: #fffbeb !important;
+    color: #92400e !important;
 }
 
 /* Modals */
 .modal-content {
-    background: #172033 !important;
-    color: #e5e7eb !important;
-    border: 1px solid #2a3448 !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
+    border: 1px solid #e2e8f0 !important;
 }
 
 .modal-header,
 .modal-footer {
-    border-color: #2a3448 !important;
+    border-color: #e2e8f0 !important;
 }
 
 /* Dropdown */
 .dropdown-menu {
-    background: #172033 !important;
-    border: 1px solid #2a3448 !important;
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
 }
 
 .dropdown-item {
-    color: #e5e7eb !important;
+    color: #1e293b !important;
 }
 
 .dropdown-item:hover {
-    background: #1e293b !important;
-    color: #ffffff !important;
+    background: #f1f5f9 !important;
+    color: #1e293b !important;
 }
 
 /* Buttons */
 .btn-default,
 .btn-light,
 .btn-outline-secondary {
-    background: #1e293b !important;
-    color: #ffffff !important;
-    border-color: #374151 !important;
+    background: #f1f5f9 !important;
+    color: #1e293b !important;
+    border-color: #cbd5e1 !important;
 }
 
 .btn-default:hover,
 .btn-light:hover,
 .btn-outline-secondary:hover {
-    background: #334155 !important;
-    color: #ffffff !important;
+    background: #e2e8f0 !important;
+    color: #1e293b !important;
 }
 
 /* Pagination */
 .pagination .page-link {
-    background: #162033 !important;
-    color: #e5e7eb !important;
-    border-color: #2a3448 !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
+    border-color: #e2e8f0 !important;
 }
 
 .pagination .active .page-link {
@@ -197,9 +197,9 @@ table td {
 }
 
 .pagination .disabled .page-link {
-    background: #111827 !important;
-    color: #4b5563 !important;
-    border-color: #2a3448 !important;
+    background: #f8fafc !important;
+    color: #94a3b8 !important;
+    border-color: #e2e8f0 !important;
 }
 
 /* Special cards */
@@ -207,21 +207,21 @@ table td {
 .bg-light,
 .bg-body,
 .bg-body-tertiary {
-    background-color: #162033 !important;
-    color: #e5e7eb !important;
+    background-color: #ffffff !important;
+    color: #1e293b !important;
 }
 
 .text-dark {
-    color: #e5e7eb !important;
+    color: #1e293b !important;
 }
 
 /* Transaction page */
 .product-card,
 .purchase-card,
 .cart-card {
-    background: #162033 !important;
-    border: 1px solid #2a3448 !important;
-    color: #e5e7eb !important;
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #1e293b !important;
     border-radius: 14px !important;
 }
 
@@ -500,10 +500,10 @@ table td {
 .profit-card,
 .card.bg-white,
 .card.bg-light {
-    background: #162033 !important;
-    color: #e5e7eb !important;
-    border: 1px solid #2a3448 !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.28) !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06) !important;
 }
 
 .report-card *,
@@ -514,28 +514,28 @@ table td {
 .profit-card *,
 .card.bg-white *,
 .card.bg-light * {
-    color: #e5e7eb !important;
+    color: #1e293b !important;
 }
 
 .report-card .text-primary,
 .summary-card .text-primary,
 .stat-card .text-primary,
 .metric-card .text-primary {
-    color: #60a5fa !important;
+    color: #1d4ed8 !important;
 }
 
 .report-card .text-warning,
 .summary-card .text-warning,
 .stat-card .text-warning,
 .metric-card .text-warning {
-    color: #facc15 !important;
+    color: #b45309 !important;
 }
 
 .report-card .text-success,
 .summary-card .text-success,
 .stat-card .text-success,
 .metric-card .text-success {
-    color: #22c55e !important;
+    color: #15803d !important;
 }
 
 /* khusus nilai laba kotor yang hijau */
@@ -562,8 +562,8 @@ table td {
 .report-table,
 .laporan-table,
 .table-report {
-    background: #162033 !important;
-    color: #e5e7eb !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
 }
 
 .report-table th,
@@ -573,8 +573,8 @@ table td {
 .table-report th,
 .table-report td {
     background: transparent !important;
-    color: #e5e7eb !important;
-    border-color: #2a3448 !important;
+    color: #1e293b !important;
+    border-color: #e2e8f0 !important;
 }
 
 /* filter laporan */
@@ -582,11 +582,11 @@ table td {
 .laporan-filter,
 .filter-card {
     background: transparent !important;
-    color: #e5e7eb !important;
+    color: #1e293b !important;
 }
 
 /* ======================================================
-   FORCE DARK CARD UNTUK DASHBOARD & LAPORAN
+   KARTU DASHBOARD & LAPORAN (TEMA TERANG)
    ====================================================== */
 
    .row .card,
@@ -599,15 +599,15 @@ table td {
    .stats-card,
    .card {
    
-       background-color: #162033 !important;
-       background: #162033 !important;
+       background-color: #ffffff !important;
+       background: #ffffff !important;
    
-       border: 1px solid #2a3448 !important;
+       border: 1px solid #e2e8f0 !important;
    
-       color: #f8fafc !important;
+       color: #1e293b !important;
    
        box-shadow:
-           0 12px 24px rgba(0,0,0,.28) !important;
+           0 4px 14px rgba(15,23,42,.06) !important;
    
        border-radius: 14px !important;
    }
@@ -619,9 +619,9 @@ table td {
    
        background: transparent !important;
    
-       color: #f8fafc !important;
+       color: #1e293b !important;
    
-       border-color: #2a3448 !important;
+       border-color: #e2e8f0 !important;
    }
    
    /* semua text dalam card */
@@ -643,7 +643,7 @@ table td {
    .card p,
    .card span {
    
-       color: #f8fafc !important;
+       color: #1e293b !important;
    }
    
    /* total penjualan */
@@ -652,21 +652,21 @@ table td {
    .text-blue,
    .text-info {
    
-       color: #3b82f6 !important;
+       color: #1d4ed8 !important;
    }
    
    /* modal */
    
    .text-warning {
    
-       color: #facc15 !important;
+       color: #b45309 !important;
    }
    
    /* laba */
    
    .text-success {
    
-       color: #22c55e !important;
+       color: #15803d !important;
    }
    
    /* card laba kotor */
@@ -701,13 +701,13 @@ table td {
    ====================================================== */
 
 .card-summary {
-    background: #162033 !important;
-    background-color: #162033 !important;
-    color: #f8fafc !important;
-    border: 1px solid #2a3448 !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #1e293b !important;
+    border: 1px solid #e2e8f0 !important;
     border-radius: 14px !important;
     padding: 22px 24px !important;
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.28) !important;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06) !important;
 }
 
 .card-summary .label {
@@ -729,23 +729,23 @@ table td {
 
 .card-summary .value {
     display: block !important;
-    color: #f8fafc !important;
+    color: #1e293b !important;
     font-size: 24px !important;
     font-weight: 800 !important;
     line-height: 1.25 !important;
 }
 
 .card-summary .value.text-primary {
-    color: #60a5fa !important;
+    color: #1d4ed8 !important;
 }
 
 .card-summary .value.text-warning {
-    color: #facc15 !important;
+    color: #b45309 !important;
 }
 
 .card-summary .value.text-profit,
 .card-summary .value.text-success {
-    color: #22c55e !important;
+    color: #15803d !important;
 }
 
 .card-summary .badge-profit {
@@ -787,7 +787,7 @@ table td {
    /* warna teks tetap */
    
    .card-summary .text-profit {
-       color: #22c55e !important;
+       color: #15803d !important;
    }
 
    /* ======================================================
@@ -859,13 +859,61 @@ table td {
 /* warna */
 
 .card-summary .text-primary{
-    color:#60a5fa!important;
+    color:#1d4ed8!important;
 }
 
 .card-summary .text-warning{
-    color:#facc15!important;
+    color:#b45309!important;
 }
 
 .card-summary .text-profit{
-    color:#22c55e!important;
+    color:#15803d!important;
+}
+
+/* ============================================
+   PENGECUALIAN: SIDEBAR TETAP BIRU GELAP
+   Aturan di atas memaksa semua teks (span, p, label, h1-h6, dst) jadi gelap
+   untuk tema utama yang putih. Tapi sidebar SENGAJA tetap gelap, jadi butuh
+   warna teks sendiri (terang) supaya tidak "gelap di atas gelap".
+   ============================================ */
+
+.sidebar,
+.sidebar * {
+    color: #9FB3D9 !important;
+}
+
+.sidebar .menu-link:hover,
+.sidebar .menu-link:hover * {
+    color: #ffffff !important;
+}
+
+.sidebar .menu-item.active > .menu-link,
+.sidebar .menu-item.active > .menu-link * {
+    color: #ffffff !important;
+}
+
+.sidebar .menu-item.active > .menu-link .menu-icon,
+.sidebar .menu-item.active > .menu-link .menu-icon * {
+    color: #e8192c !important;
+}
+
+.sidebar .menu-link:hover .menu-icon,
+.sidebar .menu-link:hover .menu-icon * {
+    color: #f5c518 !important;
+}
+
+.sidebar .submenu li a:hover,
+.sidebar .submenu li a:hover *,
+.sidebar .submenu li a.active,
+.sidebar .submenu li a.active * {
+    color: #f5c518 !important;
+}
+
+.sidebar .sidebar-version {
+    color: #7C97C4 !important;
+}
+
+.sidebar .badge-warning,
+.sidebar .badge-warning * {
+    color: #1e293b !important;
 }

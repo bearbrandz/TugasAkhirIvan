@@ -15,9 +15,11 @@
         <a href="{{ route('distributors.create') }}" class="btn btn-primary" style="margin-right: 8px;">
             <i class="fa fa-plus"></i> Tambah Pemasok
         </a>
+        @if(auth()->user()->tipe_user === 'admin')
         <a href="{{ route('distributors.arsip') }}" class="btn btn-default">
             <i class="fa fa-trash"></i> Lihat Arsip
         </a>
+        @endif
     </div>
 </div>
 
@@ -58,6 +60,7 @@
                             <a href="{{ route('distributors.edit', $d->id) }}" class="btn btn-warning btn-sm">
                                 <i class="fa fa-pencil"></i> Edit
                             </a>
+                            @if(auth()->user()->tipe_user === 'admin')
                             <form method="POST" action="{{ route('distributors.destroy', $d->id) }}" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
@@ -66,6 +69,7 @@
                                     <i class="fa fa-trash"></i> Hapus
                                 </button>
                             </form>
+                            @endif
                         </div>
                     </td>
                 </tr>

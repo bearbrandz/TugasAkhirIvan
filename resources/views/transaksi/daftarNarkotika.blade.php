@@ -24,7 +24,7 @@
     }
 
     .narkotika-help {
-        color: #9ca3af;
+        color: #64748b;
         font-size: 13px;
         margin: 6px 0 14px;
     }
@@ -63,7 +63,7 @@
 
     .cell-sub {
         display: block;
-        color: #cbd5e1;
+        color: #64748b;
         font-size: 12px;
         margin-top: 2px;
     }
@@ -78,7 +78,7 @@
 
     .pemakaian-label {
         display: block;
-        color: #9ca3af;
+        color: #64748b;
         font-size: 11px;
         margin-bottom: 2px;
     }

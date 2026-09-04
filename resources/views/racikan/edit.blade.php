@@ -11,24 +11,24 @@
     .racikan-header {
         margin-bottom: 24px;
         padding-bottom: 18px;
-        border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+        border-bottom: 1px solid #e2e8f0;
     }
 
     .racikan-header h1 {
         margin: 0;
         font-size: 30px;
         font-weight: 800;
-        color: #f8fafc;
+        color: #1e293b;
     }
 
     .racikan-header p {
         margin: 8px 0 0;
-        color: #94a3b8;
+        color: #64748b;
     }
 
     .racikan-card {
-        background: #162033;
-        border: 1px solid rgba(148, 163, 184, 0.18);
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
         border-radius: 16px;
         padding: 20px;
         margin-bottom: 18px;
@@ -37,7 +37,7 @@
     .racikan-section-title {
         font-size: 17px;
         font-weight: 800;
-        color: #f8fafc;
+        color: #1e293b;
         margin-bottom: 16px;
     }
 
@@ -58,19 +58,19 @@
     .racikan-form-group label {
         display: block;
         margin-bottom: 6px;
-        color: #f8fafc;
+        color: #1e293b;
         font-weight: 700;
     }
 
     .racikan-form-group small {
-        color: #94a3b8;
+        color: #64748b;
     }
 
     .racikan-form-control {
         width: 100%;
-        background: #111827 !important;
-        color: #f8fafc !important;
-        border: 1px solid rgba(148, 163, 184, 0.28) !important;
+        background: #ffffff !important;
+        color: #1e293b !important;
+        border: 1px solid #cbd5e1 !important;
         border-radius: 8px;
         padding: 10px 12px;
     }
@@ -92,8 +92,8 @@
         grid-template-columns: minmax(260px, 1fr) 150px 90px;
         gap: 10px;
         align-items: start;
-        background: #0f172a;
-        border: 1px solid rgba(148, 163, 184, 0.16);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 12px;
         padding: 12px;
     }
@@ -105,7 +105,7 @@
 
     .komposisi-help {
         margin-top: 8px;
-        color: #94a3b8;
+        color: #64748b;
         font-size: 13px;
         line-height: 1.5;
     }
@@ -124,8 +124,8 @@
 
     .resep-note {
         background: rgba(234, 179, 8, 0.12);
-        border: 1px solid rgba(234, 179, 8, 0.28);
-        color: #fde68a;
+        border: 1px solid rgba(234, 179, 8, 0.35);
+        color: #92400e;
         border-radius: 10px;
         padding: 12px;
         font-size: 13px;
@@ -134,8 +134,8 @@
 
     .current-resep-box {
         margin-top: 10px;
-        background: #0f172a;
-        border: 1px solid rgba(148, 163, 184, 0.16);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 10px;
         padding: 10px;
     }
@@ -427,17 +427,17 @@
 @push('styles')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <style>
-    /* Dark mode adjustments for select2 */
+    /* Light mode adjustments for select2 */
     .select2-container--default .select2-selection--single {
-        background-color: #111827;
-        border: 1px solid rgba(148, 163, 184, 0.28);
+        background-color: #ffffff;
+        border: 1px solid #cbd5e1;
         border-radius: 8px;
         height: 42px;
         display: flex;
         align-items: center;
     }
     .select2-container--default .select2-selection--single .select2-selection__rendered {
-        color: #f8fafc;
+        color: #1e293b;
         line-height: normal;
         padding-left: 12px;
     }
@@ -445,21 +445,21 @@
         height: 40px;
     }
     .select2-dropdown {
-        background-color: #1f2937;
-        border-color: rgba(148, 163, 184, 0.28);
-        color: #f8fafc;
+        background-color: #ffffff;
+        border-color: #cbd5e1;
+        color: #1e293b;
     }
     .select2-container--default .select2-results__option[aria-selected=true] {
-        background-color: #374151;
+        background-color: #f1f5f9;
     }
     .select2-container--default .select2-results__option--highlighted[aria-selected] {
         background-color: #ef4444;
         color: white;
     }
     .select2-search--dropdown .select2-search__field {
-        background-color: #111827;
-        color: #f8fafc;
-        border: 1px solid rgba(148, 163, 184, 0.28);
+        background-color: #ffffff;
+        color: #1e293b;
+        border: 1px solid #cbd5e1;
         border-radius: 4px;
     }
 </style>

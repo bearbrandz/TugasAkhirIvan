@@ -1,6 +1,6 @@
 @extends('layout.conquer')
 
-@section('title', 'Daftar Nota Penjualan Racikan')
+@section('title', 'Daftar Nota Penjualan Khusus')
 
 @section('content')
 <style>
@@ -11,31 +11,31 @@
         gap: 16px;
         margin-bottom: 22px;
         padding-bottom: 18px;
-        border-bottom: 1px solid rgba(148, 163, 184, .22);
+        border-bottom: 1px solid #e2e8f0;
     }
 
     .nota-racikan-header h1 {
         margin: 0;
         font-size: 30px;
         font-weight: 800;
-        color: #f8fafc;
+        color: #1e293b;
     }
 
     .nota-racikan-header p {
         margin: 8px 0 0;
-        color: #94a3b8;
+        color: #64748b;
     }
 
     .nota-racikan-card {
-        background: #162033;
-        border: 1px solid rgba(148, 163, 184, .18);
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
         border-radius: 16px;
         overflow: hidden;
     }
 
     .nota-racikan-filter {
         padding: 16px;
-        border-bottom: 1px solid rgba(148, 163, 184, .14);
+        border-bottom: 1px solid #e2e8f0;
     }
 
     .nota-racikan-search {
@@ -52,7 +52,7 @@
         width: 100%;
         table-layout: fixed;
         margin-bottom: 0;
-        color: #f8fafc;
+        color: #1e293b;
     }
 
     .nota-racikan-table th,
@@ -61,31 +61,31 @@
         white-space: normal !important;
         overflow-wrap: anywhere;
         padding: 12px 10px !important;
-        border-color: rgba(148, 163, 184, .14);
+        border-color: #e2e8f0;
         font-size: 13px;
     }
 
     .nota-racikan-table th {
-        background: #1e2b42;
+        background: #f8fafc;
         font-size: 12px;
         text-transform: uppercase;
         font-weight: 800;
     }
 
     .nota-racikan-table tbody tr:nth-child(even) td {
-        background: #1b2638;
+        background: #f8fafc;
     }
 
     .cell-main {
         display: block;
         font-weight: 800;
-        color: #f8fafc;
+        color: #1e293b;
         line-height: 1.35;
     }
 
     .cell-sub {
         display: block;
-        color: #94a3b8;
+        color: #64748b;
         font-size: 12px;
         margin-top: 3px;
         line-height: 1.35;
@@ -98,8 +98,8 @@
         border-radius: 999px;
         font-size: 12px;
         font-weight: 800;
-        background: rgba(59, 130, 246, .16);
-        color: #93c5fd;
+        background: rgba(59, 130, 246, .12);
+        color: #1d4ed8;
     }
 
     .col-nota { width: 12%; }
@@ -115,7 +115,7 @@
     }
 
     .sort-link:hover {
-        color: #93c5fd;
+        color: #1d4ed8;
     }
 
     .nota-racikan-actions {
@@ -163,8 +163,8 @@
 
 <div class="nota-racikan-header">
     <div>
-        <h1>Daftar Nota Penjualan Racikan</h1>
-        <p>Daftar transaksi pembayaran racikan yang tercatat di apotek.</p>
+        <h1>Daftar Nota Penjualan Khusus</h1>
+        <p>Daftar transaksi pembayaran khusus/resep racikan yang tercatat di apotek.</p>
     </div>
 
     <a href="{{ route('racikan') }}" class="btn btn-primary">

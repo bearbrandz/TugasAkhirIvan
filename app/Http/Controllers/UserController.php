@@ -18,7 +18,7 @@ class UserController extends Controller
         if (Auth::user()->tipe_user !== 'admin') {
             abort(403, 'Unauthorized action.');
         }
-        $sortBy = $request->get('sort_by', 'nama');  // Default to 'nama'
+        $sortBy = $request->get('sort_by', 'id');  // Default to 'nama'
         $sortOrder = $request->get('sort_order', 'desc');  // Default to ascending
         $search = $request->get('search');              // Search query
 
@@ -48,7 +48,7 @@ class UserController extends Controller
 
     public function detail(Request $request)
     {
-        $sortBy = $request->get('sort_by', 'nama');  // Default to 'nama'
+        $sortBy = $request->get('sort_by', 'id');  // Default to 'nama'
         $sortOrder = $request->get('sort_order', 'desc');  // Default to ascending
         $search = $request->get('search');              // Search query
 

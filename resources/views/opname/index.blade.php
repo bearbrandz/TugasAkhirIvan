@@ -11,19 +11,19 @@
         gap: 16px;
         margin-bottom: 24px;
         padding-bottom: 18px;
-        border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+        border-bottom: 1px solid #e2e8f0;
     }
 
     .opname-page-header h1 {
         margin: 0;
         font-size: 30px;
         font-weight: 800;
-        color: #f8fafc;
+        color: #1e293b;
     }
 
     .opname-page-header p {
         margin: 8px 0 0;
-        color: #94a3b8;
+        color: #64748b;
     }
 
     .opname-page-actions {
@@ -33,8 +33,8 @@
     }
 
     .opname-filter-card {
-        background: #162033;
-        border: 1px solid rgba(148, 163, 184, 0.18);
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
         border-radius: 16px;
         padding: 16px;
         margin-bottom: 18px;
@@ -52,14 +52,14 @@
         margin-bottom: 6px;
         font-size: 12px;
         font-weight: 800;
-        color: #f8fafc;
+        color: #1e293b;
         text-transform: uppercase;
     }
 
     .opname-table-box {
         width: 100%;
-        background: #162033;
-        border: 1px solid rgba(148, 163, 184, 0.18);
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
         border-radius: 16px;
         overflow: hidden;
     }
@@ -68,36 +68,36 @@
         width: 100%;
         table-layout: fixed;
         margin-bottom: 0;
-        color: #f8fafc;
+        color: #1e293b;
         font-size: 13px;
     }
 
     .opname-table thead th {
-        background: #1e2b42;
-        color: #f8fafc;
+        background: #f8fafc;
+        color: #1e293b;
         font-size: 12px;
         font-weight: 800;
         text-transform: uppercase;
-        border-color: rgba(148, 163, 184, 0.14);
+        border-color: #e2e8f0;
         padding: 12px 10px;
         vertical-align: middle;
     }
 
     .opname-table tbody td,
     .opname-table tfoot td {
-        background: #162033;
-        color: #f8fafc;
-        border-color: rgba(148, 163, 184, 0.12);
+        background: #ffffff;
+        color: #1e293b;
+        border-color: #e2e8f0;
         padding: 12px 10px;
         vertical-align: top;
     }
 
     .opname-table tbody tr:nth-child(even) td {
-        background: #1b2638;
+        background: #f8fafc;
     }
 
     .opname-table tfoot td {
-        background: #1e2b42;
+        background: #f8fafc;
         font-weight: 800;
     }
 
@@ -138,7 +138,7 @@
     .cell-main {
         display: block;
         font-weight: 800;
-        color: #f8fafc;
+        color: #1e293b;
         line-height: 1.35;
         word-break: break-word;
     }
@@ -146,7 +146,7 @@
     .cell-sub {
         display: block;
         margin-top: 4px;
-        color: #94a3b8;
+        color: #64748b;
         font-size: 12px;
         line-height: 1.35;
         word-break: break-word;
@@ -162,7 +162,7 @@
     .stock-value {
         display: block;
         margin-top: 5px;
-        color: #cbd5e1;
+        color: #334155;
         font-size: 12px;
         line-height: 1.35;
     }
@@ -180,26 +180,26 @@
 
     .selisih-plus {
         background: rgba(34, 197, 94, 0.18);
-        color: #22c55e;
+        color: #15803d;
     }
 
     .selisih-minus {
         background: rgba(239, 68, 68, 0.18);
-        color: #ef4444;
+        color: #dc2626;
     }
 
     .selisih-zero {
         background: rgba(148, 163, 184, 0.16);
-        color: #cbd5e1;
+        color: #334155;
     }
 
     .nilai-plus {
-        color: #34d399;
+        color: #15803d;
         font-weight: 800;
     }
 
     .nilai-minus {
-        color: #f87171;
+        color: #dc2626;
         font-weight: 800;
     }
 
@@ -222,7 +222,7 @@
     .opname-empty {
         padding: 28px;
         text-align: center;
-        color: #94a3b8;
+        color: #64748b;
     }
 
     @media (max-width: 1200px) {

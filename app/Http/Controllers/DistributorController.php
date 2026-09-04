@@ -15,7 +15,7 @@ class DistributorController extends Controller
     {
         $search = $request->input('search');
         $sortBy = $request->input('sort_by', 'id');
-        $sortOrder = $request->input('sort_order', 'asc');
+        $sortOrder = $request->input('sort_order', 'desc');
 
         $datas = Distributor::withCount('produkbatches')
             ->when($search, function ($query, $search) {

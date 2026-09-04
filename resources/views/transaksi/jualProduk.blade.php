@@ -5,19 +5,19 @@
 @section('content')
     <style>
         .sales-page-title {
-            color: #f8fafc;
+            color: #1e293b;
             font-weight: 800;
             margin-bottom: 18px;
         }
 
         .sales-helper {
-            color: #94a3b8;
+            color: #64748b;
             font-size: 14px;
         }
 
         .sales-product-card {
-            background: #162033;
-            border: 1px solid rgba(148, 163, 184, 0.22);
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
             border-radius: 16px;
             height: 100%;
             transition: 0.2s ease;
@@ -28,28 +28,28 @@
 
         .sales-product-card:hover {
             transform: translateY(-2px);
-            border-color: rgba(248, 113, 113, 0.45);
-            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.22);
+            border-color: rgba(232, 25, 44, 0.4);
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.1);
         }
 
         .sales-product-title {
-            color: #f8fafc;
+            color: #1e293b;
             font-weight: 800;
             margin-bottom: 10px;
         }
 
         .sales-product-info {
-            color: #e5e7eb;
+            color: #334155;
             margin-bottom: 8px;
         }
 
         .sales-product-muted {
-            color: #94a3b8;
+            color: #64748b;
         }
 
         .sales-cart-card {
-            background: #162033;
-            border: 1px solid rgba(148, 163, 184, 0.22);
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
             border-radius: 16px;
             position: sticky;
             top: 86px;
@@ -58,11 +58,11 @@
 
         .sales-cart-header {
             padding: 16px 18px;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+            border-bottom: 1px solid #e2e8f0;
         }
 
         .sales-cart-header h5 {
-            color: #f8fafc;
+            color: #1e293b;
             margin: 0;
             font-weight: 800;
         }
@@ -74,57 +74,57 @@
         .sales-cart-item {
             padding: 12px;
             border-radius: 12px;
-            background: #0f172a;
-            border: 1px solid rgba(148, 163, 184, 0.14);
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
             margin-bottom: 10px;
         }
 
         .sales-cart-item strong {
-            color: #f8fafc;
+            color: #1e293b;
         }
 
         .sales-cart-item small {
-            color: #94a3b8;
+            color: #64748b;
         }
 
         .sales-cart-footer {
             padding: 16px 18px;
-            border-top: 1px solid rgba(148, 163, 184, 0.16);
+            border-top: 1px solid #e2e8f0;
         }
 
         .sales-total-row {
             display: flex;
             justify-content: space-between;
-            color: #f8fafc;
+            color: #1e293b;
             font-weight: 800;
             margin-bottom: 12px;
         }
 
         .qty-input {
-            background: #0f172a !important;
-            color: #f8fafc !important;
-            border-color: rgba(148, 163, 184, 0.28) !important;
+            background: #ffffff !important;
+            color: #1e293b !important;
+            border-color: #cbd5e1 !important;
         }
 
         .sales-payment-box {
-            background: #0f172a;
-            border: 1px solid rgba(148, 163, 184, 0.16);
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
             border-radius: 12px;
             padding: 12px;
             margin-bottom: 12px;
         }
 
         .sales-payment-label {
-            color: #e5e7eb;
+            color: #334155;
             font-size: 13px;
             font-weight: 700;
             margin-bottom: 6px;
         }
 
         .sales-payment-input {
-            background: #111827 !important;
-            color: #f8fafc !important;
-            border-color: rgba(148, 163, 184, 0.28) !important;
+            background: #ffffff !important;
+            color: #1e293b !important;
+            border-color: #cbd5e1 !important;
         }
 
         .sales-change-good {
@@ -141,7 +141,7 @@
             display: flex;
             justify-content: space-between;
             gap: 10px;
-            color: #f8fafc;
+            color: #1e293b;
             font-weight: 800;
             margin-bottom: 8px;
         }
@@ -337,6 +337,14 @@
                                     <div class="d-flex justify-content-between align-items-start gap-2">
                                         <div>
                                             <strong>{{ $item['nama'] ?? '-' }}</strong>
+                                            @if(isset($item['golongan']) && in_array(strtolower($item['golongan']), ['keras']))
+                                                <div class="mt-1">
+                                                    <span class="badge bg-danger text-white shadow-sm" style="font-size: 0.7rem; padding: 5px 8px;">
+                                                        <i class="fas fa-exclamation-triangle me-1"></i> OBAT KERAS - Perhatikan Resep/OWA
+                                                    </span>
+                                                </div>
+                                            @endif
+
 
                                             @if (!empty($item['is_racikan']))
                                                 <span class="badge bg-info ms-1">Racikan</span>
@@ -372,9 +380,8 @@
                         </div>
 
                         <div class="sales-cart-footer">
-                            <form method="POST" action="{{ route('notajuals.store') }}" id="checkoutForm">
+                            <form method="POST" action="{{ route('notajuals.store') }}" id="checkoutForm" enctype="multipart/form-data">
                                 @csrf
-
                                 <input type="hidden" name="pegawai_id" value="{{ auth()->id() }}">
 
                                 @foreach ($cart as $item)
@@ -382,6 +389,39 @@
                                     <input type="hidden" name="quantity[]" value="{{ $item['quantity'] }}">
                                     <input type="hidden" name="is_racikan[]" value="{{ !empty($item['is_racikan']) ? 1 : 0 }}">
                                 @endforeach
+                                <div class="sales-payment-box">
+                                    <label class="sales-payment-label d-flex justify-content-between align-items-center">
+                                        <span>Dokter (Opsional, Wajib untuk Resep)</span> 
+                                    <button type="button" class="btn btn-sm btn-success py-0 px-2" data-bs-toggle="modal" data-bs-target="#modalAddDokter">+ Baru</button>
+                                </label>
+                                    <select name="dokter_id" id="dokter_id" class="form-control sales-payment-input">
+                                        <option value="">-- Pilih Dokter --</option>
+                                        @foreach($dokters as $d)
+                                        <option value="{{ $d->id }}">{{ $d->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="sales-payment-box mt-3">
+                                    <label class="sales-payment-label d-flex justify-content-between align-items-center">
+                                        <span>Pasien (Opsional, Wajib untuk Resep)</span>
+                                        <button type="button" class="btn btn-sm btn-success py-0 px-2" data-bs-toggle="modal" data-bs-target="#modalAddPasien">+ Baru</button>
+                                    </label>
+                                    <select name="pasien_id" id="pasien_id" class="form-control sales-payment-input">
+                                        <option value="">-- Pilih Pasien --</option>
+                                        @foreach($pasiens as $p)
+                                            <option value="{{ $p->id }}">{{ $p->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="sales-payment-box mt-3">
+                                    <label class="sales-payment-label">Foto Resep (Opsional)</label>
+                                    <input type="file" name="foto_resep" id="foto_resep" class="form-control sales-payment-input" accept="image/*">
+                                    <small class="text-muted text-xs" style="display:block; margin-top:5px;">Unggah foto resep.</small>
+                                </div>
+
+
 
                                 <div class="sales-payment-box">
                                     <div class="sales-cash-summary">
@@ -423,7 +463,7 @@
                                         class="form-control sales-payment-input"
                                         min="0"
                                         step="1"
-                                        value="{{ old('nominal_bayar', $cartTotal) }}"
+                                        value="{{ old('nominal_bayar', 0 ) }}"
                                         required
                                     >
 
@@ -545,6 +585,151 @@
         }
 
         hitungKembalian();
+
+    // --- QUICK ADD PASIEN ---
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || document.querySelector('input[name="_token"]')?.value;
+    const formPasien = document.getElementById('formQuickPasien');
+    if(formPasien) {
+        formPasien.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btnSubmit = this.querySelector('button[type="submit"]');
+            btnSubmit.innerHTML = 'Menyimpan...';
+            btnSubmit.disabled = true;
+
+            fetch("{{ route('pasiens.quick-store') }}", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },
+                    body: JSON.stringify({
+                    nama: document.getElementById('quickPasienNama').value,
+                    tanggal_lahir: document.getElementById('quickPasienTglLahir').value,
+                    jenis_kelamin: document.getElementById('quickPasienJK').value,
+                    no_telp: document.getElementById('quickPasienTelp').value,
+                    alamat: document.getElementById('quickPasienAlamat').value
+                })
+
+            }).then(res => res.json()).then(data => {
+                if(data.success) {
+                    const select = document.getElementById('pasien_id');
+                    select.add(new Option(data.data.nama, data.data.id));
+                    select.value = data.data.id;
+                    formPasien.reset();
+                    bootstrap.Modal.getInstance(document.getElementById('modalAddPasien')).hide();
+                    alert('Pasien berhasil ditambahkan!');
+                }
+            }).finally(() => {
+                btnSubmit.innerHTML = 'Simpan Pasien';
+                btnSubmit.disabled = false;
+            });
+        });
+    }
+
+    // --- QUICK ADD DOKTER ---
+    const formDokter = document.getElementById('formQuickDokter');
+    if(formDokter) {
+        formDokter.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btnSubmit = this.querySelector('button[type="submit"]');
+            btnSubmit.innerHTML = 'Menyimpan...';
+            btnSubmit.disabled = true;
+
+            fetch("{{ route('dokters.quick-store') }}", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken },
+                    body: JSON.stringify({
+                    nama: document.getElementById('quickDokterNama').value,
+                    sip: document.getElementById('quickDokterSip').value,
+                    no_telp: document.getElementById('quickDokterTelp').value,
+                    alamat: document.getElementById('quickDokterAlamat').value
+                })
+
+            }).then(res => res.json()).then(data => {
+                if(data.success) {
+                    const select = document.getElementById('dokter_id');
+                    select.add(new Option(data.data.nama, data.data.id));
+                    select.value = data.data.id;
+                    formDokter.reset();
+                    bootstrap.Modal.getInstance(document.getElementById('modalAddDokter')).hide();
+                    alert('Dokter berhasil ditambahkan!');
+                }
+            }).finally(() => {
+                btnSubmit.innerHTML = 'Simpan Dokter';
+                btnSubmit.disabled = false;
+            });
+        });
+    }
+
     });
 </script>
+<!-- Modal Tambah Pasien -->
+<div class="modal fade" id="modalAddPasien" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tambah Pasien Cepat</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form id="formQuickPasien">
+              <div class="mb-2">
+                  <label>Nama Pasien *</label>
+                  <input type="text" id="quickPasienNama" class="form-control" required>
+              </div>
+              <div class="mb-2">
+                  <label>Tanggal Lahir</label>
+                  <input type="date" id="quickPasienTglLahir" class="form-control">
+              </div>
+              <div class="mb-2">
+                  <label>Jenis Kelamin *</label>
+                  <select id="quickPasienJK" class="form-control" required>
+                      <option value="L">Laki-laki</option>
+                      <option value="P">Perempuan</option>
+                  </select>
+              </div>
+              <div class="mb-2">
+                  <label>No. HP</label>
+                  <input type="text" id="quickPasienTelp" class="form-control">
+              </div>
+              <div class="mb-2">
+                  <label>Alamat</label>
+                  <textarea id="quickPasienAlamat" class="form-control" rows="2"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary w-100 mt-2">Simpan Pasien</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Tambah Dokter -->
+<div class="modal fade" id="modalAddDokter" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tambah Dokter Cepat</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form id="formQuickDokter">
+              <div class="mb-2">
+                  <label>Nama Dokter *</label>
+                  <input type="text" id="quickDokterNama" class="form-control" required>
+              </div>
+              <div class="mb-2">
+                  <label>No. SIP</label>
+                  <input type="text" id="quickDokterSip" class="form-control" placeholder="Opsional (Jika diharuskan)">
+              </div>
+              <div class="mb-2">
+                  <label>No. HP</label>
+                  <input type="text" id="quickDokterTelp" class="form-control">
+              </div>
+              <div class="mb-2">
+                  <label>Alamat Praktik</label>
+                  <textarea id="quickDokterAlamat" class="form-control" rows="2"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary w-100 mt-2">Simpan Dokter</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection

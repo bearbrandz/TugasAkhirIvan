@@ -14,8 +14,8 @@
     .produk-col-bentuk { width: 15%; }
     .produk-col-golongan { width: 20%; }
     .produk-col-aksi { width: 15%; text-align: center; }
-    .produk-name { display: block; font-weight: 800; color: #f8fafc; line-height: 1.35; }
-    .produk-desc { display: block; margin-top: 4px; color: #94a3b8; font-size: 12px; line-height: 1.35; }
+    .produk-name { display: block; font-weight: 800; color: #1e293b; line-height: 1.35; }
+    .produk-desc { display: block; margin-top: 4px; color: #64748b; font-size: 12px; line-height: 1.35; }
     .produk-pagination { margin-top: 18px; display: flex; justify-content: flex-end; }
 </style>
 
@@ -86,7 +86,7 @@
                                 @if (!empty($d->deskripsi))
                                     <span class="produk-desc">{{ \Illuminate\Support\Str::limit($d->deskripsi, 45) }}</span>
                                 @endif
-                                <span class="produk-desc" style="color:#ef4444; margin-top:8px;">Dihapus pada: {{ $d->deleted_at->format('d/m/Y H:i') }}</span>
+                                <span class="produk-desc" style="color:#dc2626; margin-top:8px;">Dihapus pada: {{ $d->deleted_at->format('d/m/Y H:i') }}</span>
                             </td>
                             <td class="produk-col-kode">{{ $d->kode_produk ?? '-' }}</td>
                             <td class="produk-col-bentuk">{{ $d->bentuk_sediaan ?: ($d->satuanJual->nama ?? '-') }}</td>

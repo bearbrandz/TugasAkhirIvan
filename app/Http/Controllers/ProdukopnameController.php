@@ -123,11 +123,13 @@ class ProdukopnameController extends Controller
                 break;
 
             case 'tanggal':
-                $query->orderBy('produkopnames.tanggal', $sortOrder);
+                $query->orderBy('produkopnames.tanggal', $sortOrder)
+                      ->orderBy('produkopnames.id', $sortOrder);
                 break;
 
             default:
-                $query->orderBy('produkopnames.tanggal', 'desc');
+                $query->orderBy('produkopnames.tanggal', 'desc')
+                      ->orderBy('produkopnames.id', 'desc');
                 break;
         }
 

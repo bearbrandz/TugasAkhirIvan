@@ -5,31 +5,31 @@
         <!-- Select2 CSS -->
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <style>
-            /* Dark mode styling for Select2 */
+            /* Light mode styling for Select2 */
             .select2-container--default .select2-selection--single {
-                background-color: #1a202c;
-                border: 1px solid #2d3748;
-                color: #e2e8f0;
+                background-color: #ffffff;
+                border: 1px solid #cbd5e1;
+                color: #1e293b;
                 height: 38px;
             }
             .select2-container--default .select2-selection--single .select2-selection__rendered {
-                color: #e2e8f0;
+                color: #1e293b;
                 line-height: 36px;
             }
             .select2-dropdown {
-                background-color: #1a202c;
-                border: 1px solid #2d3748;
+                background-color: #ffffff;
+                border: 1px solid #cbd5e1;
             }
             .select2-container--default .select2-results__option[aria-selected=true] {
-                background-color: #2d3748;
+                background-color: #f1f5f9;
             }
             .select2-container--default .select2-results__option--highlighted[aria-selected] {
-                background-color: #4a5568;
+                background-color: #e2e8f0;
             }
             .select2-container--default .select2-search--dropdown .select2-search__field {
-                background-color: #2d3748;
-                border: 1px solid #4a5568;
-                color: #e2e8f0;
+                background-color: #ffffff;
+                border: 1px solid #cbd5e1;
+                color: #1e293b;
             }
         </style>
     @endpush
@@ -94,7 +94,7 @@
         </div>
         <div class="form-group">
             <label for="tanggal">Tanggal Opname</label>
-            <input type="date" class="form-control" name="tanggal" value="{{ old('tanggal') }}" required>
+            <input type="date" class="form-control" name="tanggal" value="{{ old('tanggal', now()->format('Y-m-d')) }}" required>
             <small class="form-text text-muted">Tanggal dilakukannya stok opname.</small>
         </div>
         <div class="form-group">

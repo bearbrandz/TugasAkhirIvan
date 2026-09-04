@@ -228,10 +228,14 @@ class RacikanController extends Controller
     {
         $racikans = Racikan::all();
         $produks = $this->getProdukTersedia();
+        $dokters = \App\Models\Dokter::all();
+        $pasiens = \App\Models\Pasien::all();
     
         return view('racikan.create', [
             'racikans' => $racikans,
             'produks' => $produks,
+            'dokters' => $dokters,
+            'pasiens' => $pasiens,
         ]);
     }
     
@@ -391,6 +395,7 @@ class RacikanController extends Controller
                 'nominal_bayar' => $nominalBayar,
                 'kembalian' => $kembalian,
                 'metode_bayar' => $metodeBayar,
+                'foto_resep' => $racikan->bukti_resep, // Salin foto resep dari racikan ke nota jual
             ]);
 
             foreach ($detail['items'] as $item) {
@@ -900,10 +905,10 @@ class RacikanController extends Controller
                     )
                 ) AS stok_setelah_transaksi,
     
-                COALESCE(r.nama_pasien, nj.nama_pasien, '-') AS nama_pasien,
-                COALESCE(r.alamat_pasien, nj.alamat_pasien, '-') AS alamat_pasien,
-                COALESCE(r.nama_dokter, nj.nama_dokter, '-') AS nama_dokter,
-                COALESCE(r.alamat_dokter, nj.alamat_dokter, '-') AS alamat_dokter,
+                COALESCE(r.nama_pasien, pas.nama, '-') AS nama_pasien,
+                COALESCE(r.alamat_pasien, pas.alamat, '-') AS alamat_pasien,
+                COALESCE(r.nama_dokter, dok.nama, '-') AS nama_dokter,
+                COALESCE(r.alamat_dokter, dok.alamat, '-') AS alamat_dokter,
                 DATE(nj.created_at) AS tgl_ambil,
                 u.nama AS nama_pegawai
     
@@ -914,6 +919,8 @@ class RacikanController extends Controller
             LEFT JOIN satuans s ON s.id = pb.satuans_id
             LEFT JOIN distributors d ON d.id = pb.distributors_id
             LEFT JOIN users u ON u.id = nj.pegawai_id
+            LEFT JOIN pasiens pas ON pas.id = nj.pasien_id
+            LEFT JOIN dokters dok ON dok.id = nj.dokter_id
             LEFT JOIN (
                 SELECT notajuals_id, MAX(racikans_id) as racikans_id 
                 FROM notajuals_has_racikans 
@@ -944,7 +951,7 @@ class RacikanController extends Controller
             });
         }
 
-        $sortBy = $request->get('sort_by', 'batch_id');
+        $sortBy = $request->get('sort_by', 'tgl_ambil');
         $sortOrder = $request->get('sort_order', 'desc');
 
         // Kolom menggunakan alias dari derived table narkotikaQuery
