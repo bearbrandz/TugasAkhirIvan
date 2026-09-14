@@ -22,8 +22,8 @@
             @csrf
             
             <div class="form-group mb-4">
-                <label for="nama" class="font-semibold">Nama Dokter Lengkap (dengan gelar) <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" name="nama" id="nama" value="{{ old('nama') }}" required placeholder="Contoh: dr. Budi Santoso, Sp.PD">
+                <label for="nama" class="font-semibold">Nama Dokter Lengkap  <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" name="nama" id="nama" value="{{ old('nama') }}"  placeholder="Contoh: dr. Budi Santoso, Sp.PD">
             </div>
 
 

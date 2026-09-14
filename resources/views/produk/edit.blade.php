@@ -10,7 +10,7 @@
     <div class="form-group">
         <label for="nama">Nama Produk</label>
         <input type="text" class="form-control" name="nama" aria-describedby="nameHelp"
-            placeholder="Masukkan Nama Produk" value="{{ $datas->nama }}">
+            placeholder="Masukkan Nama Produk" value="{{ strtoupper($datas->nama) }}">
         <small id="nameHelp" class="form-text text-muted">Mohon isikan dengan input yang diinginkan.</small>
     </div>
     <div class="form-group">

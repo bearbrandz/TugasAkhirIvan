@@ -52,7 +52,7 @@ class SatuanController extends Controller
         $data->save();
 
         // Type::create($request->all());
-        return redirect('satuans')->with('status', 'The new data has been inserted');
+        return redirect('satuans')->with('status', 'Perubahan Data Telah Tersimpan');
     }
 
     /**

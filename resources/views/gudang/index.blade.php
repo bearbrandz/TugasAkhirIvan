@@ -29,12 +29,13 @@
                 <th>Lokasi / Nama Gudang</th>
                 <th>Aksi</th>
             </tr>
+
         </thead>
         <tbody>
             @forelse ($datas as $d)
                 <tr>
                     <td>{{ $datas->firstItem() + $loop->index }}</td>
-                    <td><strong>{{ $d->lokasi }}</strong></td>
+                    <td><strong>{{ strtoupper($d->lokasi) }}</strong></td>
                     <td>
                         <div class="am-action-btns">
                             <a href="{{ route('gudangs.edit', $d->id) }}" class="btn btn-warning btn-sm">

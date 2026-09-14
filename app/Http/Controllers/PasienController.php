@@ -31,8 +31,8 @@ class PasienController extends Controller
         $request->validate([
             'nama' => 'required|max:150',
             'tanggal_lahir' => 'nullable|date',
-            'jenis_kelamin' => 'nullable|in:L,P',
-            'no_telp' => 'nullable|max:20',
+            'jenis_kelamin' => 'required|in:L,P',
+            'no_telp' => 'required|max:20|unique:pasiens,no_telp',
             'alamat' => 'nullable'
         ]);
 
@@ -51,14 +51,14 @@ class PasienController extends Controller
         $request->validate([
             'nama' => 'required|max:150',
             'tanggal_lahir' => 'nullable|date',
-            'jenis_kelamin' => 'nullable|in:L,P',
-            'no_telp' => 'nullable|max:20',
+            'jenis_kelamin' => 'required|in:L,P',
+            'no_telp' => 'required|max:20|unique:pasiens,no_telp,'.$id.',id,deleted_at,NULL',
             'alamat' => 'nullable'
         ]);
 
         $data = Pasien::findOrFail($id);
         $data->update($request->all());
-        return redirect()->route('pasiens.index')->with('status', 'Data Pasien berhasil diperbarui!');
+        return redirect()->route('pasiens.index')->with('status', 'Data Pasien ' . $request->nama. ' berhasil diperbarui!');
     }
 
     public function destroy($id)
@@ -71,7 +71,7 @@ class PasienController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'telepon' => 'nullable|string|max:45',
+            'no_telp' => 'nullable|string|max:45',
             'alamat' => 'nullable|string',
             'tanggal_lahir' => 'nullable|date',
             'jenis_kelamin' => 'required|in:L,P',

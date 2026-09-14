@@ -27,17 +27,17 @@
                 <tr>
                     <td>{{ $datas->firstItem() + $index }}</td>
 
-                    <td>{{ $data->satuanBesar->nama ?? '-' }}</td>
+                    <td>{{ strtoupper($data->satuanBesar->nama) ?? '-' }}</td>
 
-                    <td>{{ $data->satuanKecil->nama ?? '-' }}</td>
+                    <td>{{ strtoupper($data->satuanKecil->nama) ?? '-' }}</td>
 
                     <td>{{ $data->nilai_konversi }}</td>
 
                     <td>
                         @if ($data->satuanBesar && $data->satuanKecil)
-                            1 {{ $data->satuanBesar->nama }} =
+                            1 {{ strtoupper($data->satuanBesar->nama) }} =
                             {{ $data->nilai_konversi }}
-                            {{ $data->satuanKecil->nama }}
+                            {{ strtoupper($data->satuanKecil->nama) }}
                         @else
                             Data satuan belum lengkap
                         @endif

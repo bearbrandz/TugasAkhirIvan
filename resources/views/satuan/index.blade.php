@@ -34,7 +34,7 @@
             @forelse ($datas as $d)
                 <tr>
                     <td>{{ $datas->firstItem() + $loop->index }}</td>
-                    <td><strong>{{ $d->nama }}</strong></td>
+                    <td><strong>{{ strtoupper($d->nama) }}</strong></td>
                     <td>
                         <div class="am-action-btns">
                             <a href="{{ route('satuans.edit', $d->id) }}" class="btn btn-warning btn-sm">

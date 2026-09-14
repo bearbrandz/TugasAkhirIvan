@@ -24,7 +24,7 @@
             
             <div class="form-group mb-4">
                 <label for="nama" class="font-semibold">Nama Pasien Lengkap <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" name="nama" id="nama" value="{{ old('nama', $data->nama) }}" required>
+                <input type="text" class="form-control" name="nama" id="nama" value="{{ strtoupper(old('nama', $data->nama)) }}" required>
             </div>
 
             <div class="row">

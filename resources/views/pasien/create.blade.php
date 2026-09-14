@@ -39,8 +39,8 @@
                         <label for="jenis_kelamin" class="font-semibold">Jenis Kelamin</label>
                         <select class="form-control" name="jenis_kelamin" id="jenis_kelamin">
                             <option value="">-- Pilih Jenis Kelamin --</option>
-                            <option value="L" {{ old('jenis_kelamin') == 'L' ? 'selected' : '' }}>Laki-Laki</option>
-                            <option value="P" {{ old('jenis_kelamin') == 'P' ? 'selected' : '' }}>Perempuan</option>
+                            <option value="L" {{ old('jenis_kelamin') == 'L' ? 'selected' : '' }}>Laki-Laki </option>
+                            <option value="P" {{ old('jenis_kelamin') == 'P' ? 'selected' : '' }}>Perempuan </option>
                         </select>
                     </div>
                 </div>

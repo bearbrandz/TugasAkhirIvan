@@ -67,7 +67,7 @@
             @forelse ($datas as $d)
                 <tr>
                     <td>
-                        <strong>{{ $d->nama }}</strong>
+                        <strong>{{ strtoupper($d->nama) }}</strong>
                     </td>
 
                     <td>

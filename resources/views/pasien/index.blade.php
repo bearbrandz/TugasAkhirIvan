@@ -56,12 +56,12 @@
                             @endif
                         </td>
                         <td>{{ $d->jenis_kelamin == 'L' ? 'Laki-laki' : ($d->jenis_kelamin == 'P' ? 'Perempuan' : '-') }}</td>
-                        <td>{{ $d->no_telp ? wordwrap ($d->no_telp, 4, '-', true) : '-' }}</td>
+                        <td> {{ $d->no_telp ? wordwrap ($d->no_telp, 4, '-', true) : '-' }}</td>
                         <td>{{ $d->alamat ?? '-' }}</td>
 
                         <td>
                             <a href="{{ route('pasiens.edit', $d->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</a>
-                            <form action="{{ route('pasiens.destroy', $d->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Yakin ingin menghapus data pasien ini?');">
+                            <form action="{{ route('pasiens.destroy', $d->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Yakin ingin menghapus data pasien ini?');"> 
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Hapus</button>

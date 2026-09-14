@@ -243,7 +243,7 @@
                             <div class="sales-product-card">
                                 <div class="card-body">
                                     <h5 class="sales-product-title">
-                                        {{ $p->nama }}
+                                        {{ strtoupper($p->nama) }}
 
                                         @if ($isExpiringSoon)
                                             <span class="badge bg-warning text-dark ms-1">

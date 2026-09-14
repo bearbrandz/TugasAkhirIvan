@@ -349,7 +349,7 @@
                         <tr>
                             <td class="produk-col-nama">
                                 <span class="produk-name">
-                                    {{ $d->nama ?? '-' }}
+                                    {{ strtoupper($d->nama) }} <!-- ({{ strtoupper($d->satuanJual->nama ?? 'TANPA SATUAN') }}) -->
                                 </span>
 
                                 @if (!empty($d->deskripsi))
@@ -423,8 +423,13 @@
                             </td>
 
                             <td class="produk-col-keterangan">
-                                <span>Barang Tersedia</span>
+                                    @if ($stok > 0)
+                                        <span class="text-success fw-bold">Barang Tersedia</span>
+                                    @else
+                                        <span class="text-danger fw-bold">Tidak Tersedia</span>
+                                    @endif
                             </td>
+
 
 
 

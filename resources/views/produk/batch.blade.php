@@ -31,7 +31,7 @@
     <div class="container-fluid mb-4">
         <div class="card bg-dark text-white" style="border: 1px solid rgba(148, 163, 184, 0.18); border-radius: 12px;">
             <div class="card-body">
-                <h2 class="mb-3">Informasi Produk: {{ $produk->nama }}</h2>
+                <h2 class="mb-3">Informasi Produk: {{ strtoupper($produk->nama) }}</h2>
                 <div class="row">
                     <div class="col-md-6">
                         <p class="mb-1"><strong>Kode Produk:</strong> {{ $produk->kode_produk ?? '-' }}</p>

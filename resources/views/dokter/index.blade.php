@@ -45,7 +45,7 @@
                 @forelse($datas as $key => $d)
                     <tr>
                         <td>{{ $datas->firstItem() + $key }}</td>
-                        <td>{{ $d->nama }}</td>
+                        <td>{{ strtoupper($d->nama) }}</td>
                         <td>{{ $d->sip ?? '-' }}</td>
                         <td>{{ $d->no_telp ? wordwrap($d->no_telp, 15, "-", true) : '-' }}</td>
                         <td>{{ $d->alamat ?? '-' }}</td>

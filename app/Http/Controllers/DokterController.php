@@ -34,10 +34,17 @@ class DokterController extends Controller
             'nama' => 'required|max:100',
             'sip' => 'nullable|max:100',
             'no_telp' => 'nullable|max:20',
-            'alamat' => 'nullable'
+            'alamat' => 'nullable'],
+        [
+            'nama.required' => 'NAMA DOKTER WAJIB DIISI',
         ]);
 
-        Dokter::create($request->all());
+        Dokter::create([
+            'nama'    => 'dr. '.$request->nama,
+            'sip'     => $request->sip,
+            'no_telp' => $request->no_telp,
+            'alamat'  => $request->alamat   ]);
+
         return redirect()->route('dokters.index')->with('status', 'Data Dokter berhasil ditambahkan!');
     }
 

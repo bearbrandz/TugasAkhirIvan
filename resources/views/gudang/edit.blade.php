@@ -10,7 +10,7 @@
     <div class="form-group">
         <label for="lokasi">Lokasi Gudang</label>
         <input type="text" class="form-control" name="lokasi" aria-describedby="nameHelp"
-            placeholder="Masukkan lokasi" value="{{$datas->lokasi}}">
+            placeholder="Masukkan lokasi" value="{{strtoupper($datas->lokasi)}}">
         <small id="nameHelp" class="form-text text-muted">Mohon isikan dengan input yang diinginkan.</small>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>

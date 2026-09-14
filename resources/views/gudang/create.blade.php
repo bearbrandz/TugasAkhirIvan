@@ -11,7 +11,7 @@
         <input type="text" class="form-control" name="lokasi" aria-describedby="nameHelp" placeholder="Masukkan lokasi">
         <small id="nameHelp" class="form-text text-muted">Mohon isikan dengan input yang diinginkan.</small>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-    <a href="{{ route('gudangs.index') }}" class="btn btn-primary bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Batal</a>
+    <button type="submit" class="btn btn-primary">Simpan</button>
+    <a href="{{ route('gudangs.index') }}" class="btn btn-secondary ml-2">Batal</a>
 </form>
 @endsection
