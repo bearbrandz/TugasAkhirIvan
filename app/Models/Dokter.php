@@ -11,7 +11,6 @@ class Dokter extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'dokters';
-
     protected $fillable = [
         'nama',
         'sip',

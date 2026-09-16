@@ -12,6 +12,7 @@ class DokterController extends Controller
         $search = $request->get('search');
         $query = Dokter::query();
         
+        
         if ($search) {
             $query->where('nama', 'LIKE', "%{$search}%")
                   ->orWhere('sip', 'LIKE', "%{$search}%")

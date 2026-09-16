@@ -8,7 +8,7 @@
 
 <div class="am-page-header">
     <div>
-        <h1><i class="icon-briefcase" style="margin-right:8px;color:#3b82f6;"></i>Lokasi Penyimpanan</h1>
+        <h1><i class="icon-briefcase" style="margin-right:0px;color:#3b82f6;"></i>Lokasi Penyimpanan</h1>
         <p>Kelola lokasi  rak penyimpanan barang/obat</p>
     </div>
     <div>

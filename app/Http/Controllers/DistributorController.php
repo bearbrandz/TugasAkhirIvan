@@ -18,6 +18,7 @@ class DistributorController extends Controller
         $sortOrder = $request->input('sort_order', 'desc');
 
         $datas = Distributor::withCount('produkbatches')
+            ->with('produkbatches.produks')
             ->when($search, function ($query, $search) {
                 return $query->where('nama', 'like', "%$search%")
                     ->orWhere('alamat', 'like', "%$search%")
@@ -162,4 +163,30 @@ class DistributorController extends Controller
             return redirect()->route('distributors.arsip')->withErrors('Gagal menghapus permanen Distributor: ' . $e->getMessage());
         }
     }
+        public function produk($id)
+    {
+        // buat panggil distributor
+        $distributor = \App\Models\Distributor::findOrFail($id);
+
+        $datas = \Illuminate\Support\Facades\DB::table('produkbatches as pb')
+            ->join('produks as p', 'pb.produks_id', '=', 'p.id')
+            ->leftJoin('satuans as s', 'pb.satuans_id', '=', 's.id')
+            ->where('pb.distributors_id', $id)
+            ->where('pb.stok', '>', 0)
+            ->select(
+                'pb.id as batch_id',
+                'pb.stok',
+                'pb.unitprice',
+                'pb.hpp_avg_per_unit',
+                'pb.tgl_kadaluarsa',
+                'pb.status',
+                'p.nama as nama_produk',
+                'p.golongan',
+                's.nama as nama_satuan'
+            )
+            ->paginate(10); 
+
+        return view('distributor.produk', compact('distributor', 'datas'));
+    }
+
 }

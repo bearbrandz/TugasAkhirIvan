@@ -607,6 +607,7 @@ Route::middleware(['auth', IsAdminOrApoteker::class])->group(function () {
     Route::delete('/distributors/force-delete/{id}', [DistributorController::class, 'forceDelete'])->name('distributors.force-delete');
 
     Route::resource('distributors', DistributorController::class);
+    Route::get('/distributors/{id}/produk', [App\Http\Controllers\DistributorController::class, 'produk'])->name('distributors.produk');
     Route::get('/gudangs/arsip', [GudangController::class, 'arsip'])->name('gudangs.arsip');
     Route::post('/gudangs/restore/{id}', [GudangController::class, 'restore'])->name('gudangs.restore');
     Route::delete('/gudangs/force-delete/{id}', [GudangController::class, 'forceDelete'])->name('gudangs.force-delete');
