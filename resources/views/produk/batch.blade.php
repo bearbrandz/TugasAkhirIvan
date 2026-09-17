@@ -5,17 +5,7 @@
         <div class="alert alert-success">{{ session('status') }}</div>
     @endif
 
-    @if (!empty($expired_batches))
-        <script>
-            alert("Batch kadaluarsa ditemukan:\n\n{{ $expired_batches }}");
-        </script>
-    @endif
 
-    @if (!empty($sixmonthsexpired_batches))
-        <script>
-            alert("Batch yang akan kadaluarsa dalam 6 bulan ditemukan:\n\n{{ $sixmonthsexpired_batches }}");
-        </script>
-    @endif
 
     <div class="d-flex justify-content-between align-items-center mb-6 border-b pb-2">
         <h1 class="text-3xl font-bold text-gray-800 m-0">Daftar Batch</h1>
@@ -104,7 +94,13 @@
                         </td>
                         <td>{{ $d->satuan->nama }}</td>
                         <td>Rp {{ number_format($d->unitprice, 0, ',', '.') }}</td>
-                        <td>{{ ucfirst($d->status) }}</td>
+                        <td>
+                            @if($d->status == 'tersedia' && $d->tgl_kadaluarsa && \Carbon\Carbon::parse($d->tgl_kadaluarsa)->startOfDay() <= now()->startOfDay())
+                                <span class="badge bg-danger">Kadaluarsa</span>
+                            @else
+                                {{ ucfirst($d->status) }}
+                            @endif
+                        </td>
                         <td>{{ $d->distributor->nama }}</td>
                         <td>{{ $d->gudang->lokasi }}</td>
                         <td>{{ $d->tgl_produksi }}</td>

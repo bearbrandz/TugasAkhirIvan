@@ -110,18 +110,11 @@ class ProdukController extends Controller
             }])
             ->with(['allBatchesForHpp' => function ($q) {
                 $q->where('status', 'tersedia')
-                    ->where(function ($sub) {
-                        $sub->whereDate('tgl_kadaluarsa', '>', now())
-                            ->orWhereNull('tgl_kadaluarsa');
-                    })
-                    ->select('id', 'produks_id', 'hpp_avg_per_unit');
+                    ->select('id', 'produks_id', 'hpp_avg_per_unit')
+                    ->orderBy('id', 'desc');
             }])
             ->withAvg(['produkbatches as avg_unitprice' => function ($q) {
-                $q->where('status', 'tersedia')
-                    ->where(function ($sub) {
-                        $sub->whereDate('tgl_kadaluarsa', '>', now())
-                            ->orWhereNull('tgl_kadaluarsa');
-                    });
+                $q->where('status', 'tersedia');
             }], 'unitprice')
             ->findOrFail($id);
 
@@ -331,19 +324,12 @@ class ProdukController extends Controller
         // Semua batch (termasuk stok=0) untuk membaca hpp_avg_per_unit Moving Average
         ->with(['allBatchesForHpp' => function ($q) {
             $q->where('status', 'tersedia')
-                ->where(function ($sub) {
-                    $sub->whereDate('tgl_kadaluarsa', '>', now())
-                        ->orWhereNull('tgl_kadaluarsa');
-                })
-                ->select('id', 'produks_id', 'hpp_avg_per_unit');
+                ->select('id', 'produks_id', 'hpp_avg_per_unit')
+                ->orderBy('id', 'desc');
         }])
         ->withAvg(
             ['produkbatches as avg_unitprice' => function ($q) {
-                $q->where('status', 'tersedia')
-                    ->where(function ($sub) {
-                        $sub->whereDate('tgl_kadaluarsa', '>', now())
-                            ->orWhereNull('tgl_kadaluarsa');
-                    });
+                $q->where('status', 'tersedia');
             }],
             'unitprice'
         );
@@ -474,8 +460,7 @@ class ProdukController extends Controller
 
     private function getExpiredBatchNotifications()
     {
-        // Gunakan Eloquent with('produks') + whereHas agar hanya batch dengan produk
-        // yang masih aktif (belum soft-deleted) yang diambil, mencegah ->produks->nama null.
+        
         $batches = Produkbatches::with('produks')
             ->whereHas('produks')          // filter out batch yg produknya sudah soft-delete
             ->where('status', 'tersedia')
@@ -484,12 +469,18 @@ class ProdukController extends Controller
             ->get();
 
         $produks = Produk::withSum(
-            ['produkbatches as total_stok' => function ($q) {
+            ['produkbatches as total_stok_siap_jual' => function ($q) {
                 $q->where('status', 'tersedia')
                     ->where(function ($sub) {
                         $sub->whereDate('tgl_kadaluarsa', '>', now())
                             ->orWhereNull('tgl_kadaluarsa');
                     });
+            }],
+            'stok'
+        )
+        ->withSum(
+            ['produkbatches as total_stok_fisik' => function ($q) {
+                $q->where('status', 'tersedia');
             }],
             'stok'
         )->get();
@@ -499,12 +490,14 @@ class ProdukController extends Controller
         });
 
         $criticalQtyProducts = $produks->map(function ($produk) {
-            $totalStok = $produk->total_stok ?? 0;
+            $totalStokSiapJual = $produk->total_stok_siap_jual ?? 0;
+            $totalStokFisik = $produk->total_stok_fisik ?? 0;
 
             return [
                 'nama'        => $produk->nama,
-                'total_stok'  => $totalStok,
-                'is_critical' => $totalStok < 10,
+                'total_stok_siap_jual'  => $totalStokSiapJual,
+                'total_stok_fisik'  => $totalStokFisik,
+                'is_critical' => $totalStokSiapJual < 10,
             ];
         });
 
@@ -521,7 +514,7 @@ class ProdukController extends Controller
 
         $criticalQtyBatchesList = $criticalQtyProducts
             ->filter(fn($p) => $p['is_critical'])
-            ->map(fn($p) => "Produk: {$p['nama']} stok kurang dari 10! (Total Stok: {$p['total_stok']})");
+            ->map(fn($p) => "Produk: {$p['nama']} sudah kritis! (Stok Siap Jual: {$p['total_stok_siap_jual']} | Stok di Gudang: {$p['total_stok_fisik']})");
 
         $sixMonthBatchList = $sixMonthBatches->map(function ($b) {
             $namaProduk = optional($b->produks)->nama ?? 'Produk tidak ditemukan';

@@ -23,9 +23,9 @@
     <div class="form-group">
         <label for="status">Status Produk</label>
         <select class="form-control" name="status" aria-describedby="nameHelp">
-            <option value="proses_order" {{ $datas->status == 'tersedia' ? 'selected' : '' }}>Proses Order</option>
-            <option value="discontinued" {{ $datas->status == 'discontinued' ? 'selected' : '' }}>Discontinued</option>
             <option value="tersedia" {{ $datas->status == 'tersedia' ? 'selected' : '' }}>Tersedia</option>
+            <option value="tidak tersedia" {{ $datas->status == 'tidak tersedia' ? 'selected' : '' }}>Tidak Tersedia</option>
+            <option value="kadaluarsa" {{ $datas->status == 'kadaluarsa' ? 'selected' : '' }}>Kadaluarsa</option>
         </select>
         <small id="nameHelp" class="form-text text-muted">Mohon pilih input yang diinginkan.</small>
     </div>

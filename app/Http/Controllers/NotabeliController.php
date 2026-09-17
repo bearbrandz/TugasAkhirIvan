@@ -346,7 +346,7 @@ class NotabeliController extends Controller
                     END
                 ), 0) as total_stok'),
     
-                DB::raw('ROUND(COALESCE(MAX(NULLIF(produkbatches.hpp_avg_per_unit, 0)), MAX(NULLIF(produkbatches.unitprice, 0)), 0), 0) as harga_beli_terakhir'),
+                DB::raw('(SELECT ROUND(COALESCE(NULLIF(hpp_avg_per_unit, 0), NULLIF(unitprice, 0), 0), 0) FROM produkbatches WHERE produks_id = produks.id ORDER BY id DESC LIMIT 1) as harga_beli_terakhir'),
     
                 DB::raw('MAX(produkbatches.tgl_kadaluarsa) as kadaluarsa_terakhir'),
 
